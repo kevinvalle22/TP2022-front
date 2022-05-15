@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/pages/test.dart';
@@ -67,77 +66,84 @@ Widget Name() {
 }
 
 Widget Chats(){
-  return Container(
-    child: Expanded(
-      child: Column(
-        children: [
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: FloatingActionButton(
-                      heroTag: null,
-                      onPressed: () {},
-                      backgroundColor: Colors.white,
+  return Builder(
+    builder: (context) {
+      return Container(
+        child: Expanded(
+          child: Column(
+            children: [
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
                     ),
-                  ),
+                    Container(
+                      child: Screen(0,320),
+                    )
+                  ],
                 ),
-                Container(
-                  child: Screen(0,320),
-                )
-              ],
-            ),
-          ),
+              ),
 
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget> [
-                Container(
-                  child: Screen(1,180),
-                ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: FloatingActionButton(
-                      heroTag: null,
-                      onPressed: () {},
-                      backgroundColor: Colors.white,
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget> [
+                    Container(
+                      child: Screen(1,180),
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: FloatingActionButton(
-                      heroTag: null,
-                      onPressed: () {},
-                      backgroundColor: Colors.white,
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {},
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                Container(
-                  child: Screen(2,320),
-                )
-              ],
-            ),
+              ),
+
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {},
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Screen(2,320),
+                    )
+                  ],
+                ),
+              ),
+              //input
+
+
+            ],
           ),
-          //input
-
-
-        ],
-      ),
-    ),
+        ),
+      );
+    }
   );
 }
+

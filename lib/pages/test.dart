@@ -10,28 +10,25 @@ Widget ScreenImage() {
   );
 }
 
+var reminders = [
+  "Objetivos",
+  "Recordatorio",
+  "Diario de pensamientos"
+];
 
-Widget Screens(number, double x, double y) {
-  return Padding(
-    padding: const EdgeInsets.only(top: 25.0),
-    child: Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          for(int i = 0; i < number; i++)
-            Container(
-              //45 y 70
-              padding: EdgeInsets.symmetric(vertical: x, horizontal: y),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      bottomLeft: Radius.circular(10.0)),
-                  color: Color.fromRGBO(232, 227, 238, 10)
-              ),
-            ),
-        ],
-      ),)
-    ,
+Widget ScreenReminders(item,double w, double h) {
+  return Container(
+    padding: const EdgeInsets.only(top: 20.0),
+    child: Container(
+      //45 y 70
+      width: w,
+      height: h,
+      child: Center(child: Text(reminders[item],style: TextStyle(fontSize: 11),textAlign: TextAlign.center,)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: const Color.fromRGBO(232, 227, 238, 10)
+      ),
+    ),
   );
 }
 
@@ -41,6 +38,8 @@ var listChatText = [
   "¡Genial! Empezaré con las preguntas de poco a poco ¿vale?"
 ];
 
+
+
 Widget Screen(item,double w) {
   return Container(
     padding: const EdgeInsets.only(top: 25.0),
@@ -49,7 +48,7 @@ Widget Screen(item,double w) {
       width: w,
       padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
       child: Text(listChatText[item]),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10.0),
               bottomLeft: Radius.circular(10.0)),
@@ -60,3 +59,26 @@ Widget Screen(item,double w) {
   );
 }
 
+var activities = [
+  "Registro de sueños",
+  "Ejercicios de respiración",
+  "Aprender algo nuevo",
+  "Registro de ejercicios físicos",
+  "Gráficas"
+];
+
+Widget ScreenActivities(item,double w, double h) {
+  return Container(
+    padding: const EdgeInsets.only(top: 20.0),
+    child: Container(
+      //45 y 70
+      width: w,
+      height: h,
+      child: Center(child: Text(activities[item],style: TextStyle(fontSize: 11),textAlign: TextAlign.center,)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: const Color.fromRGBO(232, 227, 238, 10)
+      ),
+    ),
+  );
+}
