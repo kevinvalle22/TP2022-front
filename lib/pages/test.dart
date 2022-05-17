@@ -23,7 +23,7 @@ Widget ScreenReminders(item,double w, double h) {
       //45 y 70
       width: w,
       height: h,
-      child: Center(child: Text(reminders[item],style: TextStyle(fontSize: 11),textAlign: TextAlign.center,)),
+      child: Center(child: Text(reminders[item],style: TextStyle(fontSize: 15),textAlign: TextAlign.center,)),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
           color: const Color.fromRGBO(232, 227, 238, 10)
@@ -74,7 +74,33 @@ Widget ScreenActivities(item,double w, double h) {
       //45 y 70
       width: w,
       height: h,
-      child: Center(child: Text(activities[item],style: TextStyle(fontSize: 11),textAlign: TextAlign.center,)),
+      child: Center(child: Text(activities[item],style: TextStyle(fontSize: 15),textAlign: TextAlign.center,)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: const Color.fromRGBO(232, 227, 238, 10)
+      ),
+    ),
+  );
+}
+
+
+var categories = [
+  "Estudios",
+  "Salud",
+  "Sueño",
+  "Alimentación",
+  "Recreación",
+  "Hábitos"
+];
+
+Widget ScreenCategories(item,double w, double h) {
+  return Container(
+    padding: const EdgeInsets.only(top: 20.0),
+    child: Container(
+      //45 y 70
+      width: w,
+      height: h,
+      child: Center(child: Text(categories[item],style: TextStyle(fontSize: 15),textAlign: TextAlign.center,)),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
           color: const Color.fromRGBO(232, 227, 238, 10)

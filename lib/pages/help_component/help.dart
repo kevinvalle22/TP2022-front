@@ -30,7 +30,9 @@ class HelpPage extends StatelessWidget {
               ),
               IconButton(
                 icon: Image.asset('assets/bot.png'),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/chatbot');
+                },
                 splashColor: Color.fromRGBO(67, 58, 108, 10),
               ),
               IconButton(
