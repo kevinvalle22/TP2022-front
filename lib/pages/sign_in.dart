@@ -1,9 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, duplicate_ignore
 
 import 'package:flutter/material.dart';
+import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 
-import 'intro.dart';
-import 'new_account.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -24,6 +23,7 @@ class LoginPage extends StatelessWidget {
           children: [Cuerpo(context)],
         ),
       ),
+      
     );
   }
 }

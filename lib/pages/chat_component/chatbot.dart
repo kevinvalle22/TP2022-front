@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 
 class ChatBotPage extends StatelessWidget {
+  const ChatBotPage({required Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -230,7 +232,9 @@ class ChatBotPage extends StatelessWidget {
                           ),
                           Container(
                               //color: Colors.red,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),color: Color.fromRGBO(147, 150, 186, 10)),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Color.fromRGBO(147, 150, 186, 10)),
                               child: IconButton(
                                   onPressed: () {},
                                   icon: Icon(
@@ -247,41 +251,7 @@ class ChatBotPage extends StatelessWidget {
           ),
         ),
       ),
-              bottomNavigationBar: BottomAppBar(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                icon: Icon(Icons.home_outlined),
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/home');
-                },
-                color: Colors.greenAccent,
-                splashColor: Color.fromRGBO(67, 58, 108, 10),
-              ),
-              IconButton(
-                icon: Icon(Icons.crop_square_sharp),
-                onPressed: () {},
-                splashColor: Color.fromRGBO(67, 58, 108, 10),
-              ),
-              IconButton(
-                icon: Image.asset('assets/bot.png'),
-                onPressed: null,
-                splashColor: Color.fromRGBO(67, 58, 108, 10),
-              ),
-              IconButton(
-                icon: Image.asset('assets/ios.png'),
-                onPressed: () {},
-                splashColor: Color.fromRGBO(67, 58, 108, 10),
-              ),
-              IconButton(
-                icon: Image.asset('assets/usuario.png'),
-                onPressed: () {},
-                splashColor: Color.fromRGBO(67, 58, 108, 10),
-              ),
-            ],
-          ),
-        ),
+      bottomNavigationBar: BottomNavigation(isTheSameBot: true,),
     );
   }
 }

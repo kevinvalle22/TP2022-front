@@ -2,14 +2,11 @@
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(HelpPage());
 
 class HelpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      home: Scaffold(
+    return Scaffold(
         body: Cuerpo(context),
         bottomNavigationBar: BottomAppBar(
           child: Row(
@@ -48,7 +45,6 @@ class HelpPage extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }
@@ -233,7 +229,7 @@ Widget DoctorCard(BuildContext context) {
                           ),
                         ),
                       ),
-                      const Text(
+                      Text(
                         "24 hrs.",
                         style: TextStyle(
                           fontSize: 15,

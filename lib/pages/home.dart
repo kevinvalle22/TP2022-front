@@ -1,48 +1,18 @@
 // ignore_for_file: deprecated_member_use, non_constant_identifier_names
 import 'package:flutter/material.dart';
+import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/pages/help_component/help.dart';
 import 'package:tp2022_front/pages/test.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({required Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       body: Cuerpo(context),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              icon: Icon(Icons.home_outlined),
-              onPressed: () {},
-              color: Colors.greenAccent,
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Icon(Icons.crop_square_sharp),
-              onPressed: () {},
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Image.asset('assets/bot.png'),
-              onPressed: () {
-                Navigator.of(context).pushNamed('/chatbot');
-              },
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Image.asset('assets/ios.png'),
-              onPressed: () {},
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Image.asset('assets/usuario.png'),
-              onPressed: () {},
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-          ],
-        ),
+      bottomNavigationBar: BottomNavigation(
+        isTheSameHome: true,
       ),
     );
   }
@@ -229,7 +199,7 @@ Widget Body() {
         ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-          child: Activities(),
+          child: Activities(context),
         ),
       ],
     );
@@ -251,7 +221,7 @@ Widget Affirmation() {
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold)),
               IconButton(
-                  icon: Image.asset('assets/bell_slash.png'), onPressed: () {}),
+                  icon: Image.asset('assets/bell_slash.png'), onPressed: () { Navigator.of(context).pushNamed('/assertion_settings');}),
             ],
           ),
         ),
@@ -316,8 +286,13 @@ Widget Reminder(BuildContext context) {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(
-              child: ScreenReminders(0, 115, 110),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/objective');
+              },
+              child: Container(
+                child: ScreenReminders(0, 115, 110),
+              ),
             ),
             GestureDetector(
               onTap: () {
@@ -327,8 +302,13 @@ Widget Reminder(BuildContext context) {
                 child: ScreenReminders(1, 115, 110),
               ),
             ),
-            Container(
-              child: ScreenReminders(2, 115, 110),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/diary');
+              },
+              child: Container(
+                child: ScreenReminders(2, 115, 110),
+              ),
             ),
           ],
         ),
@@ -337,7 +317,7 @@ Widget Reminder(BuildContext context) {
   );
 }
 
-Widget Activities() {
+Widget Activities(BuildContext context) {
   return Column(
     children: [
       Container(
@@ -359,8 +339,13 @@ Widget Activities() {
             Container(
               child: Column(
                 children: [
-                  Container(
-                    child: ScreenActivities(1, 115, 100),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/exercises');
+                    },
+                    child: Container(
+                      child: ScreenActivities(1, 115, 100),
+                    ),
                   ),
                   Container(
                     child: ScreenActivities(2, 115, 70),
@@ -371,8 +356,13 @@ Widget Activities() {
             Container(
               child: Column(
                 children: [
-                  Container(
-                    child: ScreenActivities(3, 115, 110),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/record_exercises');
+                    },
+                    child: Container(
+                      child: ScreenActivities(3, 115, 110),
+                    ),
                   ),
                   Container(
                     child: ScreenActivities(4, 115, 50),
