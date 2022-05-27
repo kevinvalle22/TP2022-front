@@ -251,7 +251,7 @@ class ChatBotPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(isTheSameBot: true,),
+      bottomNavigationBar: BottomNavigation(isTheSameBot: true, botColorIcon: false),
     );
   }
 }

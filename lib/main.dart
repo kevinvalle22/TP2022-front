@@ -6,6 +6,7 @@ import 'package:tp2022_front/pages/chat_component/chatbot.dart';
 import 'package:tp2022_front/pages/diary_components/diary.dart';
 import 'package:tp2022_front/pages/exercises_components/exercises.dart';
 import 'package:tp2022_front/pages/exercises_components/record_exercises.dart';
+import 'package:tp2022_front/pages/graph_component/graph.dart';
 import 'package:tp2022_front/pages/help_component/help.dart';
 import 'package:tp2022_front/pages/home.dart';
 import 'package:tp2022_front/pages/intro.dart';
@@ -16,6 +17,7 @@ import 'package:tp2022_front/pages/objective_components/new_objetctive.dart';
 import 'package:tp2022_front/pages/objective_components/objective.dart';
 import 'package:tp2022_front/pages/positive_reinforcement_component/assertion_settings.dart';
 import 'package:tp2022_front/pages/positive_reinforcement_component/positive_reinforcement.dart';
+import 'package:tp2022_front/pages/profile.dart';
 import 'package:tp2022_front/pages/reminder_component/calendar.dart';
 import 'package:tp2022_front/pages/reminder_component/reminder.dart';
 import 'package:tp2022_front/pages/sign_in.dart';
@@ -47,7 +49,9 @@ class MyApp extends StatelessWidget{
         '/exercises' : (context) => ExercisesPage(),
         '/learn' : (context) => LearnPage(),
         '/record_exercises': (context) => RecordExercisesPage(),
-        '/assertion_settings': (context) => AssertionSettings()
+        '/assertion_settings': (context) => AssertionSettings(),
+        '/graph' : (context) => GraphPage(),
+        '/profile' : (context)=> ProfilePage()
       },
       initialRoute: '/loading',
     );

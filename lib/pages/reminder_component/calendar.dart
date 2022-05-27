@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 
 void main() => runApp(CalendarPage());
 
@@ -17,6 +18,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Cuerpo(),
+      bottomNavigationBar: BottomNavigation(),
     );
   }
 }

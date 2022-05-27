@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 
 void main() => runApp(PositveReinforcementPage());
 
@@ -17,43 +18,7 @@ class _PositveReinforcementPageState extends State<PositveReinforcementPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(child: Cuerpo(context)),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              icon: Icon(Icons.home_outlined),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              color: Colors.greenAccent,
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Icon(Icons.crop_square_sharp),
-              onPressed: () {},
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Image.asset('assets/bot.png'),
-              onPressed: () {
-                Navigator.of(context).pushNamed('/chatbot');
-              },
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Image.asset('assets/ios.png'),
-              onPressed: () {},
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Image.asset('assets/usuario.png'),
-              onPressed: () {},
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomNavigation(),
     );
   }
 }
@@ -271,9 +236,14 @@ class _BodyState extends State<Body> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    // ignore: prefer_const_constructors
-                    child: const Icon(Icons.more_horiz),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pushNamed('/assertion_settings');
+                    },
+                    child: Container(
+                      // ignore: prefer_const_constructors
+                      child: const Icon(Icons.more_horiz),
+                    ),
                   ),
                   Container(
                     // ignore: prefer_const_constructors

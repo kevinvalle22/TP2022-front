@@ -15,7 +15,7 @@ class TitleHeader extends StatelessWidget {
       children: <Widget>[
         Text(title,
             style: TextStyle(
-                color: Color.fromRGBO(67, 58, 108, 10),
+                color: Color.fromRGBO(98, 89, 134, 10),
                 fontSize: 30.0,
                 fontWeight: FontWeight.bold)),
         Divider(
@@ -75,6 +75,7 @@ class InputLabel extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: TextField(
+                
                 dragStartBehavior: DragStartBehavior.start,
                 decoration: InputDecoration.collapsed(hintText: text),
                 textCapitalization: TextCapitalization.sentences,
@@ -186,24 +187,22 @@ class ContainerLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Container(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.9),
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-            color: Color.fromRGBO(246, 239, 227, 10),
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 5,
-              )
-            ]),
-        child: Text(
-            "Hoy me sentí muy feliz porque pude dar una buena exposición parcial para mi trabajo de la universidad."),
-      ),
+      constraints:
+          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.9),
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+          color: Color.fromRGBO(246, 239, 227, 10),
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+            )
+          ]),
+      child: Text(
+          "Hoy me sentí muy feliz porque pude dar una buena exposición parcial para mi trabajo de la universidad."),
     );
   }
 }

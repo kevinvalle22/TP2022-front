@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/pages/test.dart';
 
 void main() => runApp(ReminderPage());
@@ -14,43 +15,7 @@ class _ReminderPageState extends State<ReminderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(child: Cuerpo()),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              icon: Icon(Icons.home_outlined),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              color: Colors.greenAccent,
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Icon(Icons.crop_square_sharp),
-              onPressed: () {},
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Image.asset('assets/bot.png'),
-              onPressed: () {
-                Navigator.of(context).pushNamed('/chatbot');
-              },
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Image.asset('assets/ios.png'),
-              onPressed: () {},
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-            IconButton(
-              icon: Image.asset('assets/usuario.png'),
-              onPressed: () {},
-              splashColor: Color.fromRGBO(67, 58, 108, 10),
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomNavigation()
     );
   }
 }

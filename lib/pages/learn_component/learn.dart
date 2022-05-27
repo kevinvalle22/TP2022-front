@@ -123,7 +123,7 @@ class _LearnPageState extends State<LearnPage> {
           ],
         )),
       ),
-      bottomNavigationBar: BottomNavigation(isTheSameLearn: true,),
+      bottomNavigationBar: BottomNavigation(isTheSameLearn: true,learnColorIcon: false,),
     );
   }
 }

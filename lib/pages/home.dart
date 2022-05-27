@@ -10,9 +10,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body: Cuerpo(context),
+      body: SafeArea(child: Cuerpo(context)),
       bottomNavigationBar: BottomNavigation(
-        isTheSameHome: true,
+        isTheSameHome: true,homeColorIcon: false,
       ),
     );
   }
@@ -33,7 +33,7 @@ Widget Cuerpo(BuildContext context) {
             ),
           ),
           Positioned(
-            top: 35,
+            top: 0,
             width: 420,
             height: 1000,
             child: Components(),
@@ -221,7 +221,7 @@ Widget Affirmation() {
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold)),
               IconButton(
-                  icon: Image.asset('assets/bell_slash.png'), onPressed: () { Navigator.of(context).pushNamed('/assertion_settings');}),
+                  icon: Image.asset('assets/bell_slash.png'), onPressed: () {}),
             ],
           ),
         ),
@@ -291,6 +291,7 @@ Widget Reminder(BuildContext context) {
                 Navigator.of(context).pushNamed('/objective');
               },
               child: Container(
+                
                 child: ScreenReminders(0, 115, 110),
               ),
             ),
@@ -365,7 +366,12 @@ Widget Activities(BuildContext context) {
                     ),
                   ),
                   Container(
-                    child: ScreenActivities(4, 115, 50),
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).pushNamed('/graph');
+                      },
+                      child: ScreenActivities(4, 115, 50)
+                  ),
                   )
                 ],
               ),

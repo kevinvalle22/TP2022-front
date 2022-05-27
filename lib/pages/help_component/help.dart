@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 
 
 class HelpPage extends StatelessWidget {
@@ -8,43 +9,7 @@ class HelpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Cuerpo(context),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                icon: Icon(Icons.home_outlined),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                color: Colors.greenAccent,
-                splashColor: Color.fromRGBO(67, 58, 108, 10),
-              ),
-              IconButton(
-                icon: Icon(Icons.crop_square_sharp),
-                onPressed: () {},
-                splashColor: Color.fromRGBO(67, 58, 108, 10),
-              ),
-              IconButton(
-                icon: Image.asset('assets/bot.png'),
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/chatbot');
-                },
-                splashColor: Color.fromRGBO(67, 58, 108, 10),
-              ),
-              IconButton(
-                icon: Image.asset('assets/ios.png'),
-                onPressed: () {},
-                splashColor: Color.fromRGBO(67, 58, 108, 10),
-              ),
-              IconButton(
-                icon: Image.asset('assets/usuario.png'),
-                onPressed: () {},
-                splashColor: Color.fromRGBO(67, 58, 108, 10),
-              ),
-            ],
-          ),
-        ),
+        bottomNavigationBar: BottomNavigation()
     );
   }
 }
