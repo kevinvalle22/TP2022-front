@@ -10,6 +10,8 @@ class DataBaseHelper {
     var body = json.encode({'userName': userName, 'password': password});
     var response = await http
         .post(url, body: body, headers: {'Content-Type': 'application/json'});
+    print(response.body);
+    token = response.body;
     return response;
   }
 
@@ -29,13 +31,13 @@ class DataBaseHelper {
 
     var response = await http
         .post(url, body: body, headers: {'Content-Type': 'application/json'});
-    print(response.body);
-    token = response.body;
+
     return response;
   }
 
   Future<http.Response> getUserInfo(String id) async {
     int a = int.parse(id);
+    // Perfil información del usuario
     var url = 'http://localhost:8081/users/$a';
     var response = await http.get(url, headers: {
       'Content-Type': 'application/json',
