@@ -21,12 +21,12 @@ import 'package:tp2022_front/pages/profile.dart';
 import 'package:tp2022_front/pages/reminder_component/calendar.dart';
 import 'package:tp2022_front/pages/reminder_component/reminder.dart';
 import 'package:tp2022_front/pages/sign_in.dart';
+
 void main() {
   initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
-
-class MyApp extends StatelessWidget{
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -35,27 +35,25 @@ class MyApp extends StatelessWidget{
       routes: {
         '/login': (context) => LoginPage(),
         '/newAccount': (context) => NewAccountPage(),
-        '/intro':(context)=>IntroPage(),
+        '/intro': (context) => IntroPage(),
         '/home': (context) => HomePage(),
-        '/chatbot': (context) =>ChatBotPage(),
+        '/chatbot': (context) => ChatBotPage(),
         '/help': (context) => HelpPage(),
-        '/positive': (context)=>PositveReinforcementPage(),
-        '/reminder':  (context) => ReminderPage(),
+        '/positive': (context) => PositveReinforcementPage(),
+        '/reminder': (context) => ReminderPage(),
         '/calendar': (context) => CalendarPage(),
         '/loading': (context) => LoadingPage(),
         '/objective': (context) => ObjectivePage(),
         '/newObjective': (context) => NewObjetivePage(),
         '/diary': (context) => DiaryPage(),
-        '/exercises' : (context) => ExercisesPage(),
-        '/learn' : (context) => LearnPage(),
+        '/exercises': (context) => ExercisesPage(),
+        '/learn': (context) => LearnPage(),
         '/record_exercises': (context) => RecordExercisesPage(),
         '/assertion_settings': (context) => AssertionSettings(),
-        '/graph' : (context) => GraphPage(),
-        '/profile' : (context)=> ProfilePage()
+        '/graph': (context) => GraphPage(),
+        '/profile': (context) => ProfilePage()
       },
       initialRoute: '/loading',
     );
   }
-  
 }
-
