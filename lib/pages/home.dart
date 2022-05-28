@@ -348,8 +348,13 @@ Widget Activities(BuildContext context) {
                       child: ScreenActivities(1, 115, 100),
                     ),
                   ),
-                  Container(
-                    child: ScreenActivities(2, 115, 70),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/learn');
+                    },
+                    child: Container(
+                      child: ScreenActivities(2, 115, 70),
+                    ),
                   )
                 ],
               ),

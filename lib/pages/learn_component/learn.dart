@@ -18,8 +18,10 @@ class _LearnPageState extends State<LearnPage> {
     '¿La salud mental puede afectar en mis estudios?',
   ];
   String text =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla a.";
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex.";
   bool _boxes = true;
+  bool a = true;
+  bool b = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,13 +43,28 @@ class _LearnPageState extends State<LearnPage> {
                         H1Label("Definiciones, tips y consejos"),
                         Wrap(
                           children: <Widget>[
-                            for (int i = 0; i < 6; i++)
+                            for (int i = 0; i < tips.length; i++)
                               Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      if (i == 0) _boxes = false;
+                                      if (i == 0) {
+                                        _boxes = false;
+                                        a = true;
+                                        //_string0 = true;
+                                      } else if (i == 1) {
+                                        _boxes = false;
+                                        b = true;
+                                      } else if (i == 2) {
+                                        _boxes = false;
+                                      } else if (i == 3) {
+                                        _boxes = false;
+                                      } else if (i == 4) {
+                                        _boxes = false;
+                                      } else if (i == 5) {
+                                        _boxes = false;
+                                      }
                                     });
                                   },
                                   child: Container(
@@ -79,8 +96,13 @@ class _LearnPageState extends State<LearnPage> {
                     )
                   else
                     Column(
-                      children: [
-                        H1Label(tips[0]),
+                      children: <Widget>[
+                        if(a==true)...[
+                          H1Label(tips[2]),
+                        ]else if(b==true)...[
+                          H1Label(tips[1]),
+                        ],
+
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Container(
@@ -123,7 +145,10 @@ class _LearnPageState extends State<LearnPage> {
           ],
         )),
       ),
-      bottomNavigationBar: BottomNavigation(isTheSameLearn: true,learnColorIcon: false,),
+      bottomNavigationBar: BottomNavigation(
+        isTheSameLearn: true,
+        learnColorIcon: false,
+      ),
     );
   }
 }
