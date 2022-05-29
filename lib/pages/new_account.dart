@@ -9,7 +9,7 @@ class NewAccountPage extends StatefulWidget {
 
 class _NewAccountPageState extends State<NewAccountPage> {
   DataBaseHelper dataBaseHelper = new DataBaseHelper();
-  final TextEditingController username = new TextEditingController();
+  final TextEditingController userName = new TextEditingController();
   final TextEditingController email = new TextEditingController();
   final TextEditingController password = new TextEditingController();
   final TextEditingController phone = new TextEditingController();
@@ -116,7 +116,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: TextField(
-        controller: username,
+        controller: userName,
         decoration: InputDecoration(
             fillColor: const Color.fromRGBO(232, 227, 238, 10),
             filled: true,
@@ -318,10 +318,10 @@ class _NewAccountPageState extends State<NewAccountPage> {
         color: Color.fromRGBO(104, 174, 174, 6),
         onPressed: () {
           dataBaseHelper.register(
-              username.text.trim(),
+              userName.text.trim(),
               email.text.trim(),
-              phone.text.trim(),
               password.text.trim(),
+              phone.text.trim(),
               university.text.trim(),
               province.text.trim(),
               district.text.trim());

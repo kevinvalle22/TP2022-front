@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 //global variable to store the token
-String token = "";
 
 class DataBaseHelper {
+  String token = "";
+
   Future<http.Response> authenticate(String userName, String password) async {
     var url = 'https://mental-health-deploy.herokuapp.com/authenticate';
     var body = json.encode({'userName': userName, 'password': password});
@@ -15,11 +16,11 @@ class DataBaseHelper {
     return response;
   }
 
-  Future<http.Response> register(String username, String email, String password,
+  Future<http.Response> register(String userName, String email, String password,
       String phone, String university, String province, String district) async {
     var url = 'https://mental-health-deploy.herokuapp.com/register';
     var body = json.encode({
-      'username': username,
+      'userName': userName,
       'email': email,
       'password': password,
       'role': "ROLE_USER",
