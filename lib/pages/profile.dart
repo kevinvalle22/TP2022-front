@@ -5,8 +5,9 @@ import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/security/user_secure_storage.dart';
 import '../ControllerEndpoints/endpoints.dart';
 
+// pasar como argumento el contexto dataBaseHelper
 class ProfilePage extends StatefulWidget {
-  late final int argument;
+  late final DataBaseHelper dataBaseHelper;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -24,9 +25,11 @@ class _ProfilePageState extends State<ProfilePage> {
     final name = await UserSecureStorage.getUsername() ?? '';
     final password = await UserSecureStorage.getPassword() ?? '';
     final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
     print(token);
+    print('este es el nuevo userId ' + userId);
     dataBaseHelper.token = token;
-    userInfo = dataBaseHelper.getUserInfo(name);
+    userInfo = dataBaseHelper.getUserInfo(userId);
     setState(() {
       // get id from user
 

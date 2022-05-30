@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 //global variable to store the token
 
 class DataBaseHelper {
-  var token;
+  var token = '';
   List dataUsers = [];
   Future<http.Response> authenticate(String userName, String password) async {
     var url = 'https://mental-health-deploy.herokuapp.com/authenticate';
@@ -13,8 +13,9 @@ class DataBaseHelper {
         .post(url, body: body, headers: {'Content-Type': 'application/json'});
     //print(response.body);
     // print(jsonDecode(response.body));
-    // obtener el token la informacion del body
-    token = jsonDecode(response.body)['token'];
+
+    token = jsonDecode(response.body)['token'].toString();
+    print(token);
     //print(token);
     return response;
   }
@@ -39,26 +40,26 @@ class DataBaseHelper {
     return response;
   }
 
-  Future<http.Response> getUserInfo(String userName) async {
-    String a = "3";
-    // Obtener Usuarios
+  Future<String> getUser() async {
     var url = 'https://mental-health-deploy.herokuapp.com/api/users';
-    var response = await http.get(url, headers: {
+    var response = await http.get(Uri.parse(url + "users"), headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token'
+      'Authorization': "Bearer $token"
     });
 
-    var contends = json.decode(response.body)['content'];
-    print(contends);
-    dataUsers = contends;
-    print(dataUsers);
+    var extractdata = json.decode(response.body);
+    dataUsers = extractdata['content'];
 
-    print(a);
+    print(dataUsers);
+    return response.body.toString();
+  }
+
+  Future<http.Response> getUserInfo(String Id) async {
     // Perfil información del usuario
-    var url2 = 'https://mental-health-deploy.herokuapp.com/api/users/$a';
+    var url2 = 'https://mental-health-deploy.herokuapp.com/api/users/$Id';
     var response2 = await http.get(url2, headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token'
+      'Authorization': 'Bearer ' + token
     });
     print(response2.body);
     return response2;

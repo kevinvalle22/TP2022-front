@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/ControllerEndpoints/endpoints.dart';
 import 'package:tp2022_front/main.dart' as main;
+import 'package:tp2022_front/pages/home.dart';
 
 import '../security/user_secure_storage.dart';
 
@@ -14,8 +15,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String id = '';
   //using dataBaseHelper from main.dart
-  DataBaseHelper dataBaseHelper = new DataBaseHelper();
+  DataBaseHelper dataBaseHelper = DataBaseHelper();
 
   final TextEditingController userName = new TextEditingController();
 
@@ -203,9 +205,18 @@ class _LoginPageState extends State<LoginPage> {
             await UserSecureStorage.setUsername(userName.text);
             await UserSecureStorage.setPassword(password.text);
             await UserSecureStorage.setToken(dataBaseHelper.token);
-            // get the token from the server
-            print(await UserSecureStorage.getToken());
-            Navigator.of(context).pushNamed('/home');
+            dataBaseHelper.getUser();
+            for (var user in dataBaseHelper.dataUsers) {
+              if (user['userName'] == userName.text.trim()) {
+                print(identical(user['userName'], userName.text.trim()));
+                await UserSecureStorage.setUserId(user['id'].toString());
+                print(user['id']);
+                id = user['id'].toString();
+              }
+            }
+            print(id);
+            // ir a la pantalla principal y traer como argumento el token
+            Navigator.of(context).pushNamed('/home', arguments: id);
           },
           child: const Text(
             "INICIAR SESIÓN",
