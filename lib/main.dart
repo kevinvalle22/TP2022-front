@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:tp2022_front/ControllerEndpoints/endpoints.dart';
 import 'package:tp2022_front/pages/chat_component/chatbot.dart';
 import 'package:tp2022_front/pages/diary_components/diary.dart';
 import 'package:tp2022_front/pages/exercises_components/exercises.dart';
@@ -23,6 +24,7 @@ import 'package:tp2022_front/pages/reminder_component/reminder.dart';
 import 'package:tp2022_front/pages/sign_in.dart';
 
 void main() {
+  DataBaseHelper dataBaseHelper = new DataBaseHelper();
   initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
