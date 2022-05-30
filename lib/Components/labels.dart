@@ -75,7 +75,6 @@ class InputLabel extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: TextField(
-                
                 dragStartBehavior: DragStartBehavior.start,
                 decoration: InputDecoration.collapsed(hintText: text),
                 textCapitalization: TextCapitalization.sentences,
@@ -257,6 +256,56 @@ class ContainerLabelExercises extends StatelessWidget {
     );
   }
 }
+
+class ContainerLabelDreams extends StatelessWidget {
+  List<String> hours = [
+    "0 horas y 30 minutos",
+    "01 horas y 05 minutos",
+    "07 horas y 15 minutos",
+  ];
+  List<String> exercises = ["Siesta de la tarde", "Siesta de la tarde", "Sueño Cotidiano"];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        for (int i = 0; i < hours.length; i++)
+          Container(
+            width: 400,
+            height: 60,
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.9),
+            padding: EdgeInsets.all(10),
+            margin: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+                color: Color.fromRGBO(246, 239, 227, 10),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                  )
+                ]),
+            child: Column(
+              children: [
+                Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      hours[i].toString(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(exercises[i].toString()))
+              ],
+            ),
+          )
+      ],
+    );
+  }
+}
+
 
 class ListContainer extends StatelessWidget {
   @override

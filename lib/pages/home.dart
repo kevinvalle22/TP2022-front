@@ -351,7 +351,12 @@ Widget Activities(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
-              child: ScreenActivities(0, 115, 180),
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pushNamed('/record_dream');
+                },
+                child: ScreenActivities(0, 115, 180)
+              ),
             ),
             Container(
               child: Column(

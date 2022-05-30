@@ -5,6 +5,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:tp2022_front/ControllerEndpoints/endpoints.dart';
 import 'package:tp2022_front/pages/chat_component/chatbot.dart';
 import 'package:tp2022_front/pages/diary_components/diary.dart';
+import 'package:tp2022_front/pages/dream_component/dream_register.dart';
 import 'package:tp2022_front/pages/exercises_components/exercises.dart';
 import 'package:tp2022_front/pages/exercises_components/record_exercises.dart';
 import 'package:tp2022_front/pages/graph_component/graph.dart';
@@ -53,7 +54,8 @@ class MyApp extends StatelessWidget {
         '/record_exercises': (context) => RecordExercisesPage(),
         '/assertion_settings': (context) => AssertionSettings(),
         '/graph': (context) => GraphPage(),
-        '/profile': (context) => ProfilePage()
+        '/profile': (context) => ProfilePage(),
+        '/record_dream': (context) => DreamRecordsPage(),
       },
       initialRoute: '/loading',
     );
