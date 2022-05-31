@@ -1,18 +1,35 @@
-// ignore_for_file: deprecated_member_use, non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/pages/help_component/help.dart';
 import 'package:tp2022_front/pages/test.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({required Key key}) : super(key: key);
+import '../ControllerEndpoints/endpoints.dart';
+
+class HomePage extends StatefulWidget {
+  // get id from sign in page
+  final String id;
+
+  const HomePage({Key? key, required this.id}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    print(widget.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       body: SafeArea(child: Cuerpo(context)),
       bottomNavigationBar: BottomNavigation(
-        isTheSameHome: true,homeColorIcon: false,
+        isTheSameHome: true,
+        homeColorIcon: false,
       ),
     );
   }
@@ -291,7 +308,6 @@ Widget Reminder(BuildContext context) {
                 Navigator.of(context).pushNamed('/objective');
               },
               child: Container(
-                
                 child: ScreenReminders(0, 115, 110),
               ),
             ),
@@ -335,7 +351,12 @@ Widget Activities(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
-              child: ScreenActivities(0, 115, 180),
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pushNamed('/record_dream');
+                },
+                child: ScreenActivities(0, 115, 180)
+              ),
             ),
             Container(
               child: Column(
@@ -372,11 +393,10 @@ Widget Activities(BuildContext context) {
                   ),
                   Container(
                     child: GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).pushNamed('/graph');
-                      },
-                      child: ScreenActivities(4, 115, 50)
-                  ),
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/graph');
+                        },
+                        child: ScreenActivities(4, 115, 50)),
                   )
                 ],
               ),

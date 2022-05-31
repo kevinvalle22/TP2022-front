@@ -2,8 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/labels.dart';
+import 'package:tp2022_front/security/user_secure_storage.dart';
+import '../ControllerEndpoints/endpoints.dart';
 
-class ProfilePage extends StatelessWidget {
+// pasar como argumento el contexto dataBaseHelper
+class ProfilePage extends StatefulWidget {
+  late final DataBaseHelper dataBaseHelper;
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  //using dataBaseHelper from main.dart
+  DataBaseHelper dataBaseHelper = DataBaseHelper();
+
+  // user info
+  var userInfo;
+
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
+    print(token);
+    print('este es el nuevo userId ' + userId);
+    dataBaseHelper.token = token;
+    userInfo = dataBaseHelper.getUserInfo(userId);
+    setState(() {
+      // get id from user
+
+      print(userInfo.toString());
+      userInfo.toString();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +89,7 @@ class ProfilePage extends StatelessWidget {
                               backgroundImage: AssetImage('assets/perfil.png')),
                         ),
                         Text(
-                          "Emilio Jones",
+                          "Mi información",
                           style: TextStyle(
                               color: Color.fromRGBO(98, 89, 134, 10),
                               fontSize: 25,
@@ -68,7 +108,7 @@ class ProfilePage extends StatelessWidget {
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "a",
+                        userInfo.toString(),
                         style: style(),
                       ),
                     ),
@@ -144,20 +184,6 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   H1Label("Distrito:"),
-                  Container(
-                    width: 350,
-                    height: 50,
-                    decoration: box(),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "a",
-                        style: style(),
-                      ),
-                    ),
-                  ),
-                  H1Label("Usuario:"),
                   Container(
                     width: 350,
                     height: 50,

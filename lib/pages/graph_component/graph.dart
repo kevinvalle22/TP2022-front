@@ -4,7 +4,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:tp2022_front/Components/background_image.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/chart/subscriber_chart.dart';
 import 'package:tp2022_front/Components/chart/subscriber_series.dart';
