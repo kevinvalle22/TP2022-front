@@ -51,8 +51,8 @@ Widget Cuerpo(BuildContext context) {
           ),
           Positioned(
             top: 0,
-            width: 420,
-            height: 1000,
+            width: 450,
+            height: MediaQuery.of(context).size.height+27,
             child: Components(),
           ),
         ]),
@@ -78,8 +78,9 @@ Widget Components() {
 
 Widget Header() {
   return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: [
-      Container(padding: EdgeInsets.all(20.0), child: Name()),
+      Container(padding: EdgeInsets.all(15.0), child: Name()),
       Container(
         child: PhoneIcon(),
       )
@@ -119,7 +120,7 @@ Widget Body() {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
           child: const Text("¿Cómo te Sientes hoy?",
               style: TextStyle(
                   color: Color.fromRGBO(146, 150, 187, 10),
@@ -292,7 +293,7 @@ Widget Reminder(BuildContext context) {
     children: [
       Container(
         alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: const Text("Objetivos, recordatorios y diario",
             style: TextStyle(
                 color: Color.fromRGBO(146, 150, 187, 10),
@@ -303,29 +304,99 @@ Widget Reminder(BuildContext context) {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed('/objective');
-              },
-              child: Container(
-                child: ScreenReminders(0, 115, 110),
-              ),
+            Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/objective');
+                  },
+                  child: Container(
+                    height: 100,
+                    width: 120,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage('assets/ilustraciones/objetivos.png'),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "OBJETIVOS",
+                  style: TextStyle(
+                      color: Color.fromRGBO(115, 112, 108, 10),
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 8),
+                )
+              ],
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed('/reminder');
-              },
-              child: Container(
-                child: ScreenReminders(1, 115, 110),
-              ),
+            ///////////////////////
+            Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/reminder');
+                  },
+                  child: Container(
+                    height: 100,
+                    width: 120,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(
+                            'assets/ilustraciones/Recordatorios.png'),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "RECORDATORIO",
+                  style: TextStyle(
+                      color: Color.fromRGBO(115, 112, 108, 10),
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 8),
+                )
+              ],
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed('/diary');
-              },
-              child: Container(
-                child: ScreenReminders(2, 115, 110),
-              ),
+            ///////////////////////
+            Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/diary');
+                  },
+                  child: Container(
+                    height: 100,
+                    width: 120,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image:
+                            AssetImage('assets/ilustraciones/pensamientos.png'),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "DIARIO DE PENSAMIENTOS",
+                  style: TextStyle(
+                      color: Color.fromRGBO(115, 112, 108, 10),
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 8),
+                )
+              ],
             ),
           ],
         ),
@@ -339,7 +410,7 @@ Widget Activities(BuildContext context) {
     children: [
       Container(
         alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: const Text("Sueño, respiración y actividades",
             style: TextStyle(
                 color: Color.fromRGBO(146, 150, 187, 10),
@@ -350,32 +421,105 @@ Widget Activities(BuildContext context) {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.of(context).pushNamed('/record_dream');
-                },
-                child: ScreenActivities(0, 115, 180)
-              ),
-            ),
+            //////////////////////////////////////////////////////////
             Container(
               child: Column(
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed('/exercises');
+                      Navigator.of(context).pushNamed('/record_dream');
                     },
                     child: Container(
-                      child: ScreenActivities(1, 115, 100),
-                    ),
+                        height: 220,
+                        width: 110,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image:
+                                  AssetImage('assets/ilustraciones/sueño.png'),
+                            ),
+                            borderRadius: BorderRadius.circular(20.0))),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed('/learn');
-                    },
-                    child: Container(
-                      child: ScreenActivities(2, 115, 70),
-                    ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "REGISTRO DE SUEÑO",
+                    style: TextStyle(
+                        color: Color.fromRGBO(115, 112, 108, 10),
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 8),
+                  )
+                ],
+              ),
+            ),
+            ////////////////////////////////////////////////////////////
+            Container(
+              child: Column(
+                children: [
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/exercises');
+                        },
+                        child: Container(
+                            height: 100,
+                            width: 120,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                      'assets/ilustraciones/respiración.png'),
+                                ),
+                                borderRadius: BorderRadius.circular(20.0))),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "EJERCICIOS DE RESPIRACIÓN",
+                        style: TextStyle(
+                            color: Color.fromRGBO(115, 112, 108, 10),
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 8),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/learn');
+                        },
+                        child: Container(
+                            height: 100,
+                            width: 120,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                      'assets/ilustraciones/más info.png'),
+                                ),
+                                borderRadius: BorderRadius.circular(20.0))),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "APRENDER ALGO NUEVO",
+                        style: TextStyle(
+                            color: Color.fromRGBO(115, 112, 108, 10),
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 8),
+                      )
+                    ],
                   )
                 ],
               ),
@@ -383,20 +527,68 @@ Widget Activities(BuildContext context) {
             Container(
               child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed('/record_exercises');
-                    },
-                    child: Container(
-                      child: ScreenActivities(3, 115, 110),
-                    ),
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/record_exercises');
+                        },
+                        child: Container(
+                            height: 130,
+                            width: 140,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                      'assets/ilustraciones/ejercicios físicos.png'),
+                                ),
+                                borderRadius: BorderRadius.circular(20.0))),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "REGISTRO DE EJERCICIOS FÍSICOS",
+                        style: TextStyle(
+                            color: Color.fromRGBO(115, 112, 108, 10),
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 8),
+                      )
+                    ],
                   ),
-                  Container(
-                    child: GestureDetector(
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    children: [
+                      GestureDetector(
                         onTap: () {
                           Navigator.of(context).pushNamed('/graph');
                         },
-                        child: ScreenActivities(4, 115, 50)),
+                        child: Container(
+                            height: 80,
+                            width: 140,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                      'assets/ilustraciones/graficas.png'),
+                                ),
+                                borderRadius: BorderRadius.circular(20.0))),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "GRÁFICAS",
+                        style: TextStyle(
+                            color: Color.fromRGBO(115, 112, 108, 10),
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 8),
+                      )
+                    ],
                   )
                 ],
               ),

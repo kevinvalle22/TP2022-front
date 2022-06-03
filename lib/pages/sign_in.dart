@@ -205,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
             await UserSecureStorage.setUsername(userName.text);
             await UserSecureStorage.setPassword(password.text);
             await UserSecureStorage.setToken(dataBaseHelper.token);
-            dataBaseHelper.getUser();
+            /*dataBaseHelper.getUser();
             for (var user in dataBaseHelper.dataUsers) {
               if (user['userName'] == userName.text.trim()) {
                 print(identical(user['userName'], userName.text.trim()));
@@ -213,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                 print(user['id']);
                 id = user['id'].toString();
               }
-            }
+            }*/
             print(id);
             // ir a la pantalla principal y traer como argumento el token
             Navigator.of(context).pushNamed('/home', arguments: id);
