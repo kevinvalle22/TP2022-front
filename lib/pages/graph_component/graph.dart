@@ -7,6 +7,7 @@ import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/chart/subscriber_chart.dart';
 import 'package:tp2022_front/Components/chart/subscriber_series.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraphPage extends StatefulWidget {
   final String idSend;
@@ -219,6 +220,18 @@ class _GraphPageState extends State<GraphPage> {
                           blurRadius: 5,
                         )
                       ]),
+                  child: SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      primaryYAxis: NumericAxis(),
+                      series: <ChartSeries>[
+                        ColumnSeries<ChartData, String>(
+                            dataSource: getColumnas(),
+                            xValueMapper: (ChartData data, _) => data.x,
+                            yValueMapper: (ChartData data, _) => data.y,
+                            width: 0.8,
+                            spacing: 0.2,
+                            borderRadius: BorderRadius.all(Radius.circular(15)))
+                      ]),
                 )
               ],
             ),
@@ -265,3 +278,20 @@ List<PieChartSectionData> sectionsChart = [
     radius: 72,
   ),
 ];
+
+class ChartData {
+  ChartData(this.x, this.y);
+  final String x;
+  final double y;
+}
+
+dynamic getColumnas() {
+  List<ChartData> columnData = <ChartData>[
+    ChartData("Mon", 35),
+    ChartData("Tue", 23),
+    ChartData("Wed", 34),
+    ChartData("Th", 25),
+    ChartData("Fr", 40)
+  ];
+  return columnData;
+}
