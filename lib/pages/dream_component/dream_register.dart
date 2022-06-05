@@ -6,12 +6,14 @@ import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/Components/screen_form.dart';
 
 class DreamRecordsPage extends StatefulWidget {
+  final String idSend;
+
+  DreamRecordsPage(this.idSend);
   @override
   State<DreamRecordsPage> createState() => _DreamRecordsPageState();
 }
 
 class _DreamRecordsPageState extends State<DreamRecordsPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +38,7 @@ class _DreamRecordsPageState extends State<DreamRecordsPage> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 _bottomSheet(context);
                               },
                               child: Icon(
@@ -47,7 +49,6 @@ class _DreamRecordsPageState extends State<DreamRecordsPage> {
                       ],
                     ),
                     ContainerLabelDreams()
-                    
                   ],
                 ),
               ),
@@ -55,18 +56,17 @@ class _DreamRecordsPageState extends State<DreamRecordsPage> {
           )),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
     );
   }
-  _bottomSheet(context){
+
+  _bottomSheet(context) {
     showModalBottomSheet(
-      isScrollControlled: true,
-      
-      context: context, 
-      builder: (BuildContext c){
-        
-        return ScreenFormExercises("Registro de Horas","Escribir descripción ...","REGISTRAR HORAS");
-      }
-      );
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext c) {
+          return ScreenFormExercises("Registro de Horas",
+              "Escribir descripción ...", "REGISTRAR HORAS");
+        });
   }
 }

@@ -6,12 +6,14 @@ import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/Components/screen_form.dart';
 
 class RecordExercisesPage extends StatefulWidget {
+  final String idSend;
+
+  RecordExercisesPage(this.idSend);
   @override
   State<RecordExercisesPage> createState() => _RecordExercisesPageState();
 }
 
 class _RecordExercisesPageState extends State<RecordExercisesPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +38,7 @@ class _RecordExercisesPageState extends State<RecordExercisesPage> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 _bottomSheet(context);
                               },
                               child: Icon(
@@ -47,7 +49,6 @@ class _RecordExercisesPageState extends State<RecordExercisesPage> {
                       ],
                     ),
                     ContainerLabelExercises()
-                    
                   ],
                 ),
               ),
@@ -55,18 +56,17 @@ class _RecordExercisesPageState extends State<RecordExercisesPage> {
           )),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
     );
   }
-  _bottomSheet(context){
+
+  _bottomSheet(context) {
     showModalBottomSheet(
-      isScrollControlled: true,
-      
-      context: context, 
-      builder: (BuildContext c){
-        
-        return ScreenFormExercises("Ejercicio realizado","Escribir ejercicio realizado ...","REGISTRAR EJERICICIO");
-      }
-      );
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext c) {
+          return ScreenFormExercises("Ejercicio realizado",
+              "Escribir ejercicio realizado ...", "REGISTRAR EJERICICIO");
+        });
   }
 }

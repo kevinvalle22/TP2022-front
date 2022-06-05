@@ -3,14 +3,20 @@
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 
+class HelpPage extends StatefulWidget {
+  final String idSend;
 
-class HelpPage extends StatelessWidget {
+  HelpPage(this.idSend);
+  @override
+  State<HelpPage> createState() => _HelpPageState();
+}
+
+class _HelpPageState extends State<HelpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Cuerpo(context),
-        bottomNavigationBar: BottomNavigation()
-    );
+        bottomNavigationBar: BottomNavigation(idSend: widget.idSend));
   }
 }
 

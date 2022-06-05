@@ -4,6 +4,9 @@ import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/labels.dart';
 
 class ExercisesPage extends StatefulWidget {
+  final String idSend;
+
+  ExercisesPage(this.idSend);
   @override
   State<ExercisesPage> createState() => _ExercisesPageState();
 }
@@ -89,9 +92,9 @@ class _ExercisesPageState extends State<ExercisesPage> {
                               )),
                         ),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
-                              _boxes=true;
+                              _boxes = true;
                             });
                           },
                           child: Container(
@@ -112,7 +115,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
           ],
         )),
       ),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
     );
   }
 }

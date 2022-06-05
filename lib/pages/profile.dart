@@ -1,19 +1,24 @@
+//import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/labels.dart';
+import 'package:tp2022_front/models/User.dart';
 import 'package:tp2022_front/security/user_secure_storage.dart';
 import '../ControllerEndpoints/endpoints.dart';
 
 // pasar como argumento el contexto dataBaseHelper
 class ProfilePage extends StatefulWidget {
-  late final DataBaseHelper dataBaseHelper;
+  final String idSend;
 
+  ProfilePage(this.idSend);
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  late User user = new User();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //using dataBaseHelper from main.dart
   DataBaseHelper dataBaseHelper = DataBaseHelper();
@@ -26,15 +31,13 @@ class _ProfilePageState extends State<ProfilePage> {
     final password = await UserSecureStorage.getPassword() ?? '';
     final token = await UserSecureStorage.getToken() ?? '';
     final userId = await UserSecureStorage.getUserId() ?? '';
-    print(token);
-    print('este es el nuevo userId ' + userId);
-    dataBaseHelper.token = token;
-    userInfo = dataBaseHelper.getUserInfo(userId);
+
+    user = await dataBaseHelper.getUser(widget.idSend, name, password);
+
     setState(() {
       // get id from user
 
-      print(userInfo.toString());
-      userInfo.toString();
+      print("El usuario con info se ha logeado" + user.userName);
     });
   }
 
@@ -89,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               backgroundImage: AssetImage('assets/perfil.png')),
                         ),
                         Text(
-                          "Mi información",
+                          "Emilio Jones",
                           style: TextStyle(
                               color: Color.fromRGBO(98, 89, 134, 10),
                               fontSize: 25,
@@ -108,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        userInfo.toString(),
+                        user.userName,
                         style: style(),
                       ),
                     ),
@@ -122,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "a",
+                        user.email,
                         style: style(),
                       ),
                     ),
@@ -136,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "a",
+                        user.phone,
                         style: style(),
                       ),
                     ),
@@ -150,7 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "a",
+                        "*********",
                         style: style(),
                       ),
                     ),
@@ -164,7 +167,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "a",
+                        user.university,
                         style: style(),
                       ),
                     ),
@@ -178,12 +181,26 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "a",
+                        user.province,
                         style: style(),
                       ),
                     ),
                   ),
                   H1Label("Distrito:"),
+                  Container(
+                    width: 350,
+                    height: 50,
+                    decoration: box(),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        user.district,
+                        style: style(),
+                      ),
+                    ),
+                  ),
+                  H1Label("Usuario:"),
                   Container(
                     width: 350,
                     height: 50,
@@ -206,6 +223,7 @@ class _ProfilePageState extends State<ProfilePage> {
       bottomNavigationBar: BottomNavigation(
         isTheSameProfile: true,
         profileColorIcon: false,
+        idSend: widget.idSend,
       ),
     );
   }

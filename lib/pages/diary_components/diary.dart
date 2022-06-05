@@ -6,12 +6,14 @@ import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/Components/screen_form.dart';
 
 class DiaryPage extends StatefulWidget {
+  final String idSend;
+
+  DiaryPage(this.idSend);
   @override
   State<DiaryPage> createState() => _DiaryPageState();
 }
 
 class _DiaryPageState extends State<DiaryPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +38,7 @@ class _DiaryPageState extends State<DiaryPage> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 _bottomSheet(context);
                               },
                               child: Icon(
@@ -58,19 +60,17 @@ class _DiaryPageState extends State<DiaryPage> {
           )),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
     );
   }
-  _bottomSheet(context){
+
+  _bottomSheet(context) {
     showModalBottomSheet(
-      isScrollControlled: true,
-      
-      context: context, 
-      builder: (BuildContext c){
-        
-        return ScreenFormDiary("Nuevo Pensamiento","Escribir nuevo pensamiento ...","Registrar Ejercicio");
-      }
-      );
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext c) {
+          return ScreenFormDiary("Nuevo Pensamiento",
+              "Escribir nuevo pensamiento ...", "Registrar Ejercicio");
+        });
   }
 }
-

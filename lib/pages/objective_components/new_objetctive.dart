@@ -5,9 +5,13 @@ import 'package:tp2022_front/Components/labels.dart';
 
 import 'objective.dart';
 
-void main() => runApp(NewObjetivePage());
-
+// Alonso debe revisar esto algún dia o explicarme el porqué esta ahí
+//void main() => runApp(NewObjetivePage());
 class NewObjetivePage extends StatefulWidget {
+  final String idSend;
+
+  NewObjetivePage(this.idSend);
+
   @override
   State<NewObjetivePage> createState() => _NewObjetivePageState();
 }
@@ -60,9 +64,10 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
     );
   }
 }
 
+// getId = widget.idSend;
 

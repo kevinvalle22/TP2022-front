@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/labels.dart';
-
-void main() => runApp(ObjectivePage());
+//explicame el porqué esta ahí Ty alonso
+//void main() => runApp(ObjectivePage());
 
 class ObjectivePage extends StatefulWidget {
+  final String idSend;
+
+  ObjectivePage(this.idSend);
   @override
   State<ObjectivePage> createState() => _ObjectivePage();
 }
@@ -155,7 +158,7 @@ class _ObjectivePage extends State<ObjectivePage> {
           )),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
     );
   }
 }

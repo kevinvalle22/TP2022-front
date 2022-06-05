@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/pages/test.dart';
 
-void main() => runApp(ReminderPage());
+//oid main() => runApp(ReminderPage());
 
 class ReminderPage extends StatefulWidget {
+  final String idSend;
+
+  ReminderPage(this.idSend);
   @override
   State<ReminderPage> createState() => _ReminderPageState();
 }
@@ -14,9 +17,8 @@ class _ReminderPageState extends State<ReminderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(child: Cuerpo()),
-      bottomNavigationBar: BottomNavigation()
-    );
+        body: SingleChildScrollView(child: Cuerpo()),
+        bottomNavigationBar: BottomNavigation(idSend: widget.idSend));
   }
 }
 

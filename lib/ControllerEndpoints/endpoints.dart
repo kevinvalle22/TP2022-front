@@ -1,23 +1,34 @@
 import 'dart:convert';
+import 'dart:io';
+//import User from '../models/User';
+import 'package:tp2022_front/models/User.dart';
 import 'package:http/http.dart' as http;
 
 //global variable to store the token
 
 class DataBaseHelper {
-  var token = '';
-  List dataUsers = [];
-  Future<http.Response> authenticate(String userName, String password) async {
-    var url = 'https://mental-health-deploy.herokuapp.com/authenticate';
+  Future<String> authenticate(String userName, String password) async {
+    var url = 'http://10.0.2.2:8081/authenticate';
     var body = json.encode({'userName': userName, 'password': password});
-    var response = await http
+    http.Response auth = await http
         .post(url, body: body, headers: {'Content-Type': 'application/json'});
     //print(response.body);
     // print(jsonDecode(response.body));
 
-    token = jsonDecode(response.body)['token'].toString();
-    print(token);
     //print(token);
-    return response;
+    return (json.decode(auth.body)['token']);
+  }
+
+  Future<int> authenticateToGetId(String userName, String password) async {
+    var url = 'http://10.0.2.2:8081/authenticate';
+    var body = json.encode({'userName': userName, 'password': password});
+    http.Response auth = await http
+        .post(url, body: body, headers: {'Content-Type': 'application/json'});
+    //print(response.body);
+    // print(jsonDecode(response.body));
+
+    //print(token);
+    return (json.decode(auth.body)['id']);
   }
 
   Future<http.Response> register(String userName, String email, String password,
@@ -40,28 +51,44 @@ class DataBaseHelper {
     return response;
   }
 
-  Future<String> getUser() async {
-    var url = 'https://mental-health-deploy.herokuapp.com/api/users';
-    var response = await http.get(Uri.parse(url + "users"), headers: {
-      'Content-Type': 'application/json',
-      'Authorization': "Bearer $token"
-    });
-
-    var extractdata = json.decode(response.body);
-    dataUsers = extractdata['content'];
-
-    print(dataUsers);
-    return response.body.toString();
+  Future<User> getUser(
+      String urlOption, String userName, String password) async {
+    const requestUrl = "http://10.0.2.2:8081/api/users/";
+    final url = Uri.parse(requestUrl + urlOption);
+    final token = await authenticate(userName, password);
+    http.Response result = await http.get(
+      requestUrl + urlOption,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(result.body);
+      return User.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed request');
+    }
   }
 
-  Future<http.Response> getUserInfo(String Id) async {
+  Future<List> getUsers(String userName, String password) async {
     // Perfil información del usuario
-    var url2 = 'https://mental-health-deploy.herokuapp.com/api/users/$Id';
-    var response2 = await http.get(url2, headers: {
+    const requestUrl = "https://mental-health-deploy.herokuapp.com/api/users";
+    final url = Uri.parse(requestUrl);
+    final token = await authenticate(userName, password);
+    http.Response result = await http.get(url, headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
+      'Authorization': 'Bearer $token',
     });
-    print(response2.body);
-    return response2;
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(result.body);
+      final arrayMap = jsonResponse['content'];
+      List items = arrayMap.map((map) => User.fromJson(map)).toList();
+      print(items);
+      return items;
+    } else {
+      throw Exception('Failed request');
+    }
   }
 }
