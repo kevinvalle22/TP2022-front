@@ -4,21 +4,24 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 
-void main() => runApp(PositveReinforcementPage());
+//void main() => runApp(PositveReinforcementPage());
 
-class PositveReinforcementPage extends StatefulWidget {
+class PositiveReinforcementPage extends StatefulWidget {
+  final String idSend;
+
+  PositiveReinforcementPage(this.idSend);
   @override
-  State<PositveReinforcementPage> createState() =>
-      _PositveReinforcementPageState();
+  State<PositiveReinforcementPage> createState() =>
+      _PositiveReinforcementPageState();
 }
 
-class _PositveReinforcementPageState extends State<PositveReinforcementPage> {
+class _PositiveReinforcementPageState extends State<PositiveReinforcementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(child: Cuerpo(context)),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
     );
   }
 }
@@ -237,7 +240,7 @@ class _BodyState extends State<Body> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.of(context).pushNamed('/assertion_settings');
                     },
                     child: Container(
@@ -357,8 +360,7 @@ class _BodyState extends State<Body> {
             //height: 40,
             decoration: BoxDecoration(
                 boxShadow: [
-                  BoxShadow(
-                      color: Colors.white.withOpacity(.1), blurRadius: 3)
+                  BoxShadow(color: Colors.white.withOpacity(.1), blurRadius: 3)
                 ],
                 color: Color.fromRGBO(254, 227, 211, 10),
                 borderRadius: BorderRadius.circular(9.0)),

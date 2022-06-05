@@ -1,12 +1,14 @@
 // ignore_for_file: non_constant_identifier_names, duplicate_ignore
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
-import 'package:tp2022_front/ControllerEndpoints/endpoints.dart';
+import '../utils/endpoints.dart';
 import 'package:tp2022_front/main.dart' as main;
 import 'package:tp2022_front/pages/home.dart';
-
-import '../security/user_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:tp2022_front/security/user_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,7 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String id = '';
+
   //using dataBaseHelper from main.dart
   DataBaseHelper dataBaseHelper = DataBaseHelper();
 
@@ -55,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // ignore: non_constant_identifier_names
+// ignore: non_constant_identifier_names
   Widget Cuerpo(BuildContext context) {
     return Column(
       children: <Widget>[
@@ -129,7 +131,6 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
       child: TextField(
-        controller: userName,
         decoration: InputDecoration(
             fillColor: const Color.fromRGBO(232, 227, 238, 10),
             filled: true,
@@ -149,6 +150,7 @@ class _LoginPageState extends State<LoginPage> {
               borderSide: const BorderSide(width: 3, color: Colors.red),
               borderRadius: BorderRadius.circular(15),
             )),
+        controller: userName,
       ),
     );
   }
@@ -157,7 +159,6 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: TextField(
-        controller: password,
         obscureText: true,
         decoration: InputDecoration(
             fillColor: const Color.fromRGBO(232, 227, 238, 10),
@@ -174,6 +175,7 @@ class _LoginPageState extends State<LoginPage> {
               borderSide: const BorderSide(width: 3, color: Colors.red),
               borderRadius: BorderRadius.circular(15),
             )),
+        controller: password,
       ),
     );
   }
@@ -200,23 +202,28 @@ class _LoginPageState extends State<LoginPage> {
         child: RaisedButton(
           color: const Color.fromRGBO(104, 174, 174, 6),
           onPressed: () async {
-            dataBaseHelper.authenticate(
+            var auth = await dataBaseHelper.authenticate(
                 userName.text.trim(), password.text.trim());
+            print(auth);
             await UserSecureStorage.setUsername(userName.text);
             await UserSecureStorage.setPassword(password.text);
-            await UserSecureStorage.setToken(dataBaseHelper.token);
-            /*dataBaseHelper.getUser();
-            for (var user in dataBaseHelper.dataUsers) {
-              if (user['userName'] == userName.text.trim()) {
-                print(identical(user['userName'], userName.text.trim()));
-                await UserSecureStorage.setUserId(user['id'].toString());
-                print(user['id']);
-                id = user['id'].toString();
-              }
-            }*/
+            await UserSecureStorage.setToken(auth.toString());
+            int id = await dataBaseHelper.authenticateToGetId(
+                userName.text.trim(), password.text.trim());
+
+            // convertir a int el id
+            await UserSecureStorage.setUserId(id.toString());
+
+            // convertir a int el id
+
+            String idSend = id.toString();
             print(id);
-            // ir a la pantalla principal y traer como argumento el token
-            Navigator.of(context).pushNamed('/home', arguments: id);
+            // ir a la pantalla principal y mandar el id
+            print(idSend);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => HomePage(idSend)));
+
+            // print(auth);
           },
           child: const Text(
             "INICIAR SESIÓN",

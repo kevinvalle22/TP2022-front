@@ -3,8 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 
-class ChatBotPage extends StatelessWidget {
-  const ChatBotPage({required Key key}) : super(key: key);
+class ChatBotPage extends StatefulWidget {
+  final String idSend;
+
+  ChatBotPage(this.idSend);
+
+  @override
+  State<ChatBotPage> createState() => _ChatBotPageState();
+}
+
+class _ChatBotPageState extends State<ChatBotPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -251,7 +259,11 @@ class ChatBotPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(isTheSameBot: true, botColorIcon: false),
+      bottomNavigationBar: BottomNavigation(
+        isTheSameBot: true,
+        botColorIcon: false,
+        idSend: widget.idSend,
+      ),
     );
   }
 }

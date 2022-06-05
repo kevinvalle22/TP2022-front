@@ -6,9 +6,12 @@ import 'package:flutter/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 
-void main() => runApp(CalendarPage());
+//void main() => runApp(CalendarPage());
 
 class CalendarPage extends StatefulWidget {
+  final String idSend;
+
+  CalendarPage(this.idSend);
   @override
   State<CalendarPage> createState() => _CalendarPageState();
 }
@@ -18,7 +21,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Cuerpo(),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
     );
   }
 }
@@ -240,8 +243,7 @@ class _CuerpoState extends State<Cuerpo> {
                 height: 50,
                 child: RaisedButton(
                   color: Colors.white,
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                   child: const Text("Crear Recordatorio",
                       style: TextStyle(
                           fontSize: 15.5,

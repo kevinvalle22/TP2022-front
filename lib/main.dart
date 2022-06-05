@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:tp2022_front/ControllerEndpoints/endpoints.dart';
+import 'package:tp2022_front/utils/endpoints.dart';
 import 'package:tp2022_front/pages/chat_component/chatbot.dart';
 import 'package:tp2022_front/pages/diary_components/diary.dart';
 import 'package:tp2022_front/pages/dream_component/dream_register.dart';
@@ -39,23 +39,23 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/newAccount': (context) => NewAccountPage(),
         '/intro': (context) => IntroPage(),
-        '/home': (context) => HomePage(),
-        '/chatbot': (context) => ChatBotPage(),
-        '/help': (context) => HelpPage(),
-        '/positive': (context) => PositveReinforcementPage(),
-        '/reminder': (context) => ReminderPage(),
-        '/calendar': (context) => CalendarPage(),
+        //'/home': (context) => HomePage(),
+        //'/chatbot': (context) => ChatBotPage(),
+        //'/help': (context) => HelpPage(),
+        //'/positive': (context) => PositveReinforcementPage(),
+        //'/reminder': (context) => ReminderPage(),
+        //'/calendar': (context) => CalendarPage(),
         '/loading': (context) => LoadingPage(),
-        '/objective': (context) => ObjectivePage(),
-        '/newObjective': (context) => NewObjetivePage(),
-        '/diary': (context) => DiaryPage(),
-        '/exercises': (context) => ExercisesPage(),
-        '/learn': (context) => LearnPage(),
-        '/record_exercises': (context) => RecordExercisesPage(),
+        //'/objective': (context) => ObjectivePage(),
+        //'/newObjective': (context) => NewObjetivePage(),
+        //'/diary': (context) => DiaryPage(),
+        //'/exercises': (context) => ExercisesPage(),
+        //'/learn': (context) => LearnPage(),
+        //'/record_exercises': (context) => RecordExercisesPage(),
         '/assertion_settings': (context) => AssertionSettings(),
-        '/graph': (context) => GraphPage(),
-        '/profile': (context) => ProfilePage(),
-        '/record_dream': (context) => DreamRecordsPage(),
+        //'/graph': (context) => GraphPage(),
+        //'/profile': (context) => ProfilePage(),
+        //'/record_dream': (context) => DreamRecordsPage(),
       },
       initialRoute: '/loading',
     );

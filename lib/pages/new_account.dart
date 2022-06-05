@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../ControllerEndpoints/endpoints.dart';
+import '../utils/endpoints.dart';
 
 class NewAccountPage extends StatefulWidget {
   @override
