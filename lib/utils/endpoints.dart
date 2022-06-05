@@ -3,6 +3,7 @@ import 'dart:io';
 //import User from '../models/User';
 import 'package:tp2022_front/models/Exercise.dart';
 import 'package:tp2022_front/models/User.dart';
+import 'package:tp2022_front/models/SleepRecord.dart';
 import 'package:http/http.dart' as http;
 
 //global variable to store the token
@@ -96,6 +97,32 @@ class DataBaseHelper {
     if (result.statusCode == HttpStatus.ok) {
       final jsonResponse = json.decode(result.body);
       return Exercise.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<SleepRecord> createASleepRecord(String urlOption, String userName,
+      String password, SleepRecord sleepRecord) async {
+    const requestUrl = "http://10.0.2.2:8081/api/users/";
+    final url = Uri.parse(requestUrl + urlOption + "/sleeps");
+    final token = await authenticate(userName, password);
+
+    http.Response result = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'startDate': sleepRecord.startDate,
+        'endDate': sleepRecord.endDate,
+      }),
+    );
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(result.body);
+      return SleepRecord.fromJson(jsonResponse);
     } else {
       throw Exception('Failed request');
     }

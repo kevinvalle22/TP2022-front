@@ -28,7 +28,7 @@ class _DiaryPageState extends State<DiaryPage> {
                 child: Column(
                   children: <Widget>[
                     TitleHeader("Pensamientos"),
-                    CalendarWidget(),
+                    CalendarWidget(widget.idSend),
                     Row(
                       children: [
                         H1Label("Mi lista de pensamientos"),

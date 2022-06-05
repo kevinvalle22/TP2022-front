@@ -1,7 +1,13 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tp2022_front/Components/labels.dart';
+import 'package:tp2022_front/models/Exercise.dart';
+import 'package:tp2022_front/models/SleepRecord.dart';
+import 'package:tp2022_front/security/user_secure_storage.dart';
+import 'package:tp2022_front/utils/endpoints.dart';
 
 class ScreenFormDiary extends StatelessWidget {
   ScreenFormDiary(this.h1, this.input, this.button);
@@ -37,7 +43,7 @@ class ScreenFormDiary extends StatelessWidget {
                 ),
               ),
             ),
-            InputLabel(input),
+            InputLabel(input, TextEditingController()),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
@@ -64,7 +70,11 @@ class ScreenFormDiary extends StatelessWidget {
 }
 
 class ScreenFormExercises extends StatefulWidget {
-  ScreenFormExercises(this.h1, this.input, this.button);
+  final String idSend;
+  final String selectedDayString;
+
+  ScreenFormExercises(
+      this.h1, this.input, this.button, this.idSend, this.selectedDayString);
   String h1;
   String input;
   String button;
@@ -76,12 +86,23 @@ class ScreenFormExercises extends StatefulWidget {
 class _ScreenFormExercisesState extends State<ScreenFormExercises> {
   int contadorHoras = 0;
   int contadorMinutos = 0;
+  DataBaseHelper dataBaseHelper = DataBaseHelper();
+  final TextEditingController _dateController = TextEditingController();
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     int contadorHoras = 0;
     int contadorMinutos = 0;
+    init();
+    print("El id es: ${widget.idSend}");
+    print("El dia es: ${widget.selectedDayString}");
   }
 
   void aumentar_horas() {
@@ -137,7 +158,34 @@ class _ScreenFormExercisesState extends State<ScreenFormExercises> {
                 ),
               ),
             ),
-            InputLabel(widget.input),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              height: 70,
+              //color: Colors.white,
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(245, 242, 250, 10),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                    )
+                  ]),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      controller: _dateController,
+                      dragStartBehavior: DragStartBehavior.start,
+                      decoration: InputDecoration.collapsed(
+                          hintText: "Escribir una Fecha"),
+                      textCapitalization: TextCapitalization.sentences,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -232,7 +280,56 @@ class _ScreenFormExercisesState extends State<ScreenFormExercises> {
                 height: 50,
                 child: RaisedButton(
                   color: Colors.white,
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (widget.selectedDayString == "exercises") {
+                      Exercise exercise = Exercise();
+                      var userName = await UserSecureStorage.getUsername();
+                      var password = await UserSecureStorage.getPassword();
+                      exercise.duration =
+                          "$contadorHoras horas y $contadorMinutos minutos";
+                      exercise.exerciseDate = "2023-01-01 15:00";
+                      exercise = await dataBaseHelper.createExercise(
+                        widget.idSend,
+                        userName.toString(),
+                        password.toString(),
+                        exercise,
+                      );
+                    } else if (widget.selectedDayString == "dream") {
+                      SleepRecord sleepRecord = SleepRecord();
+                      var userName = await UserSecureStorage.getUsername();
+                      var password = await UserSecureStorage.getPassword();
+                      // obtener la fecha actual
+                      var now = new DateTime.now();
+                      var formatter = new DateFormat('yyyy-MM-dd HH:mm');
+                      print("fecha inicial: ${formatter}");
+                      sleepRecord.startDate = formatter.format(now);
+
+                      var horas;
+                      var minutos;
+                      if (contadorHoras < 10) {
+                        horas = "0$contadorHoras";
+                      } else {
+                        horas = "$contadorHoras";
+                      }
+                      if (contadorMinutos < 10) {
+                        minutos = "0$contadorMinutos";
+                      } else {
+                        minutos = "$contadorMinutos";
+                      }
+                      print(sleepRecord.endDate);
+                      sleepRecord.endDate =
+                          "${_dateController.text} $horas:$minutos";
+                      print(sleepRecord.endDate);
+                      sleepRecord = await dataBaseHelper.createASleepRecord(
+                        widget.idSend,
+                        userName.toString(),
+                        password.toString(),
+                        sleepRecord,
+                      );
+                    }
+
+                    Navigator.pop(context);
+                  },
                   child: Text(widget.button,
                       style: TextStyle(
                           fontSize: 15.5,

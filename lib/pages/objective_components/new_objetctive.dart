@@ -16,6 +16,7 @@ class NewObjetivePage extends StatefulWidget {
 }
 
 class _NewObjetivePageState extends State<NewObjetivePage> {
+  TextEditingController _dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +39,8 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
                         child: Column(
                           children: <Widget>[
                             H1Label("Objetivo"),
-                            InputLabel("Escribir objetivo ..."),
+                            InputLabel(
+                                "Escribir objetivo ...", _dateController),
                             H1Label("Tipo de Objetivo"),
                             TagsLabelObjective(),
                             H1Label("Categoría"),
@@ -49,7 +51,8 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
                             H1Label("Plan de Acción"),
                             for (int i = 0; i < 3; i++)
                               Container(
-                                child: InputLabel("¿Qué harás para cumplirlo?"),
+                                child: InputLabel("¿Qué harás para cumplirlo?",
+                                    _dateController),
                               ),
                             ButtomLabel("CREAR OBJETIVO")
                           ],

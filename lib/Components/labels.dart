@@ -51,7 +51,8 @@ class H1Label extends StatelessWidget {
 }
 
 class InputLabel extends StatelessWidget {
-  InputLabel(this.text);
+  InputLabel(this.text, TextEditingController dateController);
+  TextEditingController dateController = TextEditingController();
   String text;
   @override
   Widget build(BuildContext context) {
@@ -75,6 +76,7 @@ class InputLabel extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: TextField(
+                controller: dateController,
                 dragStartBehavior: DragStartBehavior.start,
                 decoration: InputDecoration.collapsed(hintText: text),
                 textCapitalization: TextCapitalization.sentences,
@@ -263,7 +265,11 @@ class ContainerLabelDreams extends StatelessWidget {
     "01 horas y 05 minutos",
     "07 horas y 15 minutos",
   ];
-  List<String> exercises = ["Siesta de la tarde", "Siesta de la tarde", "Sueño Cotidiano"];
+  List<String> exercises = [
+    "Siesta de la tarde",
+    "Siesta de la tarde",
+    "Sueño Cotidiano"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -305,7 +311,6 @@ class ContainerLabelDreams extends StatelessWidget {
     );
   }
 }
-
 
 class ListContainer extends StatelessWidget {
   @override

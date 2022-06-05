@@ -28,7 +28,7 @@ class _RecordExercisesPageState extends State<RecordExercisesPage> {
                 child: Column(
                   children: <Widget>[
                     TitleHeader("Ejercicios físicos"),
-                    CalendarWidget(),
+                    CalendarWidget(widget.idSend),
                     Row(
                       children: [
                         H1Label("Mi lista de ejercicios"),
@@ -65,8 +65,12 @@ class _RecordExercisesPageState extends State<RecordExercisesPage> {
         isScrollControlled: true,
         context: context,
         builder: (BuildContext c) {
-          return ScreenFormExercises("Ejercicio realizado",
-              "Escribir ejercicio realizado ...", "REGISTRAR EJERICICIO");
+          return ScreenFormExercises(
+              "Ejercicio realizado",
+              "Escribir ejercicio realizado ...",
+              "REGISTRAR EJERICICIO",
+              widget.idSend,
+              "exercises");
         });
   }
 }

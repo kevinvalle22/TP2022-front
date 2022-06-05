@@ -28,7 +28,7 @@ class _DreamRecordsPageState extends State<DreamRecordsPage> {
                 child: Column(
                   children: <Widget>[
                     TitleHeader("Registro de sueño"),
-                    CalendarWidget(),
+                    CalendarWidget(widget.idSend),
                     Row(
                       children: [
                         H1Label("Horas de Sueño"),
@@ -67,8 +67,12 @@ class _DreamRecordsPageState extends State<DreamRecordsPage> {
         isScrollControlled: true,
         context: context,
         builder: (BuildContext c) {
-          return ScreenFormExercises("Registro de Horas",
-              "Escribir descripción ...", "REGISTRAR HORAS");
+          return ScreenFormExercises(
+              "Registro de Horas",
+              "Escribir una Fecha ...",
+              "REGISTRAR HORAS",
+              widget.idSend,
+              "dream");
         });
   }
 }

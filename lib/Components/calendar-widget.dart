@@ -2,9 +2,14 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:tp2022_front/Components/screen_form.dart';
 
 class CalendarWidget extends StatefulWidget {
+  final String idSend;
+
+  CalendarWidget(this.idSend);
   @override
   State<CalendarWidget> createState() => _CalendarWidgetState();
 }
@@ -13,6 +18,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
+  // con formato yyyy-MM-dd HH:mm
+  String selectedDayString =
+      DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -44,24 +52,37 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             setState(() {
               selectedDay = selectDay;
               focusedDay = focusDay;
+              selectedDayString =
+                  DateFormat('yyyy-MM-dd HH:mm').format(focusDay);
+              // push a new screen
             });
-            print(focusedDay);
+            /* Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ScreenFormExercises(
+                    "Ejercicio realizado",
+                    "Escribir ejercicio realizado ...",
+                    "REGISTRAR EJERICICIO",
+                    widget.idSend,
+                    selectedDayString),
+              ),
+            ); */
+            print(selectedDayString);
           },
           selectedDayPredicate: (DateTime date) {
+            // use this to go to screen_form.dart
+
             return isSameDay(selectedDay, date);
           },
           calendarStyle: CalendarStyle(
-            isTodayHighlighted: true,
-            selectedDecoration: BoxDecoration(
-              color: Colors.blue,
-              shape: BoxShape.circle,
-            ),
-            selectedTextStyle: TextStyle(color: Colors.white),
-            todayDecoration: BoxDecoration(
-              color: Colors.purpleAccent,
-              shape: BoxShape.circle
-            )
-          ),
+              isTodayHighlighted: true,
+              selectedDecoration: BoxDecoration(
+                color: Colors.blue,
+                shape: BoxShape.circle,
+              ),
+              selectedTextStyle: TextStyle(color: Colors.white),
+              todayDecoration: BoxDecoration(
+                  color: Colors.purpleAccent, shape: BoxShape.circle)),
         ),
       ),
     );
