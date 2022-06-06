@@ -17,22 +17,24 @@ class _AssertionSettingsState extends State<AssertionSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-            child: Stack(
-          children: <Widget>[
-            Container(child: BackgroundImage('assets/2.jpg')),
-            Column(
-              children: <Widget>[
-                TitleHeader("Afirmaciones"),
-                H1Label("Configuración"),
-                Cupertino(),
-                H1Label("Lista de afirmaciones"),
-                ListContainer()
-              ],
-            )
-          ],
-        )),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+              child: Stack(
+            children: <Widget>[
+              Container(child: BackgroundImage('assets/2.jpg')),
+              Column(
+                children: <Widget>[
+                  TitleHeader("Afirmaciones"),
+                  H1Label("Configuración"),
+                  Cupertino(),
+                  H1Label("Lista de afirmaciones"),
+                  ListContainer()
+                ],
+              )
+            ],
+          )),
+        ),
       ),
     );
   }
