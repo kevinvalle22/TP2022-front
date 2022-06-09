@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/labels.dart';
+import 'package:tp2022_front/pages/objective_components/new_objetctive.dart';
 
 //void main() => runApp(ObjectivePage());
 
@@ -52,8 +53,12 @@ class _ObjectivePage extends State<ObjectivePage> {
                                       ),
                                       child: GestureDetector(
                                           onTap: () {
-                                            Navigator.of(context)
-                                                .pushNamed('/newObjective');
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NewObjetivePage(
+                                                            widget.idSend)));
                                           },
                                           child: Icon(
                                             Icons.add_to_photos,
