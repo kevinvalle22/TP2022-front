@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 class DataBaseHelper {
   Future<String> authenticate(String userName, String password) async {
-    final url = 'http://10.0.2.2:8081/authenticate';
+    final url = 'https://mental-health-deploy.herokuapp.com/authenticate';
 
     http.Response auth = await http.post(Uri.parse(url),
         headers: {
@@ -23,7 +23,7 @@ class DataBaseHelper {
   }
 
   Future<int> authenticateToGetId(String userName, String password) async {
-    final url = 'http://10.0.2.2:8081/authenticate';
+    const url = 'https://mental-health-deploy.herokuapp.com/authenticate';
 
     http.Response auth = await http.post(Uri.parse(url),
         headers: {
@@ -57,7 +57,7 @@ class DataBaseHelper {
 
   Future<User> getUser(
       String urlOption, String userName, String password) async {
-    const requestUrl = "http://10.0.2.2:8081/api/users/";
+    const requestUrl = "https://mental-health-deploy.herokuapp.com/api/users/";
     final url = Uri.parse(requestUrl + urlOption);
     final token = await authenticate(userName, password);
     http.Response result = await http.get(
@@ -78,7 +78,7 @@ class DataBaseHelper {
 
   Future<Exercise> createExercise(String urlOption, String userName,
       String password, Exercise exercise) async {
-    const requestUrl = "http://10.0.2.2:8081/api/users/";
+    const requestUrl = "https://mental-health-deploy.herokuapp.com/api/users/";
     final url = Uri.parse(requestUrl + urlOption + "/exercises");
     final token = await authenticate(userName, password);
 
@@ -104,7 +104,7 @@ class DataBaseHelper {
 
   Future<SleepRecord> createASleepRecord(String urlOption, String userName,
       String password, SleepRecord sleepRecord) async {
-    const requestUrl = "http://10.0.2.2:8081/api/users/";
+    const requestUrl = "https://mental-health-deploy.herokuapp.com/api/users/";
     final url = Uri.parse(requestUrl + urlOption + "/sleeps");
     final token = await authenticate(userName, password);
 

@@ -86,6 +86,8 @@ class ScreenFormExercises extends StatefulWidget {
 class _ScreenFormExercisesState extends State<ScreenFormExercises> {
   int contadorHoras = 0;
   int contadorMinutos = 0;
+  int contadorHoras2 = 0;
+  int contadorMinutos2 = 0;
   DataBaseHelper dataBaseHelper = DataBaseHelper();
   final TextEditingController _dateController = TextEditingController();
   Future init() async {
@@ -287,7 +289,7 @@ class _ScreenFormExercisesState extends State<ScreenFormExercises> {
                       var password = await UserSecureStorage.getPassword();
                       exercise.duration =
                           "$contadorHoras horas y $contadorMinutos minutos";
-                      exercise.exerciseDate = "2023-01-01 15:00";
+                      exercise.exerciseDate = _dateController.text;
                       exercise = await dataBaseHelper.createExercise(
                         widget.idSend,
                         userName.toString(),
