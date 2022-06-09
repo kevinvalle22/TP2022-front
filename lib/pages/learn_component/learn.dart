@@ -26,96 +26,98 @@ class _LearnPageState extends State<LearnPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-            child: Stack(
-          children: <Widget>[
-            Container(
-              child: BackgroundImage('assets/2.jpg'),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  TitleHeader("Aprende algo nuevo"),
-                  Column(
-                    children: [
-                      H1Label("Definiciones, tips y consejos"),
-                      Wrap(
-                        children: <Widget>[
-                          for (int i = 0; i < tips.length; i++)
-                            Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (i == 0) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Container1()));
-                                  } else if (i == 1) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Container2()));
-                                  } else if (i == 2) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Container3()));
-                                  } else if (i == 3) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Container4()));
-                                  } else if (i == 4) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Container5()));
-                                  } else if (i == 5) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Container6()));
-                                  }
-                                },
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Color.fromRGBO(232, 227, 238, 10),
-                                        borderRadius: BorderRadius.circular(15),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 2,
-                                            blurRadius: 5,
-                                          )
-                                        ]),
-                                    width: 150,
-                                    height: 160,
-                                    child: Center(
-                                        child: Text(
-                                      tips[i].toString(),
-                                      textAlign: TextAlign.center,
-                                    ))),
-                              ),
-                            )
-                        ],
-                      )
-                    ],
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+              child: Stack(
+            children: <Widget>[
+              Container(
+                child: BackgroundImage('assets/2.jpg'),
               ),
-            ),
-          ],
-        )),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    TitleHeader("Aprende algo nuevo"),
+                    Column(
+                      children: [
+                        H1Label("Definiciones, tips y consejos"),
+                        Wrap(
+                          children: <Widget>[
+                            for (int i = 0; i < tips.length; i++)
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (i == 0) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Container1()));
+                                    } else if (i == 1) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Container2()));
+                                    } else if (i == 2) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Container3()));
+                                    } else if (i == 3) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Container4()));
+                                    } else if (i == 4) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Container5()));
+                                    } else if (i == 5) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Container6()));
+                                    }
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(232, 227, 238, 10),
+                                          borderRadius: BorderRadius.circular(15),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 2,
+                                              blurRadius: 5,
+                                            )
+                                          ]),
+                                      width: 150,
+                                      height: 160,
+                                      child: Center(
+                                          child: Text(
+                                        tips[i].toString(),
+                                        textAlign: TextAlign.center,
+                                      ))),
+                                ),
+                              )
+                          ],
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )),
+        ),
       ),
       bottomNavigationBar: BottomNavigation(
         isTheSameLearn: true,

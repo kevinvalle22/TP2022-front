@@ -44,7 +44,7 @@ Widget Cuerpo(BuildContext context) {
           Positioned(
             top: 50,
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 50,
+            height: MediaQuery.of(context).size.height,
             child: Components(),
           ),
         ],
@@ -192,7 +192,7 @@ class _BodyState extends State<Body> {
     ];
     return GestureDetector(
       child: Container(
-        width: MediaQuery.of(context).size.width - 45,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)

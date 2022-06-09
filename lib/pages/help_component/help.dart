@@ -38,7 +38,7 @@ Widget Cuerpo(BuildContext context) {
             Positioned(
               top: 120,
               width: 420,
-              height: 1000,
+              height: MediaQuery.of(context).size.height,
               child: Components(context),
             ),
           ],

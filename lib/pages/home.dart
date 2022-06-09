@@ -61,8 +61,8 @@ class _HomePageState extends State<HomePage> {
             ),
             Positioned(
               top: 0,
-              width: 420,
-              height: 1000,
+              width: MediaQuery.of(context).size.width+30,
+              height: MediaQuery.of(context).size.height,
               child: Components(),
             ),
           ]),
@@ -88,6 +88,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget Header() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(padding: EdgeInsets.all(20.0), child: Name()),
         Container(
@@ -468,7 +469,7 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: Container(
                           height: 220,
-                          width: 110,
+                          width: 100,
                           decoration: BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.cover,
@@ -507,7 +508,7 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: Container(
                               height: 100,
-                              width: 120,
+                              width: 90,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
@@ -544,7 +545,7 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: Container(
                               height: 100,
-                              width: 120,
+                              width: 90,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
@@ -584,7 +585,7 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: Container(
                               height: 130,
-                              width: 140,
+                              width: 120,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
@@ -621,7 +622,7 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: Container(
                               height: 80,
-                              width: 140,
+                              width: 120,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
