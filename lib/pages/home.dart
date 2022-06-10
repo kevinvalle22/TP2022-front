@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     print("el id del usuario logeado es el ${widget.idSend}");
     // TODO: implement build
     return Scaffold(
-      body: SafeArea(child: Cuerpo(context)),
+      body: SafeArea(child: SingleChildScrollView(child: Cuerpo(context))),
       bottomNavigationBar: BottomNavigation(
         isTheSameHome: true,
         homeColorIcon: false,
@@ -46,42 +46,37 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget Cuerpo(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Stack(alignment: Alignment.center, children: <Widget>[
-            Container(
-              height: MediaQuery.of(context).size.height * 1,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage('assets/5.jpg'),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 0,
-              width: MediaQuery.of(context).size.width+30,
-              height: MediaQuery.of(context).size.height,
-              child: Components(),
-            ),
-          ]),
-        ],
+    return Stack(children: <Widget>[
+      Container(
+        height: MediaQuery.of(context).size.height * 1,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage('assets/5.jpg'),
+          ),
+        ),
       ),
-    );
+      Components()
+    ]);
   }
 
   Widget Components() {
     return Container(
-      child: Column(
-        children: [
-          Container(
-            child: Header(),
-          ),
-          Container(
-            child: Body(),
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            Container(
+              child: Header(),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Body(),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -90,7 +85,7 @@ class _HomePageState extends State<HomePage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Container(padding: EdgeInsets.all(20.0), child: Name()),
+        Container(child: Name()),
         Container(
           child: PhoneIcon(),
         )
@@ -99,7 +94,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget Name() {
-    return const Text("Hola estudiante",
+    return Text("Hola estudiante",
         style: TextStyle(
             color: Color.fromRGBO(67, 58, 108, 10),
             fontSize: 35.0,
@@ -130,75 +125,75 @@ class _HomePageState extends State<HomePage> {
       return Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             child: const Text("¿Cómo te Sientes hoy?",
                 style: TextStyle(
                     color: Color.fromRGBO(146, 150, 187, 10),
                     fontSize: 22.0,
                     fontWeight: FontWeight.bold)),
           ),
+          SizedBox(
+            height: 5,
+          ),
           Container(
-            width: 325,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(15),
-                    height: 50,
-                    width: 50,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/sentimientos/alegria.png'),
-                      ),
+            width: MediaQuery.of(context).size.width / 1.2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/sentimientos/alegria.png'),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(15),
-                    height: 50,
-                    width: 50,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/sentimientos/miedo.png'),
-                      ),
+                ),
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/sentimientos/miedo.png'),
                     ),
                   ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/sentimientos/tristeza.png'),
-                      ),
+                ),
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/sentimientos/tristeza.png'),
                     ),
                   ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/sentimientos/enojo.png'),
-                      ),
+                ),
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/sentimientos/enojo.png'),
                     ),
                   ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/sentimientos/asco.png'),
-                      ),
+                ),
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/sentimientos/asco.png'),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+          ),
+          SizedBox(
+            height: 5,
           ),
           Container(
             width: 300,
@@ -221,15 +216,12 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
             child: Affirmation(),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
             child: Reminder(context),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
             child: Activities(context),
           ),
         ],
@@ -243,7 +235,6 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Container(
             alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             child: Row(
               children: [
                 const Text("Afirmación diaria",
@@ -257,7 +248,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          const SizedBox(
+          SizedBox(
             height: 5,
           ),
           Container(
@@ -300,7 +291,10 @@ class _HomePageState extends State<HomePage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25)),
             ),
-          )
+          ),
+          SizedBox(
+            height: 5,
+          ),
         ],
       );
     });
@@ -311,12 +305,14 @@ class _HomePageState extends State<HomePage> {
       children: [
         Container(
           alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
           child: const Text("Objetivos, recordatorios y diario",
               style: TextStyle(
                   color: Color.fromRGBO(146, 150, 187, 10),
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold)),
+        ),
+        SizedBox(
+          height: 5,
         ),
         Container(
           child: Row(
@@ -435,6 +431,9 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
+        SizedBox(
+          height: 5,
+        ),
       ],
     );
   }
@@ -444,12 +443,14 @@ class _HomePageState extends State<HomePage> {
       children: [
         Container(
           alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: const Text("Sueño, respiración y actividades",
               style: TextStyle(
                   color: Color.fromRGBO(146, 150, 187, 10),
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold)),
+        ),
+        SizedBox(
+          height: 5,
         ),
         Container(
           child: Row(

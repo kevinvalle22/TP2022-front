@@ -21,7 +21,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
     // TODO: implement build
     return Scaffold(
       body: Container(
-        child: Form(
+        child: SafeArea(
           child: Cuerpo(context),
         ),
       ),
@@ -33,7 +33,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Stack(alignment: Alignment.center, children: <Widget>[
+            Stack(children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height * 1,
                 decoration: const BoxDecoration(
@@ -43,10 +43,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
                   ),
                 ),
               ),
-              Positioned(
-                top: 70,
-                width: 420,
-                height: 1000,
+              Container(
                 child: Components(context),
               ),
             ]),
@@ -60,6 +57,9 @@ class _NewAccountPageState extends State<NewAccountPage> {
     return Container(
       child: Column(
         children: <Widget>[
+          SizedBox(
+            height: 15,
+          ),
           Container(
             child: Name(),
           ),
@@ -347,7 +347,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
       child: RaisedButton(
         color: const Color.fromRGBO(146, 150, 187, 10),
         onPressed: () {
-          Navigator.of(context).pushNamed('/home');
+          // Navigator.of(context).pushNamed('/home');
         },
         child: const Text("¿YA TIENES CUENTA? INICIA AHORA",
             style: TextStyle(

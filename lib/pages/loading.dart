@@ -41,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Column(
         children: [
           Stack(
+            alignment: Alignment.center,
             children: [
               Container(
                 height: MediaQuery.of(context).size.height * 1,
@@ -51,22 +52,20 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
               ),
-              Positioned(
-                top: MediaQuery.of(context).size.height / 2 - 150,
-                height: 180,
-                width: 200,
-                left: 110,
-                child: Image.asset('assets/bot.png'),
-              ),
-              // ignore: prefer_const_constructors
-              Positioned(
-                  top: 490,
-                  left: 170,
-                  // ignore: prefer_const_constructors
-                  child: SpinKitCircle(
+              Column(
+                children: [
+                  Container(
+                    width: 180,
+                    height: 180,
+                    child: Image.asset('assets/bot.png'),
+                  ),
+                  Container(
+                      child: SpinKitCircle(
                     size: 100,
-                   color:(Color.fromRGBO(147, 150, 186, 20)),
+                    color: (Color.fromRGBO(147, 150, 186, 20)),
                   ))
+                ],
+              )
             ],
           ),
         ],
