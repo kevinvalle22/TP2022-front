@@ -127,4 +127,52 @@ class DataBaseHelper {
       throw Exception('Failed request');
     }
   }
+
+  Future<List> getSleepsRecords(
+      String urlOption, String userName, String password) async {
+    const urlBase = "https://mental-health-deploy.herokuapp.com/api/users/";
+    final token = await authenticate(userName, password);
+    final strFinal = urlBase + urlOption + "/sleeps";
+    final url = Uri.parse(strFinal);
+
+    http.Response result = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(result.body);
+      final list = jsonResponse['content'];
+      print(list);
+      List listOfSleepRecords =
+          list.map<SleepRecord>((json) => SleepRecord.fromJson(json)).toList();
+      return list;
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<List> getExercises(
+      String urlOption, String userName, String password) async {
+    const urlBase = "https://mental-health-deploy.herokuapp.com/api/users/";
+    final token = await authenticate(userName, password);
+    final strFinal = urlBase + urlOption + "/exercises";
+    final url = Uri.parse(strFinal);
+
+    http.Response result = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(result.body);
+      final list = jsonResponse['content'];
+      print(list);
+      List listOfExercises =
+          list.map<Exercise>((json) => Exercise.fromJson(json)).toList();
+      return list;
+    } else {
+      throw Exception('Failed request');
+    }
+  }
 }

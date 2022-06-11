@@ -103,6 +103,8 @@ class _ScreenFormExercisesState extends State<ScreenFormExercises> {
     int contadorHoras = 0;
     int contadorMinutos = 0;
     init();
+    // si se realizan cambios en el formulario se actualiza el estado
+
     print("El id es: ${widget.idSend}");
     print("El dia es: ${widget.selectedDayString}");
   }

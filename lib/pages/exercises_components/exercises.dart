@@ -27,94 +27,97 @@ class _ExercisesPageState extends State<ExercisesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-            child: Stack(
-          children: <Widget>[
-            Container(
-              child: BackgroundImage('assets/2.jpg'),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  TitleHeader("Ejercicios de respiración "),
-                  H1Label("Ejercicios"),
-                  if (_boxes == true)
-                    Wrap(
-                      children: <Widget>[
-                        for (int i = 0; i < 6; i++)
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+              child: Stack(
+            children: <Widget>[
+              Container(
+                child: BackgroundImage('assets/2.jpg'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    TitleHeader("Ejercicios de respiración "),
+                    H1Label("Ejercicios"),
+                    if (_boxes == true)
+                      Wrap(
+                        children: <Widget>[
+                          for (int i = 0; i < 6; i++)
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _boxes = false;
+                                  });
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color:
+                                            Color.fromRGBO(232, 227, 238, 10),
+                                        borderRadius: BorderRadius.circular(15),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 2,
+                                            blurRadius: 5,
+                                          )
+                                        ]),
+                                    width: 150,
+                                    height: 160,
+                                    child: Center(
+                                        child: Text(exercices[i].toString()))),
+                              ),
+                            )
+                        ],
+                      )
+                    else
+                      Column(
+                        children: [
                           Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _boxes = false;
-                                });
-                              },
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(232, 227, 238, 10),
-                                      borderRadius: BorderRadius.circular(15),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 5,
-                                        )
-                                      ]),
-                                  width: 150,
-                                  height: 160,
-                                  child: Center(
-                                      child: Text(exercices[i].toString()))),
-                            ),
-                          )
-                      ],
-                    )
-                  else
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Color.fromRGBO(232, 227, 238, 10),
+                                    borderRadius: BorderRadius.circular(15),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 5,
+                                      )
+                                    ]),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Text(text),
+                                )),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _boxes = true;
+                              });
+                            },
+                            child: Container(
+                              width: 70,
+                              height: 70,
                               decoration: BoxDecoration(
-                                  color: Color.fromRGBO(232, 227, 238, 10),
-                                  borderRadius: BorderRadius.circular(15),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
-                                    )
-                                  ]),
-                              child: Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(text),
-                              )),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _boxes = true;
-                            });
-                          },
-                          child: Container(
-                            width: 70,
-                            height: 70,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('assets/bot.png'),
+                                image: DecorationImage(
+                                  image: AssetImage('assets/bot.png'),
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                      ],
-                    )
-                ],
+                          )
+                        ],
+                      )
+                  ],
+                ),
               ),
-            ),
-          ],
-        )),
+            ],
+          )),
+        ),
       ),
       bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
     );

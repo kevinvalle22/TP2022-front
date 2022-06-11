@@ -48,7 +48,7 @@ class _RecordExercisesPageState extends State<RecordExercisesPage> {
                             ))
                       ],
                     ),
-                    ContainerLabelExercises()
+                    ContainerLabelExercises(widget.idSend)
                   ],
                 ),
               ),

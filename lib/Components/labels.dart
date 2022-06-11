@@ -4,6 +4,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:tp2022_front/models/SleepRecord.dart';
+import 'package:tp2022_front/pages/profile.dart';
+import 'package:tp2022_front/security/user_secure_storage.dart';
+import 'package:tp2022_front/utils/endpoints.dart';
+
 class TitleHeader extends StatelessWidget {
   String title;
   TitleHeader(
@@ -208,7 +213,17 @@ class ContainerLabel extends StatelessWidget {
   }
 }
 
-class ContainerLabelExercises extends StatelessWidget {
+class ContainerLabelExercises extends StatefulWidget {
+  final String idSend;
+
+  ContainerLabelExercises(this.idSend);
+
+  @override
+  State<ContainerLabelExercises> createState() =>
+      _ContainerLabelExercisesState();
+}
+
+class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
   List<String> hours = [
     "0 horas y 30 minutos",
     "0 horas y 5 minutos",
@@ -216,72 +231,151 @@ class ContainerLabelExercises extends StatelessWidget {
     "0 horas y 10 minutos",
     "0 horas y 5 minutos"
   ];
-  List<String> exercises = ["Salir a correr", "Cardio", "Yoga", "Yoga", "Yoga"];
+
+  List<String> dayOftheWeek = [
+    "Domingo",
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado"
+  ];
+  DataBaseHelper httpHelper = new DataBaseHelper();
+  List<dynamic> exercisesList = [];
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
+
+    exercisesList =
+        await httpHelper.getExercises(widget.idSend, name, password);
+
+    print("sleepList: " + exercisesList.toString());
+    print("first: " + exercisesList[0].toString());
+    print("startDate first: " + exercisesList[0]["exerciseDate"].toString());
+    print("size: " + exercisesList.length.toString());
+    //convert string to int
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (int i = 0; i < 5; i++)
-          Container(
-            width: 400,
-            height: 60,
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.9),
-            padding: EdgeInsets.all(10),
-            margin: EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-                color: Color.fromRGBO(246, 239, 227, 10),
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                  )
-                ]),
-            child: Column(
-              children: [
-                Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      hours[i].toString(),
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(exercises[i].toString()))
-              ],
-            ),
-          )
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          for (int i = 0; i < exercisesList.length; i++)
+            Container(
+              width: 400,
+              height: 60,
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 3.0),
+              padding: EdgeInsets.all(5),
+              margin: EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(246, 239, 227, 10),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                    )
+                  ]),
+              child: Column(
+                children: [
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Duración: " + exercisesList[i]["duration"].toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Fecha: " + exercisesList[i]["exerciseDate"].toString(),
+                      )),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Día de la semana: " +
+                            dayOftheWeek[int.parse(
+                                exercisesList[i]["dayOfTheWeek"].toString())],
+                      )),
+                ],
+              ),
+            )
+        ],
+      ),
     );
   }
 }
 
-class ContainerLabelDreams extends StatelessWidget {
+class ContainerLabelDreams extends StatefulWidget {
+  final String idSend;
+
+  ContainerLabelDreams(this.idSend);
+  @override
+  State<ContainerLabelDreams> createState() => _ContainerLabelDreamsState();
+}
+
+class _ContainerLabelDreamsState extends State<ContainerLabelDreams> {
   List<String> hours = [
     "0 horas y 30 minutos",
     "01 horas y 05 minutos",
     "07 horas y 15 minutos",
   ];
+
   List<String> exercises = [
     "Siesta de la tarde",
     "Siesta de la tarde",
     "Sueño Cotidiano"
   ];
+  DataBaseHelper httpHelper = new DataBaseHelper();
+
+  List<dynamic> sleepList = [];
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
+
+    sleepList =
+        await httpHelper.getSleepsRecords(widget.idSend, name, password);
+
+    print("sleepList: " + sleepList.toString());
+    print("first: " + sleepList[0].toString());
+    print("startDate first: " + sleepList[0]["startDate"].toString());
+    print("size: " + sleepList.length.toString());
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return SingleChildScrollView(
+        child: Column(
       children: [
-        for (int i = 0; i < hours.length; i++)
+        for (int i = 0; i < sleepList.length; i++)
           Container(
             width: 400,
             height: 60,
             constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.9),
-            padding: EdgeInsets.all(10),
+                maxWidth: MediaQuery.of(context).size.width * 3.0),
+            padding: EdgeInsets.all(5),
             margin: EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
                 color: Color.fromRGBO(246, 239, 227, 10),
@@ -294,25 +388,48 @@ class ContainerLabelDreams extends StatelessWidget {
                   )
                 ]),
             child: Column(
+              // ajust el tamaño de la columna
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+
+                  child: Text(
+                    "Dormí un total de: " +
+                        sleepList[i]["duration"].toString() +
+                        " horas",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+
+                  // style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
                 Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      hours[i].toString(),
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      "Me fui a dormir a las: " +
+                          sleepList[i]["startDate"].toString(),
                     )),
                 Container(
                     alignment: Alignment.centerLeft,
-                    child: Text(exercises[i].toString()))
+                    child: Text(
+                      "Me desperté a las: " +
+                          sleepList[i]["endDate"].toString(),
+                    )),
+                // negrita
               ],
             ),
           )
       ],
-    );
+    ));
   }
 }
 
-class ListContainer extends StatelessWidget {
+class ListContainer extends StatefulWidget {
+  @override
+  State<ListContainer> createState() => _ListContainerState();
+}
+
+class _ListContainerState extends State<ListContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(

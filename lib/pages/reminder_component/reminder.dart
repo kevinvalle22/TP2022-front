@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
+import 'package:tp2022_front/pages/reminder_component/calendar.dart';
 import 'package:tp2022_front/pages/test.dart';
 
 //void main() => runApp(ReminderPage());
@@ -17,13 +18,15 @@ class _ReminderPageState extends State<ReminderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(child: Cuerpo()),
+        body: SingleChildScrollView(child: Cuerpo(widget.idSend)),
         bottomNavigationBar: BottomNavigation(idSend: widget.idSend));
   }
 }
 
 class Cuerpo extends StatefulWidget {
-  const Cuerpo({Key? key}) : super(key: key);
+  final String idSend;
+
+  Cuerpo(this.idSend);
 
   @override
   State<Cuerpo> createState() => _CuerpoState();
@@ -50,7 +53,7 @@ class _CuerpoState extends State<Cuerpo> {
               top: 50,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height - 50,
-              child: Components(),
+              child: Components(widget.idSend),
             ),
           ],
         )
@@ -60,7 +63,9 @@ class _CuerpoState extends State<Cuerpo> {
 }
 
 class Components extends StatefulWidget {
-  const Components({Key? key}) : super(key: key);
+  final String idSend;
+
+  Components(this.idSend);
 
   @override
   State<Components> createState() => _ComponentsState();
@@ -76,7 +81,7 @@ class _ComponentsState extends State<Components> {
             child: Header(),
           ),
           Container(
-            child: Body(),
+            child: Body(widget.idSend),
           )
         ],
       ),
@@ -117,7 +122,9 @@ class Header extends StatelessWidget {
 }
 
 class Body extends StatefulWidget {
-  const Body({Key? key}) : super(key: key);
+  final String idSend;
+
+  Body(this.idSend);
 
   @override
   State<Body> createState() => _BodyState();
@@ -161,7 +168,10 @@ class _BodyState extends State<Body> {
               //
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/calendar');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CalendarPage(widget.idSend)));
                 },
                 child: Container(
                   child: ScreenCategories(0, 115, 110),
@@ -170,7 +180,7 @@ class _BodyState extends State<Body> {
               //
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/calendar');
+                  //.push()
                 },
                 child: Container(
                   child: ScreenCategories(1, 115, 110),
@@ -178,7 +188,10 @@ class _BodyState extends State<Body> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/calendar');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CalendarPage(widget.idSend)));
                 },
                 child: Container(
                   child: ScreenCategories(2, 115, 110),
@@ -196,7 +209,10 @@ class _BodyState extends State<Body> {
             children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/calendar');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CalendarPage(widget.idSend)));
                 },
                 child: Container(
                   child: ScreenCategories(3, 115, 110),
@@ -204,7 +220,10 @@ class _BodyState extends State<Body> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/calendar');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CalendarPage(widget.idSend)));
                 },
                 child: Container(
                   child: ScreenCategories(4, 115, 110),
@@ -212,7 +231,10 @@ class _BodyState extends State<Body> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/calendar');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CalendarPage(widget.idSend)));
                 },
                 child: Container(
                   child: ScreenCategories(5, 115, 110),
