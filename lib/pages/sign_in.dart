@@ -222,7 +222,6 @@ class _LoginPageState extends State<LoginPage> {
             print(idSend);
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => HomePage(idSend)));
-
             // print(auth);
           },
           child: const Text(

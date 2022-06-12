@@ -120,6 +120,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             child: IconButton(
               icon: Image.asset('assets/usuario.png'),
               onPressed: () {
+                widget.isTheSameProfile?null:
                 Navigator.push(
                     context,
                     MaterialPageRoute(
