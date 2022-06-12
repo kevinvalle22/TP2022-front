@@ -5,6 +5,7 @@ import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/models/User.dart';
+import 'package:tp2022_front/pages/home.dart';
 import 'package:tp2022_front/security/user_secure_storage.dart';
 import '../utils/endpoints.dart';
 
@@ -47,169 +48,193 @@ class _ProfilePageState extends State<ProfilePage> {
     init();
   }
 
+  Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text("¿Quieres salir de esta sección?"),
+            actions: [
+              ElevatedButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text("No")),
+              ElevatedButton(
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage(widget.idSend))),
+                  child: Text("Si")),
+            ],
+          ));
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-            child: Stack(
-          children: <Widget>[
-            BackgroundImage('assets/7.jpg'),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Mi perfil",
-                        style: TextStyle(
-                            color: Color.fromRGBO(98, 89, 134, 10),
-                            fontSize: 35.0,
-                            fontWeight: FontWeight.bold)),
-                  ),
-
-                  //Avatar y Nombre del Usuario
-
-                  Container(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.9),
-                    padding: EdgeInsets.all(15),
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    decoration: box(),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50.0)),
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 5.0,
-                              )),
-                          child: CircleAvatar(
-                              radius: 40,
-                              backgroundImage: AssetImage('assets/perfil.png')),
-                        ),
-                        Text(
-                          "Emilio Jones",
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showWarning(context);
+        return shouldPop ?? false;
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: SafeArea(
+              child: Stack(
+            children: <Widget>[
+              BackgroundImage('assets/7.jpg'),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Mi perfil",
                           style: TextStyle(
                               color: Color.fromRGBO(98, 89, 134, 10),
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                              fontSize: 35.0,
+                              fontWeight: FontWeight.bold)),
                     ),
-                  ),
 
-                  H1Label("Usuario:"),
-                  Container(
-                    width: 350,
-                    height: 50,
-                    decoration: box(),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        user.userName,
-                        style: style(),
+                    //Avatar y Nombre del Usuario
+
+                    Container(
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.9),
+                      padding: EdgeInsets.all(15),
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      decoration: box(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50.0)),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 5.0,
+                                )),
+                            child: CircleAvatar(
+                                radius: 40,
+                                backgroundImage:
+                                    AssetImage('assets/perfil.png')),
+                          ),
+                          Text(
+                            "Emilio Jones",
+                            style: TextStyle(
+                                color: Color.fromRGBO(98, 89, 134, 10),
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  H1Label("Email:"),
-                  Container(
-                    width: 350,
-                    height: 50,
-                    decoration: box(),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        user.email,
-                        style: style(),
+
+                    H1Label("Usuario:"),
+                    Container(
+                      width: 350,
+                      height: 50,
+                      decoration: box(),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          user.userName,
+                          style: style(),
+                        ),
                       ),
                     ),
-                  ),
-                  H1Label("Número de celular:"),
-                  Container(
-                    width: 350,
-                    height: 50,
-                    decoration: box(),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        user.phone,
-                        style: style(),
+                    H1Label("Email:"),
+                    Container(
+                      width: 350,
+                      height: 50,
+                      decoration: box(),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          user.email,
+                          style: style(),
+                        ),
                       ),
                     ),
-                  ),
-                  H1Label("Contraseña:"),
-                  Container(
-                    width: 350,
-                    height: 50,
-                    decoration: box(),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "*********",
-                        style: style(),
+                    H1Label("Número de celular:"),
+                    Container(
+                      width: 350,
+                      height: 50,
+                      decoration: box(),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          user.phone,
+                          style: style(),
+                        ),
                       ),
                     ),
-                  ),
-                  H1Label("Universidad:"),
-                  Container(
-                    width: 350,
-                    height: 50,
-                    decoration: box(),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        user.university,
-                        style: style(),
+                    H1Label("Contraseña:"),
+                    Container(
+                      width: 350,
+                      height: 50,
+                      decoration: box(),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "*********",
+                          style: style(),
+                        ),
                       ),
                     ),
-                  ),
-                  H1Label("Provincia:"),
-                  Container(
-                    width: 350,
-                    height: 50,
-                    decoration: box(),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        user.province,
-                        style: style(),
+                    H1Label("Universidad:"),
+                    Container(
+                      width: 350,
+                      height: 50,
+                      decoration: box(),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          user.university,
+                          style: style(),
+                        ),
                       ),
                     ),
-                  ),
-                  H1Label("Distrito:"),
-                  Container(
-                    width: 350,
-                    height: 50,
-                    decoration: box(),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        user.district,
-                        style: style(),
+                    H1Label("Provincia:"),
+                    Container(
+                      width: 350,
+                      height: 50,
+                      decoration: box(),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          user.province,
+                          style: style(),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        )),
-      ),
-      bottomNavigationBar: BottomNavigation(
-        isTheSameProfile: true,
-        profileColorIcon: false,
-        idSend: widget.idSend,
+                    H1Label("Distrito:"),
+                    Container(
+                      width: 350,
+                      height: 50,
+                      decoration: box(),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          user.district,
+                          style: style(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )),
+        ),
+        bottomNavigationBar: BottomNavigation(
+          isTheSameProfile: true,
+          profileColorIcon: false,
+          idSend: widget.idSend,
+        ),
       ),
     );
   }

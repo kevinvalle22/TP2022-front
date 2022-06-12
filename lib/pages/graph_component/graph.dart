@@ -8,6 +8,7 @@ import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/chart/subscriber_chart.dart';
 import 'package:tp2022_front/Components/chart/subscriber_series.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:tp2022_front/pages/home.dart';
 
 class GraphPage extends StatefulWidget {
   final String idSend;
@@ -18,138 +19,121 @@ class GraphPage extends StatefulWidget {
 }
 
 class _GraphPageState extends State<GraphPage> {
+  Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text("¿Quieres salir de esta sección?"),
+            actions: [
+              ElevatedButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text("No")),
+              ElevatedButton(
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage(widget.idSend))),
+                  child: Text("Si")),
+            ],
+          ));
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-            child: Stack(
-          children: <Widget>[
-            BackgroundImage('assets/6.jpg'),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Mis Estadísticas",
-                        style: TextStyle(
-                            color: Color.fromRGBO(98, 89, 134, 10),
-                            fontSize: 35.0,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    /*constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width),*/
-                    //padding: EdgeInsets.all(10),
-                    //margin: EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(232, 227, 238, 10),
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                          )
-                        ]),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          CircularPercentIndicator(
-                            animation: true,
-                            radius: 100,
-                            backgroundColor: Color.fromRGBO(165, 109, 139, 10),
-                            progressColor: Color.fromRGBO(236, 181, 210, 10),
-                            startAngle: 80.0,
-                            percent: .6,
-                            lineWidth: 20,
-                            circularStrokeCap: CircularStrokeCap.round,
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                "Hoy has dormido 7 horas",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 19),
-                              ),
-                              Text(
-                                "Te recomendamos dormir un",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17),
-                              ),
-                              Text(
-                                "poco más la próxima vez",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )
-                            ],
-                          )
-                        ],
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showWarning(context);
+        return shouldPop ?? false;
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: SafeArea(
+              child: Stack(
+            children: <Widget>[
+              BackgroundImage('assets/6.jpg'),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Mis Estadísticas",
+                          style: TextStyle(
+                              color: Color.fromRGBO(98, 89, 134, 10),
+                              fontSize: 35.0,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      /*constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width),*/
+                      //padding: EdgeInsets.all(10),
+                      //margin: EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(232, 227, 238, 10),
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                            )
+                          ]),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            CircularPercentIndicator(
+                              animation: true,
+                              radius: 100,
+                              backgroundColor:
+                                  Color.fromRGBO(165, 109, 139, 10),
+                              progressColor: Color.fromRGBO(236, 181, 210, 10),
+                              startAngle: 80.0,
+                              percent: .6,
+                              lineWidth: 20,
+                              circularStrokeCap: CircularStrokeCap.round,
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  "Hoy has dormido 7 horas",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 19),
+                                ),
+                                Text(
+                                  "Te recomendamos dormir un",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
+                                ),
+                                Text(
+                                  "poco más la próxima vez",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Wrap(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Column(
-                            children: [
-                              Text(
-                                "Gráfica de sueño",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Container(
-                                  width: 170,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(15),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 5,
-                                        )
-                                      ]),
-                                  child: Text(
-                                    "Horas de sueño",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(98, 89, 134, 10),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ))
-                            ],
-                          ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Container(
-                            child: Column(
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Wrap(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Column(
                               children: [
                                 Text(
-                                  "Emociones",
+                                  "Gráfica de sueño",
                                   style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 20,
@@ -159,90 +143,131 @@ class _GraphPageState extends State<GraphPage> {
                                   height: 20,
                                 ),
                                 Container(
-                                  width: 170,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(15),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 5,
-                                        )
-                                      ]),
-                                  child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    child: PieChart(
-                                      PieChartData(
-                                          borderData: FlBorderData(
-                                            show: false,
-                                          ),
-                                          sectionsSpace: 0,
-                                          centerSpaceRadius: 0,
-                                          sections: sectionsChart),
-                                    ),
-                                  ),
-                                )
+                                    width: 170,
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(15),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 2,
+                                            blurRadius: 5,
+                                          )
+                                        ]),
+                                    child: Text(
+                                      "Horas de sueño",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(98, 89, 134, 10),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ))
                               ],
                             ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Tiempo de ejercicios",
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            Container(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Emociones",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Container(
+                                    width: 170,
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(15),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 2,
+                                            blurRadius: 5,
+                                          )
+                                        ]),
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      child: PieChart(
+                                        PieChartData(
+                                            borderData: FlBorderData(
+                                              show: false,
+                                            ),
+                                            sectionsSpace: 0,
+                                            centerSpaceRadius: 0,
+                                            sections: sectionsChart),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        )
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 400,
-                    height: 250,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                          )
-                        ]),
-                    child: SfCartesianChart(
-                        primaryXAxis: CategoryAxis(),
-                        primaryYAxis: NumericAxis(),
-                        series: <ChartSeries>[
-                          ColumnSeries<ChartData, String>(
-                              dataSource: getColumnas(),
-                              xValueMapper: (ChartData data, _) => data.x,
-                              yValueMapper: (ChartData data, _) => data.y,
-                              width: 0.8,
-                              spacing: 0.2,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)))
-                        ]),
-                  )
-                ],
-              ),
-            )
-          ],
-        )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Tiempo de ejercicios",
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: 400,
+                      height: 250,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                            )
+                          ]),
+                      child: SfCartesianChart(
+                          primaryXAxis: CategoryAxis(),
+                          primaryYAxis: NumericAxis(),
+                          series: <ChartSeries>[
+                            ColumnSeries<ChartData, String>(
+                                dataSource: getColumnas(),
+                                xValueMapper: (ChartData data, _) => data.x,
+                                yValueMapper: (ChartData data, _) => data.y,
+                                width: 0.8,
+                                spacing: 0.2,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)))
+                          ]),
+                    )
+                  ],
+                ),
+              )
+            ],
+          )),
+        ),
+        bottomNavigationBar: BottomNavigation(
+            isTheSameGraph: true, graphColorIcon: false, idSend: widget.idSend),
       ),
-      bottomNavigationBar: BottomNavigation(
-          isTheSameGraph: true, graphColorIcon: false, idSend: widget.idSend),
     );
   }
 }
