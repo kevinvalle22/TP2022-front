@@ -24,11 +24,11 @@ class ChatBotPage extends StatefulWidget {
 class _ChatBotState extends State<ChatBotPage> {
   void response(query) async {
     AuthGoogle authGoogle = await AuthGoogle(
-            fileJson: "assets/mentalhealth-351303-5e59479258b8.json")
+            fileJson: "assets/jsons/mentalhealth-351303-5e59479258b8.json")
         .build();
 
-    Dialogflow dialogflow =
-        Dialogflow(authGoogle: authGoogle, language: Language.spanish);
+    Dialogflow dialogflow = Dialogflow(
+        authGoogle: authGoogle, language: Language.spanishLatinAmerica);
     AIResponse aiResponse = await dialogflow.detectIntent(query);
     setState(() {
       messsages.insert(0, {
