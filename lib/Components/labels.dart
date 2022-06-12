@@ -272,12 +272,12 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
         children: [
           for (int i = 0; i < exercisesList.length; i++)
             Container(
-              width: 400,
-              height: 60,
+            width: MediaQuery.of(context).size.width*0.9,
+            height: MediaQuery.of(context).size.height/12,
               constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 3.0),
-              padding: EdgeInsets.all(5),
-              margin: EdgeInsets.symmetric(vertical: 10),
+                  maxWidth: MediaQuery.of(context).size.width),
+              padding: EdgeInsets.all(4),
+              margin: EdgeInsets.symmetric(vertical: 8),
               decoration: BoxDecoration(
                   color: Color.fromRGBO(246, 239, 227, 10),
                   borderRadius: BorderRadius.circular(15),
@@ -288,27 +288,30 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
                       blurRadius: 5,
                     )
                   ]),
-              child: Column(
-                children: [
-                  Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Duración: " + exercisesList[i]["duration"].toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Fecha: " + exercisesList[i]["exerciseDate"].toString(),
-                      )),
-                  Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Día de la semana: " +
-                            dayOftheWeek[int.parse(
-                                exercisesList[i]["dayOfTheWeek"].toString())],
-                      )),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                child: Column(
+                  children: [
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Duración: " + exercisesList[i]["duration"].toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Fecha: " + exercisesList[i]["exerciseDate"].toString(),
+                        )),
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Día de la semana: " +
+                              dayOftheWeek[int.parse(
+                                  exercisesList[i]["dayOfTheWeek"].toString())],
+                        )),
+                  ],
+                ),
               ),
             )
         ],
@@ -369,12 +372,12 @@ class _ContainerLabelDreamsState extends State<ContainerLabelDreams> {
       children: [
         for (int i = 0; i < sleepList.length; i++)
           Container(
-            width: 400,
-            height: 60,
+            width: MediaQuery.of(context).size.width*0.9,
+            height: MediaQuery.of(context).size.height/12,
             constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 3.0),
-            padding: EdgeInsets.all(5),
-            margin: EdgeInsets.symmetric(vertical: 10),
+                maxWidth: MediaQuery.of(context).size.width),
+            padding: EdgeInsets.all(4),
+            margin: EdgeInsets.symmetric(vertical: 8),
             decoration: BoxDecoration(
                 color: Color.fromRGBO(246, 239, 227, 10),
                 borderRadius: BorderRadius.circular(15),
@@ -385,36 +388,39 @@ class _ContainerLabelDreamsState extends State<ContainerLabelDreams> {
                     blurRadius: 5,
                   )
                 ]),
-            child: Column(
-              // ajust el tamaño de la columna
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+              child: Column(
+                // ajust el tamaño de la columna
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
 
-                  child: Text(
-                    "Dormí un total de: " +
-                        sleepList[i]["duration"].toString() +
-                        " horas",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    child: Text(
+                      "Dormí un total de: " +
+                          sleepList[i]["duration"].toString() +
+                          " horas",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+
+                    // style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
-
-                  // style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
-                Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Me fui a dormir a las: " +
-                          sleepList[i]["startDate"].toString(),
-                    )),
-                Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Me desperté a las: " +
-                          sleepList[i]["endDate"].toString(),
-                    )),
-                // negrita
-              ],
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Me fui a dormir a las: " +
+                            sleepList[i]["startDate"].toString(),
+                      )),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Me desperté a las: " +
+                            sleepList[i]["endDate"].toString(),
+                      )),
+                  // negrita
+                ],
+              ),
             ),
           )
       ],

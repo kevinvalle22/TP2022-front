@@ -289,8 +289,20 @@ class _ScreenFormExercisesState extends State<ScreenFormExercises> {
                       Exercise exercise = Exercise();
                       var userName = await UserSecureStorage.getUsername();
                       var password = await UserSecureStorage.getPassword();
+                      var horas;
+                      var minutos;
+                      if (contadorHoras < 10) {
+                        horas = "0$contadorHoras";
+                      } else {
+                        horas = "$contadorHoras";
+                      }
+                      if (contadorMinutos < 10) {
+                        minutos = "0$contadorMinutos";
+                      } else {
+                        minutos = "$contadorMinutos";
+                      }
                       exercise.duration =
-                          "$contadorHoras horas y $contadorMinutos minutos";
+                          "$horas horas y $minutos minutos";
                       exercise.exerciseDate = _dateController.text;
                       exercise = await dataBaseHelper.createExercise(
                         widget.idSend,

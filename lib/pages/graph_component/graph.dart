@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ffi';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -9,6 +11,8 @@ import 'package:tp2022_front/Components/chart/subscriber_chart.dart';
 import 'package:tp2022_front/Components/chart/subscriber_series.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:tp2022_front/pages/home.dart';
+import 'package:tp2022_front/security/user_secure_storage.dart';
+import 'package:tp2022_front/utils/endpoints.dart';
 
 class GraphPage extends StatefulWidget {
   final String idSend;
@@ -19,6 +23,15 @@ class GraphPage extends StatefulWidget {
 }
 
 class _GraphPageState extends State<GraphPage> {
+    List<String> dayOftheWeek = [
+    "Domingo",
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado"
+  ];
   Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -35,6 +48,33 @@ class _GraphPageState extends State<GraphPage> {
                   child: Text("Si")),
             ],
           ));
+  late TooltipBehavior _tooltipBehavior;
+  List<dynamic> exercisesList = [];
+  DataBaseHelper httpHelper = new DataBaseHelper();
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
+
+    exercisesList =
+        await httpHelper.getExercises(widget.idSend, name, password);
+
+    print("sleepList: " + exercisesList.toString());
+    print("first: " + exercisesList[0].toString());
+    print("startDate first: " + exercisesList[0]["startDate"].toString());
+    print("size: " + exercisesList.length.toString());
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+    _tooltipBehavior = TooltipBehavior(enable: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -233,7 +273,7 @@ class _GraphPageState extends State<GraphPage> {
                       height: 10,
                     ),
                     Container(
-                      width: 400,
+                      width: 420,
                       height: 250,
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -248,16 +288,21 @@ class _GraphPageState extends State<GraphPage> {
                       child: SfCartesianChart(
                           primaryXAxis: CategoryAxis(),
                           primaryYAxis: NumericAxis(),
+                          tooltipBehavior: _tooltipBehavior,
                           series: <ChartSeries>[
+                            
                             ColumnSeries<ChartData, String>(
                                 dataSource: getColumnas(),
                                 xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y,
-                                width: 0.8,
+                                yValueMapper: (ChartData data, _) => data.y!.toDouble(),
+                                //dataLabelSettings:DataLabelSettings(isVisible: true),
+                                enableTooltip: true,
+                                width: 1,
                                 spacing: 0.2,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(15)))
-                          ]),
+                                    BorderRadius.all(Radius.circular(15))),
+                                
+                          ],),
                     )
                   ],
                 ),
@@ -270,56 +315,71 @@ class _GraphPageState extends State<GraphPage> {
       ),
     );
   }
-}
 
-List<PieChartSectionData> sectionsChart = [
-  PieChartSectionData(
-    value: 25,
-    showTitle: false,
-    badgeWidget: Image.asset(
-      'assets/sentimientos/tristeza.png',
-      fit: BoxFit.cover,
-      width: 40,
-      height: 40,
+  List<PieChartSectionData> sectionsChart = [
+    PieChartSectionData(
+      value: 25,
+      showTitle: false,
+      badgeWidget: Image.asset(
+        'assets/sentimientos/tristeza.png',
+        fit: BoxFit.cover,
+        width: 40,
+        height: 40,
+      ),
+      color: Color.fromRGBO(236, 181, 210, 10),
+      radius: 72,
     ),
-    color: Color.fromRGBO(236, 181, 210, 10),
-    radius: 72,
-  ),
-  PieChartSectionData(
-    value: 60,
-    showTitle: false,
-    badgeWidget: Image.asset(
-      'assets/sentimientos/miedo.png',
-      fit: BoxFit.cover,
-      width: 40,
-      height: 40,
+    PieChartSectionData(
+      value: 60,
+      showTitle: false,
+      badgeWidget: Image.asset(
+        'assets/sentimientos/miedo.png',
+        fit: BoxFit.cover,
+        width: 40,
+        height: 40,
+      ),
+      color: Color.fromRGBO(168, 207, 207, 10),
+      radius: 72,
     ),
-    color: Color.fromRGBO(168, 207, 207, 10),
-    radius: 72,
-  ),
-  PieChartSectionData(
-    value: 15,
-    showTitle: false,
-    badgeWidget: Image.asset('assets/sentimientos/alegria.png',
-        fit: BoxFit.cover, width: 25, height: 25),
-    color: Color.fromRGBO(155, 151, 189, 10),
-    radius: 72,
-  ),
-];
+    PieChartSectionData(
+      value: 15,
+      showTitle: false,
+      badgeWidget: Image.asset('assets/sentimientos/alegria.png',
+          fit: BoxFit.cover, width: 25, height: 25),
+      color: Color.fromRGBO(155, 151, 189, 10),
+      radius: 72,
+    ),
+  ];
+
+  dynamic getColumnas() {
+    exercisesList = <ChartData>[
+      for(int i = exercisesList.length-1; i>1;i--)...[
+        
+        ChartData(dayOftheWeek[int.parse(
+                                  exercisesList[i]["dayOfTheWeek"].toString())],convertToDouble(exercisesList[i]["duration"].toString())),
+                                  //exercisesList[i]["duration"]
+      ]      /*ChartData("Tue", 23),
+      ChartData("Wed", 34),
+      ChartData("Th", 25),
+      ChartData("Fr", 40)*/
+    ];
+    
+    return exercisesList;
+  }
+  String string = "03 horas y 07 minutos";
+  // convertir a numero tipo double hh.mm
+  double convertToDouble(String string) {
+    List<String> list = string.split(" ");
+    double hours = double.parse(list[0]);
+    double minutes = double.parse(list[3]);
+    double total = hours + (minutes / 100);
+    return total;
+  }
+}
 
 class ChartData {
   ChartData(this.x, this.y);
   final String x;
-  final double y;
+  final double? y;
 }
 
-dynamic getColumnas() {
-  List<ChartData> columnData = <ChartData>[
-    ChartData("Mon", 35),
-    ChartData("Tue", 23),
-    ChartData("Wed", 34),
-    ChartData("Th", 25),
-    ChartData("Fr", 40)
-  ];
-  return columnData;
-}

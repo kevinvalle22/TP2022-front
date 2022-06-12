@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  bubble: ^1.1.9+1
+  bubble: ^1.1.9
   wave: ^0.1.0
   dots_indicator: ^2.1.0
   flutter_dialogflow: ^0.1.3
@@ -27,6 +27,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   syncfusion_flutter_charts: ^19.4.50
   carousel_slider: ^4.1.1
+  flutter_dialogflow_v2: ^0.3.2
   
 dev_dependencies:
   flutter_test:

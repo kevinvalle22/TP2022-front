@@ -7,16 +7,6 @@ class ChatBotPage extends StatefulWidget {
   final String idSend;
 
   ChatBotPage(this.idSend);
-
-// This widget is the home page of your application. It is stateful, meaning
-// that it has a State object (defined below) that contains fields that affect
-// how it looks.
-
-// This class is the configuration for the state. It holds the values (in this
-// case the title) provided by the parent (in this case the App widget) and
-// used by the build method of the State. Fields in a Widget subclass are
-// always marked "final".
-
   @override
   _ChatBotState createState() => _ChatBotState();
 }
@@ -40,8 +30,9 @@ class _ChatBotState extends State<ChatBotPage> {
     print(aiResponse.getListMessage()[0]["text"]["text"][0].toString());
   }
 
-  final messageInsert = TextEditingController();
-  List<Map> messsages = [];
+  TextEditingController messageInsert = TextEditingController();
+  //List<Map> messsages = List();
+  final messsages = List<Map>.filled(1, {"data":0,"message":"Buenos Días"}, growable: true);
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +145,7 @@ class _ChatBotState extends State<ChatBotPage> {
                   height: 60,
                   width: 60,
                   child: CircleAvatar(
-                    backgroundImage: AssetImage("assets/robot.jpg"),
+                    backgroundImage: AssetImage("assets/bot.png"),
                   ),
                 )
               : Container(),
@@ -192,7 +183,8 @@ class _ChatBotState extends State<ChatBotPage> {
                   height: 60,
                   width: 60,
                   child: CircleAvatar(
-                    backgroundImage: AssetImage("assets/default.jpg"),
+                    backgroundColor: Colors.grey,
+                    backgroundImage: AssetImage("assets/usuario.png"),
                   ),
                 )
               : Container(),
