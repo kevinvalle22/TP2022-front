@@ -11,6 +11,7 @@ import 'package:tp2022_front/pages/learn_component/learn.dart';
 import 'package:tp2022_front/pages/objective_components/objective.dart';
 import 'package:tp2022_front/pages/positive_reinforcement_component/positive_reinforcement.dart';
 import 'package:tp2022_front/pages/reminder_component/reminder.dart';
+import 'package:tp2022_front/pages/sign_in.dart';
 import 'package:tp2022_front/pages/test.dart';
 
 import '../utils/endpoints.dart';
@@ -26,6 +27,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text("¿Deseas cerrar Sesión?"),
+            actions: [
+              ElevatedButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text("No")),
+              ElevatedButton(
+                  onPressed: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage())),
+                  child: Text("Si")),
+            ],
+          ));
+
   @override
   void initState() {
     super.initState();
@@ -35,12 +51,18 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     print("el id del usuario logeado es el ${widget.idSend}");
     // TODO: implement build
-    return Scaffold(
-      body: SafeArea(child: SingleChildScrollView(child: Cuerpo(context))),
-      bottomNavigationBar: BottomNavigation(
-        isTheSameHome: true,
-        homeColorIcon: false,
-        idSend: widget.idSend,
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showWarning(context);
+        return shouldPop ?? false;
+      },
+      child: Scaffold(
+        body: SafeArea(child: SingleChildScrollView(child: Cuerpo(context))),
+        bottomNavigationBar: BottomNavigation(
+          isTheSameHome: true,
+          homeColorIcon: false,
+          idSend: widget.idSend,
+        ),
       ),
     );
   }
@@ -292,7 +314,9 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(25)),
             ),
           ),
-          SizedBox(height: 5,),
+          SizedBox(
+            height: 5,
+          ),
         ],
       );
     });
@@ -309,7 +333,9 @@ class _HomePageState extends State<HomePage> {
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold)),
         ),
-        SizedBox(height: 5,),
+        SizedBox(
+          height: 5,
+        ),
         Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -427,7 +453,9 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        SizedBox(height: 5,),
+        SizedBox(
+          height: 5,
+        ),
       ],
     );
   }
@@ -443,7 +471,9 @@ class _HomePageState extends State<HomePage> {
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold)),
         ),
-        SizedBox(height: 5,),
+        SizedBox(
+          height: 5,
+        ),
         Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
