@@ -1,8 +1,14 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:tp2022_front/models/Reminder.dart';
+import 'package:tp2022_front/pages/reminder_component/reminder.dart';
+import 'package:tp2022_front/security/user_secure_storage.dart';
 import 'package:tp2022_front/utils/endpoints.dart';
 
 import '../labels.dart';
@@ -20,17 +26,57 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
   int contadorHoras2 = 0;
   int contadorMinutos2 = 0;
   DataBaseHelper dataBaseHelper = DataBaseHelper();
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController message = TextEditingController();
 
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
   // con formato yyyy-MM-dd HH:mm
-  String selectedDayString =
-      DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
+  String selectedDayString = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   late bool _switchValue = true;
   late bool _switchValue2 = false;
+
+  /*List<dynamic> exercisesList = [];
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
+
+    exercisesList =
+        await httpHelper.getExercises(widget.idSend, name, password);
+
+    print("sleepList: " + exercisesList.toString());
+    print("first: " + exercisesList[0].toString());
+    print("startDate first: " + exercisesList[0]["exerciseDate"].toString());
+    print("size: " + exercisesList.length.toString());
+    //convert string to int
+
+    setState(() {});
+  }*/
+  List<dynamic> remindersList = [];
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+
+    remindersList =
+        await dataBaseHelper.getReminders(widget.idSend, name, password);
+    List<String> list = [];
+    /* for (var i = 0; i < remindersList.length; i++) {
+      list.add(remindersList[i]["reminderDate"]);
+    } */
+    print("remindersList: " + list.toString());
+    print(selectedDayString);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +110,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                 setState(() {
                   selectedDay = selectDay;
                   focusedDay = focusDay;
-                  selectedDayString =
-                      DateFormat('yyyy-MM-dd HH:mm').format(focusDay);
+                  selectedDayString = DateFormat('yyyy-MM-dd').format(focusDay);
                   // push a new screen
                 });
                 /* Navigator.push(
@@ -103,22 +148,24 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
             children: [
               H1Label("Lista de Recordatorios"),
               Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(182, 220, 220, 10),
-                    borderRadius: BorderRadius.circular(15),
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(182, 220, 220, 10),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    _bottomSheet(context);
+                  },
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
                   ),
-                  child: GestureDetector(
-                    onTap: () {
-                      _bottomSheet(context);
-                    },
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                  ))
+                ),
+              ),
             ],
           ),
-        )
+        ),
+        RemindersChart(context),
       ],
     );
   }
@@ -133,7 +180,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
             //duration: const Duration(seconds: 1),
             //curve: Curves.easeInOut,
             child: Container(
-              height: MediaQuery.of(context).size.height / 2 + 50,
+              height: MediaQuery.of(context).size.height / 2 + 100,
               padding: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
@@ -177,6 +224,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                       children: <Widget>[
                         Expanded(
                           child: TextField(
+                            controller: message,
                             autofocus: true,
                             decoration: InputDecoration.collapsed(
                                 hintText: "Escribir un Recordatorio"),
@@ -186,7 +234,9 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -274,7 +324,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                       )),
                     ],
                   ),
-                  SizedBox(height:10),
+                  SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Center(
@@ -284,6 +334,43 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                         child: RaisedButton(
                           color: Colors.white,
                           onPressed: () async {
+                            Reminder reminder = Reminder();
+                            var userName =
+                                await UserSecureStorage.getUsername();
+                            var password =
+                                await UserSecureStorage.getPassword();
+                            var horas;
+                            var minutos;
+                            if (contadorHoras < 10) {
+                              horas = "0$contadorHoras";
+                            } else {
+                              horas = "$contadorHoras";
+                            }
+                            if (contadorMinutos < 10) {
+                              minutos = "0$contadorMinutos";
+                            } else {
+                              minutos = "$contadorMinutos";
+                            }
+                            var formato = "$horas:$minutos";
+                            var fecha = new DateFormat("yyyy-MM-dd");
+
+                            reminder.reminderDate =
+                                fecha.format(selectedDay).toString() +
+                                    " $horas:$minutos";
+
+                            print(reminder.reminderDate);
+                            reminder.message = message.text;
+                            print(reminder.message);
+                            reminder = await dataBaseHelper.createAReminder(
+                                widget.idSend,
+                                userName.toString(),
+                                password.toString(),
+                                reminder);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ReminderPage(widget.idSend)));
                             /*if (selectedDayString == "exercises") {
                         Exercise exercise = Exercise();
                         var userName = await UserSecureStorage.getUsername();
@@ -377,111 +464,138 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
   }
 
   Widget RemindersChart(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width - 60,
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)
-          ],
-          color: Color.fromRGBO(226, 238, 239, 10),
-          borderRadius: BorderRadius.circular(9.0)),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Tomar Agua.",
-                  style: TextStyle(fontSize: 18),
-                ),
-                CupertinoSwitch(
-                  value: _switchValue,
-                  onChanged: (value) {
-                    setState(() {
-                      _switchValue = value;
-                    });
-                  },
-                )
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  width: 200,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: myBoxDecoration(),
-                          child: Text("L",
-                              style: TextStyle(
-                                  fontSize: 18, color: Colors.white))),
-                      // ignore: prefer_const_constructors
-                      Text(
-                        "M",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Container(
-                          padding: const EdgeInsets.all(6.0),
-                          decoration: myBoxDecoration(),
-                          child: Text("M",
-                              style: TextStyle(
-                                  fontSize: 18, color: Colors.white))),
-                      Text(
-                        "J",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: myBoxDecoration(),
-                          child: Text("V",
-                              style: TextStyle(
-                                  fontSize: 18, color: Colors.white))),
-                      Text(
-                        "S",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: myBoxDecoration(),
-                          child: Text("D",
-                              style: TextStyle(
-                                  fontSize: 18, color: Colors.white))),
+    List<String> hours = [];
+    List<String> minutes = [];
+    // get the hour and minute of the reminder of reminderDate HH:MM
+    for (int i = 0; i < remindersList.length; i++) {
+      hours.add(remindersList[i]['reminderDate'].substring(11, 13));
+      minutes.add(remindersList[i]['reminderDate'].substring(14, 16));
+    }
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          for (int i = 0; i < remindersList.length; i++)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width - 60,
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black.withOpacity(.1), blurRadius: 3)
                     ],
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: timeBoxDecoration(),
-                  child: Row(
+                    color: Color.fromRGBO(226, 238, 239, 10),
+                    borderRadius: BorderRadius.circular(9.0)),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
                     children: <Widget>[
-                      Text(
-                        "05:15 AM",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              remindersList[i]['message'],
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          CupertinoSwitch(
+                            value: _switchValue,
+                            onChanged: (value) {
+                              setState(() {
+                                _switchValue = value;
+                              });
+                            },
+                          )
+                        ],
                       ),
                       SizedBox(
-                        width: 5,
+                        height: 10,
                       ),
-                      Icon(
-                        Icons.timer,
-                        color: Colors.white,
-                        size: 20,
-                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            width: 200,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                    padding: const EdgeInsets.all(8.0),
+                                    decoration: myBoxDecoration(),
+                                    child: Text("L",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white))),
+                                // ignore: prefer_const_constructors
+                                Text(
+                                  "M",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Container(
+                                    padding: const EdgeInsets.all(6.0),
+                                    decoration: myBoxDecoration(),
+                                    child: Text("M",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white))),
+                                Text(
+                                  "J",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Container(
+                                    padding: const EdgeInsets.all(8.0),
+                                    decoration: myBoxDecoration(),
+                                    child: Text("V",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white))),
+                                Text(
+                                  "S",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Container(
+                                    padding: const EdgeInsets.all(8.0),
+                                    decoration: myBoxDecoration(),
+                                    child: Text("D",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white))),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: timeBoxDecoration(),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  // get the hour and minute
+
+                                  hours[i] + ":" + minutes[i] + " horas",
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.white),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Icon(
+                                  Icons.timer,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      )
                     ],
                   ),
-                )
-              ],
-            )
-          ],
-        ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

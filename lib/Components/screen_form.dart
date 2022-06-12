@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/models/Exercise.dart';
 import 'package:tp2022_front/models/SleepRecord.dart';
+import 'package:tp2022_front/pages/dream_component/dream_register.dart';
+import 'package:tp2022_front/pages/exercises_components/record_exercises.dart';
 import 'package:tp2022_front/security/user_secure_storage.dart';
 import 'package:tp2022_front/utils/endpoints.dart';
 
@@ -296,6 +298,11 @@ class _ScreenFormExercisesState extends State<ScreenFormExercises> {
                         password.toString(),
                         exercise,
                       );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  RecordExercisesPage(widget.idSend)));
                     } else if (widget.selectedDayString == "dream") {
                       SleepRecord sleepRecord = SleepRecord();
                       var userName = await UserSecureStorage.getUsername();
@@ -328,9 +335,12 @@ class _ScreenFormExercisesState extends State<ScreenFormExercises> {
                         password.toString(),
                         sleepRecord,
                       );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DreamRecordsPage(widget.idSend)));
                     }
-
-                    Navigator.pop(context);
                   },
                   child: Text(widget.button,
                       style: TextStyle(

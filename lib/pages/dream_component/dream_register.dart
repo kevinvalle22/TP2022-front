@@ -48,7 +48,7 @@ class _DreamRecordsPageState extends State<DreamRecordsPage> {
                             ))
                       ],
                     ),
-                    ContainerLabelDreams()
+                    ContainerLabelDreams(widget.idSend)
                   ],
                 ),
               ),
