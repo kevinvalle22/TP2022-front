@@ -1,293 +1,202 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
-import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
-import 'package:tp2022_front/pages/home.dart';
+import 'package:flutter_dialogflow/dialogflow_v2.dart';
+import 'package:intl/intl.dart';
 
 class ChatBotPage extends StatefulWidget {
   final String idSend;
 
   ChatBotPage(this.idSend);
 
+// This widget is the home page of your application. It is stateful, meaning
+// that it has a State object (defined below) that contains fields that affect
+// how it looks.
+
+// This class is the configuration for the state. It holds the values (in this
+// case the title) provided by the parent (in this case the App widget) and
+// used by the build method of the State. Fields in a Widget subclass are
+// always marked "final".
+
   @override
-  State<ChatBotPage> createState() => _ChatBotPageState();
+  _ChatBotState createState() => _ChatBotState();
 }
 
-class _ChatBotPageState extends State<ChatBotPage> {
-  Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: Text("¿Quieres salir de esta sección?"),
-            actions: [
-              ElevatedButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: Text("No")),
-              ElevatedButton(
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomePage(widget.idSend))),
-                  child: Text("Si")),
-            ],
-          ));
+class _ChatBotState extends State<ChatBotPage> {
+  void response(query) async {
+    AuthGoogle authGoogle = await AuthGoogle(
+            fileJson: "assets/mentalhealth-351303-5e59479258b8.json")
+        .build();
+
+    Dialogflow dialogflow =
+        Dialogflow(authGoogle: authGoogle, language: Language.spanish);
+    AIResponse aiResponse = await dialogflow.detectIntent(query);
+    setState(() {
+      messsages.insert(0, {
+        "data": 0,
+        "message": aiResponse.getListMessage()[0]["text"]["text"][0].toString()
+      });
+    });
+
+    print(aiResponse.getListMessage()[0]["text"]["text"][0].toString());
+  }
+
+  final messageInsert = TextEditingController();
+  List<Map> messsages = [];
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        final shouldPop = await showWarning(context);
-        return shouldPop ?? false;
-      },
-      child: Scaffold(
-        body: SafeArea(
-          child: Container(
-            child: Stack(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 1,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage('assets/7.jpg'),
-                    ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Chat bot",
+        ),
+      ),
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 15, bottom: 10),
+              child: Text(
+                "Today, ${DateFormat("Hm").format(DateTime.now())}",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            Flexible(
+                child: ListView.builder(
+                    reverse: true,
+                    itemCount: messsages.length,
+                    itemBuilder: (context, index) => chat(
+                        messsages[index]["message"].toString(),
+                        messsages[index]["data"]))),
+            SizedBox(
+              height: 20,
+            ),
+            Divider(
+              height: 5.0,
+              color: Colors.greenAccent,
+            ),
+            Container(
+              child: ListTile(
+                leading: IconButton(
+                  onPressed: () => {},
+                  icon: Icon(
+                    Icons.camera_alt,
+                    color: Colors.greenAccent,
+                    size: 35,
                   ),
                 ),
-                Column(
-                  children: <Widget>[
-                    Column(
-                      children: [
-                        Text("ChatBot",
-                            style: TextStyle(
-                                color: Color.fromRGBO(67, 58, 108, 10),
-                                fontSize: 35.0,
-                                fontWeight: FontWeight.bold)),
-                        Divider(
-                          color: Color.fromRGBO(146, 150, 187, 10),
-                          thickness: 1,
-                        )
-                      ],
+                title: Container(
+                  height: 35,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    color: Color.fromRGBO(220, 220, 220, 1),
+                  ),
+                  padding: EdgeInsets.only(left: 15),
+                  child: TextFormField(
+                    controller: messageInsert,
+                    decoration: InputDecoration(
+                      hintText: "Enter a Message...",
+                      hintStyle: TextStyle(color: Colors.black26),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: <Widget>[
-                            Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
-                                                spreadRadius: 2,
-                                                blurRadius: 5,
-                                              )
-                                            ]),
-                                        child: CircleAvatar(
-                                            radius: 15,
-                                            backgroundImage:
-                                                AssetImage('assets/bot.png')),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Container(
-                                        constraints: BoxConstraints(
-                                            maxWidth: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.8),
-                                        padding: EdgeInsets.all(10),
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 10),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
-                                                spreadRadius: 2,
-                                                blurRadius: 5,
-                                              )
-                                            ]),
-                                        child: Text(
-                                            "¡Hola! Soy tu asistente virtual que te ayudará a realizar los test de ansiedad y tristeza, ¿Con cuál te gustaría empezar?"),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        child: Container(
-                                          constraints: BoxConstraints(
-                                              maxWidth: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.8),
-                                          padding: EdgeInsets.all(10),
-                                          margin: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 5,
-                                                )
-                                              ]),
-                                          child: Text("Test de Ansiedad"),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 2,
-                                              blurRadius: 5,
-                                            )
-                                          ]),
-                                      child: CircleAvatar(
-                                          radius: 15,
-                                          backgroundImage:
-                                              AssetImage('assets/perfil.png')),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
-                                                spreadRadius: 2,
-                                                blurRadius: 5,
-                                              )
-                                            ]),
-                                        child: CircleAvatar(
-                                            radius: 15,
-                                            backgroundImage:
-                                                AssetImage('assets/bot.png')),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Container(
-                                        constraints: BoxConstraints(
-                                            maxWidth: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.8),
-                                        padding: EdgeInsets.all(10),
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 10),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
-                                                spreadRadius: 2,
-                                                blurRadius: 5,
-                                              )
-                                            ]),
-                                        child: Text(
-                                            "¡Genial! Empezaré con las preguntas de poco a poco, ¿Vale?"),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        height: 70,
-                        //color: Colors.white,
-                        decoration: BoxDecoration(
-                            color: Color.fromRGBO(245, 242, 250, 10),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                              )
-                            ]),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TextField(
-                                decoration: InputDecoration.collapsed(
-                                    hintText: "Escribir aquí..."),
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                              ),
-                            ),
-                            Container(
-                                //color: Colors.red,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Color.fromRGBO(147, 150, 186, 10)),
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.send,
-                                      color: Colors.white,
-                                    )))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    onChanged: (value) {},
+                  ),
                 ),
-              ],
+                trailing: IconButton(
+                    icon: Icon(
+                      Icons.send,
+                      size: 30.0,
+                      color: Colors.greenAccent,
+                    ),
+                    onPressed: () {
+                      if (messageInsert.text.isEmpty) {
+                        print("empty message");
+                      } else {
+                        setState(() {
+                          messsages.insert(
+                              0, {"data": 1, "message": messageInsert.text});
+                        });
+                        response(messageInsert.text);
+                        messageInsert.clear();
+                      }
+                      FocusScopeNode currentFocus = FocusScope.of(context);
+                      if (!currentFocus.hasPrimaryFocus) {
+                        currentFocus.unfocus();
+                      }
+                    }),
+              ),
             ),
+            SizedBox(
+              height: 15.0,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  //for better one i have use the bubble package check out the pubspec.yaml
+
+  Widget chat(String message, int data) {
+    return Container(
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: Row(
+        mainAxisAlignment:
+            data == 1 ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: [
+          data == 0
+              ? Container(
+                  height: 60,
+                  width: 60,
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage("assets/robot.jpg"),
+                  ),
+                )
+              : Container(),
+          Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Bubble(
+                radius: Radius.circular(15.0),
+                color: data == 0
+                    ? Color.fromRGBO(23, 157, 139, 1)
+                    : Colors.orangeAccent,
+                elevation: 0.0,
+                child: Padding(
+                  padding: EdgeInsets.all(2.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Flexible(
+                          child: Container(
+                        constraints: BoxConstraints(maxWidth: 200),
+                        child: Text(
+                          message,
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ))
+                    ],
+                  ),
+                )),
           ),
-        ),
-        bottomNavigationBar: BottomNavigation(
-          isTheSameBot: true,
-          botColorIcon: false,
-          idSend: widget.idSend,
-        ),
+          data == 1
+              ? Container(
+                  height: 60,
+                  width: 60,
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage("assets/default.jpg"),
+                  ),
+                )
+              : Container(),
+        ],
       ),
     );
   }
