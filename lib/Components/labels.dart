@@ -272,10 +272,10 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
         children: [
           for (int i = 0; i < exercisesList.length; i++)
             Container(
-            width: MediaQuery.of(context).size.width*0.9,
-            height: MediaQuery.of(context).size.height/12,
-              constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width),
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height / 10,
+              constraints:
+                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
               padding: EdgeInsets.all(4),
               margin: EdgeInsets.symmetric(vertical: 8),
               decoration: BoxDecoration(
@@ -289,19 +289,22 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
                     )
                   ]),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: Column(
                   children: [
                     Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Duración: " + exercisesList[i]["duration"].toString(),
+                          "Duración: " +
+                              exercisesList[i]["duration"].toString(),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
                     Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Fecha: " + exercisesList[i]["exerciseDate"].toString(),
+                          "Fecha: " +
+                              exercisesList[i]["exerciseDate"].toString(),
                         )),
                     Container(
                         alignment: Alignment.centerLeft,
@@ -372,12 +375,12 @@ class _ContainerLabelDreamsState extends State<ContainerLabelDreams> {
       children: [
         for (int i = 0; i < sleepList.length; i++)
           Container(
-            width: MediaQuery.of(context).size.width*0.9,
-            height: MediaQuery.of(context).size.height/12,
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width),
-            padding: EdgeInsets.all(4),
-            margin: EdgeInsets.symmetric(vertical: 8),
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height / 10,
+            constraints:
+                BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+            padding: EdgeInsets.all(2),
+            margin: EdgeInsets.symmetric(vertical: 1),
             decoration: BoxDecoration(
                 color: Color.fromRGBO(246, 239, 227, 10),
                 borderRadius: BorderRadius.circular(15),
@@ -389,7 +392,7 @@ class _ContainerLabelDreamsState extends State<ContainerLabelDreams> {
                   )
                 ]),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: Column(
                 // ajust el tamaño de la columna
                 crossAxisAlignment: CrossAxisAlignment.stretch,

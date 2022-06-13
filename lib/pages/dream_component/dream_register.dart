@@ -14,6 +14,16 @@ class DreamRecordsPage extends StatefulWidget {
 }
 
 class _DreamRecordsPageState extends State<DreamRecordsPage> {
+  String string = "03 horas y 07 minutos";
+  // convertir a numero tipo double hh.mm
+  double convertToDouble(String string) {
+    List<String> list = string.split(" ");
+    double hours = double.parse(list[0]);
+    double minutes = double.parse(list[3]);
+    double total = hours + (minutes / 100);
+    return total;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
