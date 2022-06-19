@@ -225,14 +225,14 @@ class _GraphPageState extends State<GraphPage> {
                                             blurRadius: 5,
                                           )
                                         ]),
-                                    child: Text(
-                                      "Horas de sueño",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(98, 89, 134, 10),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              'assets/graficas/sueño.png'),
+                                        ),
+                                      ),
                                     ))
                               ],
                             ),
@@ -283,32 +283,29 @@ class _GraphPageState extends State<GraphPage> {
                                     height: 20,
                                   ),
                                   Container(
-                                    width: 170,
-                                    height: 200,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(15),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 2,
-                                            blurRadius: 5,
-                                          )
-                                        ]),
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      child: PieChart(
-                                        PieChartData(
-                                            borderData: FlBorderData(
-                                              show: false,
-                                            ),
-                                            sectionsSpace: 0,
-                                            centerSpaceRadius: 0,
-                                            sections: sectionsChart),
-                                      ),
-                                    ),
-                                  )
+                                      width: 170,
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 2,
+                                              blurRadius: 5,
+                                            )
+                                          ]),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/graficas/emociones.png'),
+                                          ),
+                                        ),
+                                      ))
                                 ],
                               ),
                             )
@@ -359,48 +356,27 @@ class _GraphPageState extends State<GraphPage> {
                       height: 10,
                     ),
                     Container(
-                      width: 420,
-                      height: 250,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                            )
-                          ]),
-                      child: SfCartesianChart(
-                        primaryXAxis: CategoryAxis(),
-                        primaryYAxis: NumericAxis(),
-                        //tooltipBehavior: _tooltipBehavior,
-                        series: <ChartSeries>[
-                          ColumnSeries<ChartData, String>(
-                              dataSource: getColumnas(),
-                              xValueMapper: (ChartData data, _) => data.x,
-                              yValueMapper: (ChartData data, _) =>
-                                  data.y!.toDouble(),
-                              pointColorMapper: (ChartData data, _) =>
-                                  data.pointColorMapper,
-                              dataLabelMapper: (ChartData data, _) =>
-                                  data.y!.toStringAsFixed(1).toString() +
-                                  (" ") +
-                                  ("h"),
-                              dataLabelSettings: DataLabelSettings(
-                                  isVisible: true,
-                                  labelAlignment:
-                                      ChartDataLabelAlignment.middle,
-                                  textStyle:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                              //enableTooltip: true,
-                              width: 1,
-                              spacing: 0.2,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
-                        ],
-                      ),
-                    )
+                        width: 420,
+                        height: 250,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                              )
+                            ]),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image:
+                                  AssetImage('assets/graficas/ejercicio.png'),
+                            ),
+                          ),
+                        ))
                   ],
                 ),
               )
@@ -411,69 +387,5 @@ class _GraphPageState extends State<GraphPage> {
             isTheSameGraph: true, graphColorIcon: false, idSend: widget.idSend),
       ),
     );
-  }
-
-  List<PieChartSectionData> sectionsChart = [
-    PieChartSectionData(
-      value: 25,
-      showTitle: false,
-      badgeWidget: Image.asset(
-        'assets/sentimientos/tristeza.png',
-        fit: BoxFit.cover,
-        width: 40,
-        height: 40,
-      ),
-      color: Color.fromRGBO(236, 181, 210, 10),
-      radius: 72,
-    ),
-    PieChartSectionData(
-      value: 60,
-      showTitle: false,
-      badgeWidget: Image.asset(
-        'assets/sentimientos/miedo.png',
-        fit: BoxFit.cover,
-        width: 40,
-        height: 40,
-      ),
-      color: Color.fromRGBO(168, 207, 207, 10),
-      radius: 72,
-    ),
-    PieChartSectionData(
-      value: 15,
-      showTitle: false,
-      badgeWidget: Image.asset('assets/sentimientos/alegria.png',
-          fit: BoxFit.cover, width: 25, height: 25),
-      color: Color.fromRGBO(155, 151, 189, 10),
-      radius: 72,
-    ),
-  ];
-
-  dynamic getColumnas() {
-    var lists;
-    lists = <ChartData>[
-      for (int i = 0; i < exercisesList.length - 1; i++) ...[
-        ChartData(
-            exercisesList[i]["dayOfTheWeek"].toString(),
-            convertToDouble(exercisesList[i]["duration"].toString()),
-            Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                .withOpacity(1.0)),
-        //exercisesList[i]["duration"]
-      ] /*ChartData("Tue", 23),
-      ChartData("Wed", 34),
-      ChartData("Th", 25),
-      ChartData("Fr", 40)*/
-    ];
-
-    return lists;
-  }
-
-  String string = "03 horas y 07 minutos";
-  // convertir a numero tipo double hh.mm
-  double convertToDouble(String string) {
-    // convertir a numero tipo double un String ejemplo "2"
-    double number = double.parse(string.split(" ")[0]);
-    // convertir a numero tipo double un String ejemplo "2"
-
-    return number;
   }
 }

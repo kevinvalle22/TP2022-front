@@ -303,7 +303,7 @@ class _ScreenFormExercisesState extends State<ScreenFormExercises> {
                       }
                       exercise.duration =
                           "$horas horas y $minutos minutos";
-                      exercise.exerciseDate = _dateController.text;
+                      //exercise.exerciseDate = _dateController.text;
                       exercise = await dataBaseHelper.createExercise(
                         widget.idSend,
                         userName.toString(),

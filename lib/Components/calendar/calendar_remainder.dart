@@ -497,11 +497,11 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
       hours.add(remindersList[i]['reminderDate'].substring(11, 13));
       minutes.add(remindersList[i]['reminderDate'].substring(14, 16));
       // formato de fecha en español
-      date.add(DateFormat("EEEE MMM dd, yyyy").format(
+      date.add(DateFormat("EEEE MMM dd yyyy").format(
           DateTime.parse(remindersList[i]['reminderDate'].substring(0, 10))));
       // formato de fecha en ingles de dias
       date = date.map((e) => e.replaceAll("Monday", "Lunes")).toList();
-      date = date.map((e) => e.replaceAll("Tuesday", "Martes")).toList();
+      date = date.map((e) => e.replaceAll("Tuesday", "martes")).toList();
       date = date.map((e) => e.replaceAll("Wednesday", "Miercoles")).toList();
       date = date.map((e) => e.replaceAll("Thursday", "Jueves")).toList();
       date = date.map((e) => e.replaceAll("Friday", "Viernes")).toList();
@@ -510,7 +510,19 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
 
       //reemplazar los meses abreviados a los meses completos en español con split
       //enero
-      //date = date.map((e) => e.replaceAll("Jun", "June")).toList();
+      //replace june with junio avoid repetition of the word 
+      date = date.map((e) => e.replaceAll("Jan", "enero")).toList();
+      date = date.map((e) => e.replaceAll("Feb", "febrero")).toList();
+      date = date.map((e) => e.replaceAll("Mar", "marzo")).toList();
+      date = date.map((e) => e.replaceAll("Apr", "abril")).toList();
+      date = date.map((e) => e.replaceAll("May", "mayo")).toList();
+      date = date.map((e) => e.replaceAll("Jun", "junio")).toList();
+      date = date.map((e) => e.replaceAll("Jul", "julio")).toList();
+      date = date.map((e) => e.replaceAll("Aug", "agosto")).toList();
+      date = date.map((e) => e.replaceAll("Sep", "septiembre")).toList();
+      date = date.map((e) => e.replaceAll("Oct", "octubre")).toList();
+      date = date.map((e) => e.replaceAll("Nov", "noviembre")).toList();
+      date = date.map((e) => e.replaceAll("Dec", "diciembre")).toList();
     }
     return SingleChildScrollView(
       child: Column(
@@ -585,10 +597,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Container(
-                            width: 200,
+                            width: MediaQuery.of(context).size.width * 0.5,
                             child: Text(
-                              // split the date to get the day, month and year
-
                               date[i].split(" ")[0] +
                                   " " +
                                   //number of the day

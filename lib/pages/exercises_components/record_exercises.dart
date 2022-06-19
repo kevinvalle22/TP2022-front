@@ -6,6 +6,8 @@ import 'package:tp2022_front/Components/calendar/calendar_exercises.dart';
 import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/Components/screen_form.dart';
 
+import '../home.dart';
+
 class RecordExercisesPage extends StatefulWidget {
   final String idSend;
 
@@ -15,32 +17,53 @@ class RecordExercisesPage extends StatefulWidget {
 }
 
 class _RecordExercisesPageState extends State<RecordExercisesPage> {
+  Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text("¿Quieres salir al menú principal?"),
+            actions: [
+              ElevatedButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text("No")),
+              ElevatedButton(
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage(widget.idSend))),
+                  child: Text("Si")),
+            ],
+          ));
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-              child: Stack(
-            children: <Widget>[
-              Container(child: BackgroundImage('assets/7.jpg')),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: <Widget>[
-                    TitleHeader("Ejercicios físicos"),
-                    CalendarExercises(widget.idSend),
-                    ContainerLabelExercises(widget.idSend)
-                  ],
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showWarning(context);
+        return shouldPop ?? false;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+                child: Stack(
+              children: <Widget>[
+                Container(child: BackgroundImage('assets/7.jpg')),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: <Widget>[
+                      TitleHeader("Ejercicios físicos"),
+                      CalendarExercises(widget.idSend),
+                      ContainerLabelExercises(widget.idSend)
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          )),
+              ],
+            )),
+          ),
         ),
+        bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
       ),
-      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
     );
   }
-
-
 }

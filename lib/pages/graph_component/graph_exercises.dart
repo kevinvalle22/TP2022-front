@@ -226,24 +226,24 @@ class _GraphExercisesPageState extends State<GraphExercisesPage> {
   ];
 
   dynamic getColumnas() {
-    exercisesList = <ChartData>[
-      for (int i = exercisesList.length; i > 1; i--) ...[
+    var data;
+    data = <ChartData>[
+      for (int i = 0; i < exercisesList.length; i++) ...[
         ChartData(
-            exercisesList[i]["dayOfTheWeek"],
+            exercisesList[i]["dayOfTheWeek"].toString(),
             convertToDouble(exercisesList[i]["duration"].toString()),
             Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                .withOpacity(1.0)),
+                .withOpacity(1.0)), 
         //exercisesList[i]["duration"]
       ] /*ChartData("Tue", 23),
       ChartData("Wed", 34),
       ChartData("Th", 25),
       ChartData("Fr", 40)*/
     ];
-
-    return exercisesList;
+    return data;
   }
 
-  String string = "03 horas y 07 minutos";
+  String string = "03";
   double convertToDouble(String string) {
     // convertir a numero tipo double un String ejemplo "2"
     double number = double.parse(string.split(" ")[0]);

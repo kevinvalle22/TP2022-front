@@ -29,6 +29,9 @@ dependencies:
   carousel_slider: ^4.1.1
   flutter_dialogflow_v2: ^0.3.2
   rflutter_alert: ^2.0.4
+  flutter_image_slideshow: ^0.1.2
+  flutter_dialpad: ^1.0.4
+  flutter_phone_direct_caller: ^1.0.1
   
 dev_dependencies:
   flutter_test:
@@ -44,4 +47,7 @@ flutter:
     - assets/perfil.png
     - assets/sentimientos/
     - assets/ilustraciones/
+    - assets/inicio/
+    - assets/graficas/
+    - assets/pantallas/
     - assets/jsons/mentalhealth-351303-5e59479258b8.json

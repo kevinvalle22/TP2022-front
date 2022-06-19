@@ -11,6 +11,7 @@ class SleepRecord {
     this.startDate = '',
     this.endDate = '',
     this.duration = '',
+    this.dayOfTheWeek = '',
   });
   //constructor
 
@@ -18,12 +19,14 @@ class SleepRecord {
   String startDate;
   String endDate;
   String duration;
+  String dayOfTheWeek;
 
   factory SleepRecord.fromJson(Map<String, dynamic> json) => SleepRecord(
         id: json["id"],
         startDate: json["startDate"],
         endDate: json["endDate"],
         duration: json["duration"],
+        dayOfTheWeek: json["dayOfTheWeek"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -31,5 +34,6 @@ class SleepRecord {
         "startDate": startDate,
         "endDate": endDate,
         "duration": duration,
+        "dayOfTheWeek": dayOfTheWeek,
       };
 }

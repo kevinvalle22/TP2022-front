@@ -7,6 +7,7 @@ import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/pages/home.dart';
+import 'package:tp2022_front/pages/learn_component/second_tip/second_tip.dart';
 
 final tips = [
   '¿Qué es CBT?',
@@ -24,6 +25,7 @@ final tips2 = [
   '¿Cómo establecer objetivos smart?',
   '¿las afirmaciones realmente me ayudan?',
 ];
+int a = 0;
 String text =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex.";
 
@@ -76,18 +78,95 @@ class _LearnPageState extends State<LearnPage> {
                       Column(
                         children: [
                           H1Label("Recomendaciones para ti"),
-                          CarouselSlider.builder(
+                          CarouselSlider(
+                            items: [
+                              for (int i = 0; i < tips.length; i++)
+                                GestureDetector(
+                                  onTap: () {
+                                    if (tips[0] == tips[i]) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MentalHealthPages(
+                                                    widget.idSend,
+                                                  )));
+                                    } else if (tips[1] == tips[i]) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MentalHealthPages(
+                                                    widget.idSend,
+                                                  )));
+                                    }
+                                    else if (tips[2] == tips[i]) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MentalHealthPages(
+                                                    widget.idSend,
+                                                  )));
+                                    }
+                                    else if (tips[3] == tips[i]) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MentalHealthPages(
+                                                    widget.idSend,
+                                                  )));
+                                    }
+                                    else if (tips[4] == tips[i]) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MentalHealthPages(
+                                                    widget.idSend,
+                                                  )));
+                                    }
+                                    else if (tips[5] == tips[i]) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MentalHealthPages(
+                                                    widget.idSend,
+                                                  )));
+                                    }
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(232, 227, 238, 10),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 2,
+                                              blurRadius: 5,
+                                            )
+                                          ]),
+                                      width: 200,
+                                      child: Center(
+                                          child: Text(
+                                        tips[i],
+                                        textAlign: TextAlign.center,
+                                      ))),
+                                ),
+                            ],
                             options: CarouselOptions(
-                                height: 160,
-                                enableInfiniteScroll: false,
-                                viewportFraction: .6,
-                                disableCenter: false,
-                                initialPage: 0),
-                            itemCount: tips.length,
-                            itemBuilder: (context, index, realIndex) {
-                              final tip = tips[index];
-                              return buildContainer(tip, index, context);
-                            },
+                              height: 200,
+                              autoPlay: true,
+                              enlargeCenterPage: true,
+                              autoPlayInterval: Duration(seconds: 5),
+                              autoPlayCurve: Curves.easeInOut,
+                              scrollDirection: Axis.horizontal,
+                            ),
                           ),
                           SizedBox(
                             height: 10,
@@ -103,28 +182,32 @@ class _LearnPageState extends State<LearnPage> {
                           Wrap(
                             alignment: WrapAlignment.spaceEvenly,
                             children: [
-                              for(int i = 0;i<tips2.length;i++)
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(232, 227, 238, 10),
-                                        borderRadius: BorderRadius.circular(15),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 2,
-                                            blurRadius: 5,
-                                          )
-                                        ]),
-                                    height: 120,
-                                    width: MediaQuery.of(context).size.width / 3.7,
-                                    child: Center(
-                                        child: Text(
-                                      tips2[i].toString(),
-                                      textAlign: TextAlign.center,
-                                    ))),
-                              ),
+                              for (int i = 0; i < tips2.length; i++)
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(232, 227, 238, 10),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 2,
+                                              blurRadius: 5,
+                                            )
+                                          ]),
+                                      height: 120,
+                                      width: MediaQuery.of(context).size.width /
+                                          3.7,
+                                      child: Center(
+                                          child: Text(
+                                        tips2[i].toString(),
+                                        textAlign: TextAlign.center,
+                                      ))),
+                                ),
                             ],
                           )
                         ],
@@ -145,32 +228,6 @@ class _LearnPageState extends State<LearnPage> {
     );
   }
 
-  Widget buildContainer(String tip, int index, BuildContext context) =>
-      GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Container1(widget.idSend)));
-        },
-        child: Container(
-            decoration: BoxDecoration(
-                color: Color.fromRGBO(232, 227, 238, 10),
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                  )
-                ]),
-            width: 200,
-            child: Center(
-                child: Text(
-              tips[index].toString(),
-              textAlign: TextAlign.center,
-            ))),
-      );
   Widget Psicologia(String texto) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,

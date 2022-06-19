@@ -31,38 +31,49 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
               Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 10,
+                    height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   TitleHeader("Nuevo Objetivo"),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: <Widget>[
-                            H1Label("Objetivo"),
-                            InputLabel(
-                                "Escribir objetivo ...", _dateController),
-                            H1Label("Tipo de Objetivo"),
-                            TagsLabelObjective(),
-                            H1Label("Plan de Acción"),
-                            Container(
-                              child: InputLabell(
-                                "¿Cuál será tu primer paso?",
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.05),
+                      child: Column(
+                        children: <Widget>[
+                          H1Label("Objetivo"),
+                          InputLabell("Escribir objetivo ...",),
+                          H1Label("Tipo de Objetivo"),
+                          TagsLabelObjective(),
+                          H1Label("Plan de Acción"),
+                          Container(
+                            child: InputLabell(
+                              "¿Cuál será tu primer paso?",
+                            ),
+                          ),
+                          Container(
+                            child: InputLabell("¿Qué harás para cumplirlo?"),
+                          ),
+                          Container(
+                            child:
+                                InputLabell("¿Cómo controlarás tu constancia?"),
+                          ),
+                          Buttom("CREAR OBJETIVO"),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.height / 3.8,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                    'assets/pantallas/nuevo objetivo.png'),
                               ),
                             ),
-                            Container(
-                              child: InputLabell("¿Qué harás para cumplirlo?"),
-                            ),
-                            Container(
-                              child: InputLabell(
-                                  "¿Cómo controlarás tu constancia?"),
-                            ),
-                            Buttom("CREAR OBJETIVO")
-                          ],
-                        ),
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -81,7 +92,7 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
       padding: const EdgeInsets.all(10.0),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15),
-        height: 70,
+        height: MediaQuery.of(context).size.height * 0.05,
         //color: Colors.white,
         decoration: BoxDecoration(
             color: Color.fromRGBO(245, 242, 250, 10),

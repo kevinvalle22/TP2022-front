@@ -6,6 +6,8 @@ import 'package:tp2022_front/Components/calendar/calendar_dreams.dart';
 import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/Components/screen_form.dart';
 
+import '../home.dart';
+
 class DreamRecordsPage extends StatefulWidget {
   final String idSend;
 
@@ -15,6 +17,22 @@ class DreamRecordsPage extends StatefulWidget {
 }
 
 class _DreamRecordsPageState extends State<DreamRecordsPage> {
+  Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text("¿Quieres salir al menú principal?"),
+            actions: [
+              ElevatedButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text("No")),
+              ElevatedButton(
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage(widget.idSend))),
+                  child: Text("Si")),
+            ],
+          ));
   String string = "03 horas y 07 minutos";
   // convertir a numero tipo double hh.mm
   double convertToDouble(String string) {
@@ -27,29 +45,35 @@ class _DreamRecordsPageState extends State<DreamRecordsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-              child: Stack(
-            children: <Widget>[
-              Container(child: BackgroundImage('assets/7.jpg')),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: <Widget>[
-                    TitleHeader("Registro de sueño"),
-                    CalendarDreams(widget.idSend),
-                    ContainerLabelDreams(widget.idSend)
-                  ],
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showWarning(context);
+        return shouldPop ?? false;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+                child: Stack(
+              children: <Widget>[
+                Container(child: BackgroundImage('assets/7.jpg')),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: <Widget>[
+                      TitleHeader("Registro de sueño"),
+                      CalendarDreams(widget.idSend),
+                      ContainerLabelDreams(widget.idSend)
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          )),
+              ],
+            )),
+          ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigation(
-        idSend: widget.idSend,
+        bottomNavigationBar: BottomNavigation(
+          idSend: widget.idSend,
+        ),
       ),
     );
   }

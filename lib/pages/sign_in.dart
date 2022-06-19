@@ -78,14 +78,14 @@ class _LoginPageState extends State<LoginPage> {
             child: Components(),
           ),
           Positioned(
-            top: 500,
-            height: 335,
+            top: 520,
+            height: 280,
             width: 320,
             child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('assets/psychology-3609155-3016781.png'),
+                  image: AssetImage('assets/inicio/login.png'),
                 ),
               ),
             ),

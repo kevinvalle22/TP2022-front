@@ -91,8 +91,9 @@ class DataBaseHelper {
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode({
-        'duration': exercise.duration,
-        'exerciseDate': exercise.exerciseDate,
+        'startDate': exercise.startDate,
+        'endDate': exercise.endDate,
+        'message': exercise.message,
       }),
     );
     if (result.statusCode == HttpStatus.ok) {

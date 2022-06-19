@@ -94,13 +94,23 @@ class _ObjectivePage extends State<ObjectivePage> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                Container(
-                                  child: Contenedor(
-                                    name: "Salud física",
-                                    description:
-                                        "Hacer ejercicios físicos constantemente.",
-                                    indexDuration: 2,
-                                    idSend: widget.idSend,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ObjectiveInfo(widget.idSend)));
+                                  },
+                                  child: Container(
+                                    child: Contenedor(
+                                      name: "Salud física",
+                                      description:
+                                          "Hacer ejercicios físicos constantemente.",
+                                      indexDuration: 2,
+                                      idSend: widget.idSend,
+                                      enable: true,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
@@ -141,12 +151,13 @@ class Contenedor extends StatefulWidget {
       {required this.name,
       required this.description,
       this.indexDuration = 0,
-      required this.idSend});
+      required this.idSend,
+      required this.enable});
 
   String name;
   String description;
   int indexDuration;
-
+  bool enable = true;
   @override
   State<Contenedor> createState() => _ContenedorState();
 }
@@ -199,6 +210,7 @@ class _ContenedorState extends State<Contenedor> {
                 Container(
                     width: MediaQuery.of(context).size.width * 0.1,
                     child: PopupMenuButton<String>(
+                        enabled: widget.enable,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         tooltip: "Opciones",
@@ -417,59 +429,66 @@ class _ObjectiveModState extends State<ObjectiveMod> {
               ),
               Column(
                 children: <Widget>[
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
                   TitleHeader("Objetivos"),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: <Widget>[
-                                  H1Label("Mi objetivo"),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                child: Contenedor(
-                                  name: "Salud física",
-                                  description:
-                                      "Hacer ejercicios físicos constantemente.",
-                                  indexDuration: 1,
-                                  idSend: widget.idSend,
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: <Widget>[
+                                H1Label("Mi objetivo"),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              child: InputLabell(),
+                            ),
+                            TagsLabelObjective(),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            H1Label("Plan de Acción"),
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text("¿Cuál será tu primer paso?")),
+                            Container(
+                              child: InputLabell(),
+                            ),
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text("¿Qué harás para cumplirlo?")),
+                            Container(
+                              child: InputLabell(),
+                            ),
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child:
+                                    Text("¿Cómo controlarás tu constancia?")),
+                            Container(
+                              child: InputLabell(),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              height: MediaQuery.of(context).size.height / 3.5,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                      'assets/pantallas/objetivos.png'),
                                 ),
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              H1Label("Plan de Acción"),
-                              Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("¿Cuál será tu primer paso?")),
-                              Container(
-                                child: InputLabell(),
-                              ),
-                              Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("¿Qué harás para cumplirlo?")),
-                              Container(
-                                child: InputLabell(),
-                              ),
-                              Container(
-                                  alignment: Alignment.centerLeft,
-                                  child:
-                                      Text("¿Cómo controlarás tu constancia?")),
-                              Container(
-                                child: InputLabell(),
-                              )
-                            ],
-                          ),
-                        )),
-                  )
+                            )
+                          ],
+                        ),
+                      ))
                 ],
               )
             ],
@@ -485,7 +504,139 @@ class _ObjectiveModState extends State<ObjectiveMod> {
       padding: const EdgeInsets.all(10.0),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15),
-        height: 70,
+        height: 50,
+        //color: Colors.white,
+        decoration: BoxDecoration(
+            color: Color.fromRGBO(245, 242, 250, 10),
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 5,
+              )
+            ]),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                //controller: dateController,
+                dragStartBehavior: DragStartBehavior.start,
+                decoration: InputDecoration.collapsed(hintText: ""),
+                textCapitalization: TextCapitalization.sentences,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ObjectiveInfo extends StatefulWidget {
+  final String idSend;
+
+  ObjectiveInfo(this.idSend);
+  @override
+  State<ObjectiveInfo> createState() => _ObjectiveInfoState();
+}
+
+class _ObjectiveInfoState extends State<ObjectiveInfo> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+              child: Stack(
+            children: <Widget>[
+              Container(
+                child: BackgroundImage('assets/7.jpg'),
+              ),
+              Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  TitleHeader("Objetivos"),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: <Widget>[
+                                H1Label("Mi objetivo"),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              child: Contenedor(
+                                name: "Salud física",
+                                description:
+                                    "Hacer ejercicios físicos constantemente.",
+                                indexDuration: 1,
+                                idSend: widget.idSend,
+                                enable: false,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            H1Label("Plan de Acción"),
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text("¿Cuál será tu primer paso?")),
+                            Container(
+                              child: InputLabell(),
+                            ),
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text("¿Qué harás para cumplirlo?")),
+                            Container(
+                              child: InputLabell(),
+                            ),
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child:
+                                    Text("¿Cómo controlarás tu constancia?")),
+                            Container(
+                              child: InputLabell(),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              height: MediaQuery.of(context).size.height / 3.5,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                      'assets/pantallas/objetivos.png'),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ))
+                ],
+              )
+            ],
+          )),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
+    );
+  }
+
+  Widget InputLabell() {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        height: 50,
         //color: Colors.white,
         decoration: BoxDecoration(
             color: Color.fromRGBO(245, 242, 250, 10),

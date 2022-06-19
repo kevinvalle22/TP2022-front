@@ -8,27 +8,35 @@ class Exercise {
   Exercise({
     this.id = 0,
     this.duration = '',
-    this.exerciseDate = '',
+    this.startDate = '',
+    this.endDate="",
     this.dayOfTheWeek = '',
+    this.message="",
   });
   //constructor
 
   int id;
   String duration;
-  String exerciseDate;
+  String startDate;
+  String endDate;
   String dayOfTheWeek;
+  String message;
 
   factory Exercise.fromJson(Map<String, dynamic> json) => Exercise(
         id: json["id"],
         duration: json["duration"],
-        exerciseDate: json["exerciseDate"],
+        startDate: json["startDate"],
+        endDate: json["endDate"],
         dayOfTheWeek: json["dayOfTheWeek"],
+        message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "duration": duration,
-        "exerciseDate": exerciseDate,
+        "startDate": startDate,
+        "endDate": endDate,
         "dayOfTheWeek": dayOfTheWeek,
+        "message": message,
       };
 }

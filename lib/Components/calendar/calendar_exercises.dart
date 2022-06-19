@@ -19,7 +19,7 @@ class CalendarExercises extends StatefulWidget {
 class _CalendarExercisesState extends State<CalendarExercises> {
   TimeOfDay? resultIn = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay? resultFin = TimeOfDay(hour: 00, minute: 00);
-
+  final TextEditingController message = TextEditingController();
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
@@ -89,7 +89,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                   focusedDay = focusDay;
                   //get lima colombia time
                   selectedDayString =
-                      DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
+                      DateFormat('yyyy-MM-dd').format(selectedDay);
                 });
                 print(selectedDayString);
               },
@@ -181,7 +181,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                         children: <Widget>[
                                           Expanded(
                                             child: TextField(
-                                              //controller: message,
+                                              controller: message,
                                               decoration: InputDecoration.collapsed(
                                                   hintText:
                                                       "Escribir ejercicio realizado ..."),
@@ -345,9 +345,29 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                               var password =
                                                   await UserSecureStorage
                                                       .getPassword();
-                                              /*exercise.duration =
-                                    "$horas horas y $minutos minutos";*/
-                                              //exercise.exerciseDate = _dateController.text;
+                                              exercise.startDate =
+                                                  selectedDayString +
+                                                      " " +
+                                                      resultIn!
+                                                          .hour
+                                                          .toString()
+                                                          .padLeft(2, '0') +
+                                                      ":" +
+                                                      resultIn!.minute
+                                                          .toString()
+                                                          .padLeft(2, '0');
+                                              exercise.endDate =
+                                                  selectedDayString +
+                                                      " " +
+                                                      resultFin!
+                                                          .hour
+                                                          .toString()
+                                                          .padLeft(2, '0') +
+                                                      ":" +
+                                                      resultFin!.minute
+                                                          .toString()
+                                                          .padLeft(2, '0');
+                                              exercise.message = message.text;
                                               exercise = await dataBaseHelper
                                                   .createExercise(
                                                 widget.idSend,

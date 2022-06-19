@@ -2,7 +2,9 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_slideshow/indicator.dart';
 import 'package:tp2022_front/main.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class IntroPage extends StatelessWidget {
   @override
@@ -25,14 +27,31 @@ class IntroPage extends StatelessWidget {
               Column(
                 children: [
                   Container(
+                      child: ImageSlideshow(
+                    width: double.infinity,
                     height: MediaQuery.of(context).size.height / 2,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
+                    initialPage: 0,
+                    indicatorColor: Colors.blue,
+                    indicatorBackgroundColor: Colors.grey,
+                    children: [
+                      Image.asset(
+                        'assets/inicio/1.png',
                         fit: BoxFit.cover,
-                        image: AssetImage('assets/Imagen1.png'),
                       ),
-                    ),
-                  ),
+                      Image.asset(
+                        'assets/inicio/2.png',
+                        fit: BoxFit.cover,
+                      ),
+                      Image.asset(
+                        'assets/inicio/3.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                    onPageChanged: (value) {
+                      print('Page changed: $value');
+                    },
+                    isLoop: false,
+                  )),
                   Container(
                     height: MediaQuery.of(context).size.height / 2,
                     child: Rest(context),
@@ -51,14 +70,9 @@ class IntroPage extends StatelessWidget {
 Widget Rest(BuildContext context) {
   return Column(
     children: <Widget>[
-      Container(
-        height: 35,
-        width: 65,
-        child: DotsIndicator(
-          dotsCount: 3,
-        ),
+      SizedBox(
+        height: 10,
       ),
-      SizedBox(height: 10,),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Container(
@@ -71,7 +85,9 @@ Widget Rest(BuildContext context) {
                   fontWeight: FontWeight.bold)),
         ),
       ),
-      SizedBox(height: 10,),
+      SizedBox(
+        height: 10,
+      ),
       Container(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: MakeTheFirstMove(context),
