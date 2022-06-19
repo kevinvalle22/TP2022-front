@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/calendar-widget.dart';
+import 'package:tp2022_front/Components/calendar/calendar_exercises.dart';
 import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/Components/screen_form.dart';
 
@@ -28,26 +29,7 @@ class _RecordExercisesPageState extends State<RecordExercisesPage> {
                 child: Column(
                   children: <Widget>[
                     TitleHeader("Ejercicios físicos"),
-                    CalendarWidget(widget.idSend),
-                    Row(
-                      children: [
-                        H1Label("Mi lista de ejercicios"),
-                        Container(
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(182, 220, 220, 10),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                _bottomSheet(context);
-                              },
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
-                            ))
-                      ],
-                    ),
+                    CalendarExercises(widget.idSend),
                     ContainerLabelExercises(widget.idSend)
                   ],
                 ),
@@ -60,17 +42,5 @@ class _RecordExercisesPageState extends State<RecordExercisesPage> {
     );
   }
 
-  _bottomSheet(context) {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext c) {
-          return ScreenFormExercises(
-              "Ejercicio realizado",
-              "Escribir ejercicio realizado ...",
-              "REGISTRAR EJERICICIO",
-              widget.idSend,
-              "exercises");
-        });
-  }
+
 }

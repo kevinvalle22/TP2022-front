@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'dart:math';
-
+//import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_file.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/models/Reminder.dart';
 import 'package:tp2022_front/pages/reminder_component/reminder.dart';
 import 'package:tp2022_front/security/user_secure_storage.dart';
@@ -23,8 +24,6 @@ class CalendarRemainer extends StatefulWidget {
 class _CalendarRemainerState extends State<CalendarRemainer> {
   int contadorHoras = 0;
   int contadorMinutos = 0;
-  int contadorHoras2 = 0;
-  int contadorMinutos2 = 0;
   DataBaseHelper dataBaseHelper = DataBaseHelper();
   final TextEditingController message = TextEditingController();
 
@@ -33,28 +32,9 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
   DateTime focusedDay = DateTime.now();
   // con formato yyyy-MM-dd HH:mm
   String selectedDayString = DateFormat('yyyy-MM-dd').format(DateTime.now());
-
-  late bool _switchValue = true;
+  bool _switchValue = true;
   late bool _switchValue2 = false;
 
-  /*List<dynamic> exercisesList = [];
-  Future init() async {
-    final name = await UserSecureStorage.getUsername() ?? '';
-    final password = await UserSecureStorage.getPassword() ?? '';
-    final token = await UserSecureStorage.getToken() ?? '';
-    final userId = await UserSecureStorage.getUserId() ?? '';
-
-    exercisesList =
-        await httpHelper.getExercises(widget.idSend, name, password);
-
-    print("sleepList: " + exercisesList.toString());
-    print("first: " + exercisesList[0].toString());
-    print("startDate first: " + exercisesList[0]["exerciseDate"].toString());
-    print("size: " + exercisesList.length.toString());
-    //convert string to int
-
-    setState(() {});
-  }*/
   List<dynamic> remindersList = [];
   Future init() async {
     final name = await UserSecureStorage.getUsername() ?? '';
@@ -68,7 +48,9 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
       list.add(remindersList[i]["reminderDate"]);
     } */
     print("remindersList: " + list.toString());
+
     print(selectedDayString);
+    setState(() {});
   }
 
   @override
@@ -78,75 +60,33 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
     init();
   }
 
+  void aumentar_horas() {
+      if (contadorHoras < 23) contadorHoras++;
+  }
+
+  void disminuir_horas() {
+      if (contadorHoras > 0) contadorHoras--;
+  }
+
+  void aumentar_minutos() {
+
+      if (contadorMinutos < 59) contadorMinutos++;
+      print(contadorMinutos);
+    
+  }
+
+  void disminuir_minutos() {
+      if (contadorMinutos > 0) contadorMinutos--;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-            margin: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Color.fromRGBO(182, 220, 220, 10),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: TableCalendar(
-              locale: 'es_ES',
-              headerStyle: HeaderStyle(
-                  titleCentered: true,
-                  formatButtonVisible: false,
-                  titleTextStyle:
-                      TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  headerPadding:
-                      EdgeInsets.symmetric(horizontal: 25, vertical: 10)),
-              focusedDay: selectedDay,
-              firstDay: DateTime.now(),
-              lastDay: DateTime.now().add(Duration(days: 200)),
-              startingDayOfWeek: StartingDayOfWeek.sunday,
-              daysOfWeekVisible: true,
-              onDaySelected: (DateTime selectDay, DateTime focusDay) {
-                setState(() {
-                  selectedDay = selectDay;
-                  focusedDay = focusDay;
-                  selectedDayString = DateFormat('yyyy-MM-dd').format(focusDay);
-                  // push a new screen
-                });
-                /* Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ScreenFormExercises(
-                    "Ejercicio realizado",
-                    "Escribir ejercicio realizado ...",
-                    "REGISTRAR EJERICICIO",
-                    widget.idSend,
-                    selectedDayString),
-              ),
-            ); */
-                print(selectedDayString);
-              },
-              selectedDayPredicate: (DateTime date) {
-                // use this to go to screen_form.dart
-
-                return isSameDay(selectedDay, date);
-              },
-              calendarStyle: CalendarStyle(
-                  isTodayHighlighted: true,
-                  selectedDecoration: BoxDecoration(
-                    color: Colors.blue,
-                    shape: BoxShape.circle,
-                  ),
-                  selectedTextStyle: TextStyle(color: Colors.white),
-                  todayDecoration: BoxDecoration(
-                      color: Colors.purpleAccent, shape: BoxShape.circle)),
-            ),
-          ),
-        ),
         Container(
           child: Row(
             children: [
-              H1Label("Lista de Recordatorios"),
+              H1Label("Recordatorios"),
               Container(
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(182, 220, 220, 10),
@@ -154,7 +94,366 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    _bottomSheet(context);
+                    //_bottomSheet(context);
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return StatefulBuilder(
+                            builder: (BuildContext context, StateSetter setState) {
+                              return Stack(
+                                children: [
+                                  Container(child: BackgroundImage('assets/7.jpg')),
+                                  Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 35,
+                                      ),
+                                      TitleHeader("Recordatorio"),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(10.0),
+                                          margin: EdgeInsets.all(10),
+                                          width: MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Color.fromRGBO(182, 220, 220, 10),
+                                            borderRadius: BorderRadius.circular(15),
+                                          ),
+                                          child: TableCalendar(
+                                            rowHeight: 40,
+                                            locale: 'es_ES',
+                                            headerStyle: HeaderStyle(
+                                                titleCentered: true,
+                                                formatButtonVisible: false,
+                                                titleTextStyle: TextStyle(
+                                                    fontSize: 25,
+                                                    fontWeight: FontWeight.bold),
+                                                headerPadding: EdgeInsets.symmetric(
+                                                    horizontal: 0, vertical: 10)),
+                                            focusedDay: selectedDay,
+                                            firstDay: DateTime.now(),
+                                            lastDay: DateTime.now()
+                                                .add(Duration(days: 200)),
+                                            startingDayOfWeek:
+                                                StartingDayOfWeek.sunday,
+                                            daysOfWeekVisible: true,
+                                            onDaySelected: (DateTime selectDay,
+                                                DateTime focusDay) {
+                                              setState(() {
+                                                selectedDay = selectDay;
+                                                focusedDay = focusDay;
+                                                selectedDayString =
+                                                    DateFormat('yyyy-MM-dd')
+                                                        .format(focusDay);
+                                                // push a new screen
+                                              });
+                                              print(selectedDayString);
+                                            },
+                                            selectedDayPredicate: (DateTime date) {
+                                              return isSameDay(selectedDay, date);
+                                            },
+                                            calendarStyle: CalendarStyle(
+                                                isTodayHighlighted: true,
+                                                selectedDecoration: BoxDecoration(
+                                                  color: Colors.blue,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                selectedTextStyle:
+                                                    TextStyle(color: Colors.white),
+                                                todayDecoration: BoxDecoration(
+                                                    color: Colors.purpleAccent,
+                                                    shape: BoxShape.circle)),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(10.0),
+                                        child: Container(
+                                          height:
+                                              MediaQuery.of(context).size.height /
+                                                  2.4,
+                                          padding: EdgeInsets.all(10),
+                                          width: MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color:
+                                                      Colors.black.withOpacity(.1),
+                                                  blurRadius: 3)
+                                            ],
+                                            color:
+                                                Color.fromRGBO(128, 124, 183, 10),
+                                          ),
+                                          child: Column(
+                                            //mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  child: Center(
+                                                    child: Text(
+                                                      "Recordatorio",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 25),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 15),
+                                                height: 50,
+                                                //color: Colors.white,
+                                                decoration: BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                        245, 242, 250, 10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(15),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.5),
+                                                        spreadRadius: 2,
+                                                        blurRadius: 5,
+                                                      )
+                                                    ]),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: TextField(
+                                                        controller: message,
+                                                        decoration: InputDecoration
+                                                            .collapsed(
+                                                                hintText:
+                                                                    "Escribir un Recordatorio"),
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .sentences,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceEvenly,
+                                                children: <Widget>[
+                                                  Container(
+                                                      child: Row(
+                                                    children: [
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(15),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors.grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius: 2,
+                                                                blurRadius: 5,
+                                                              )
+                                                            ]),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets.all(
+                                                                  8.0),
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(Icons
+                                                                  .watch_later_outlined),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                  '$contadorHoras horas'),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Column(
+                                                        children: <Widget>[
+                                                          IconButton(
+                                                              color: Colors.white,
+                                                              onPressed:()=>{setState(() {
+                                                                    aumentar_horas();
+                                                                  })},
+                                                              
+                                                              icon: Icon(Icons
+                                                                  .arrow_drop_up)),
+                                                          IconButton(
+                                                              color: Colors.white,
+                                                              onPressed:
+                                                                  ()=>{setState(() {
+                                                                    disminuir_horas();
+                                                                  })},
+                                                              icon: Icon(Icons
+                                                                  .arrow_drop_down))
+                                                        ],
+                                                      )
+                                                    ],
+                                                  )),
+                                                  Container(
+                                                      child: Row(
+                                                    children: [
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(15),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors.grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius: 2,
+                                                                blurRadius: 5,
+                                                              )
+                                                            ]),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets.all(
+                                                                  8.0),
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(Icons
+                                                                  .watch_later_outlined),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                  "$contadorMinutos minutos"),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Column(
+                                                        children: <Widget>[
+                                                          IconButton(
+                                                              color: Colors.white,
+                                                              onPressed:
+                                                                  ()=>{setState(() {
+                                                                    aumentar_minutos();
+                                                                  })},
+                                                              icon: Icon(Icons
+                                                                  .arrow_drop_up)),
+                                                          IconButton(
+                                                              color: Colors.white,
+                                                              onPressed:
+                                                                  ()=>{setState(() {
+                                                                    disminuir_minutos();
+                                                                  })},
+                                                              icon: Icon(Icons
+                                                                  .arrow_drop_down))
+                                                        ],
+                                                      )
+                                                    ],
+                                                  )),
+                                                ],
+                                              ),
+                                              SizedBox(height: 10),
+                                              Padding(
+                                                padding: const EdgeInsets.all(10.0),
+                                                child: Center(
+                                                  child: Container(
+                                                    width: 300,
+                                                    height: 50,
+                                                    child: RaisedButton(
+                                                      color: Colors.white,
+                                                      onPressed: () async {
+                                                        Reminder reminder =
+                                                            Reminder();
+                                                        var userName =
+                                                            await UserSecureStorage
+                                                                .getUsername();
+                                                        var password =
+                                                            await UserSecureStorage
+                                                                .getPassword();
+                                                        var horas;
+                                                        var minutos;
+                                                        if (contadorHoras < 10) {
+                                                          horas = "0$contadorHoras";
+                                                        } else {
+                                                          horas = "$contadorHoras";
+                                                        }
+                                                        if (contadorMinutos < 10) {
+                                                          minutos =
+                                                              "0$contadorMinutos";
+                                                        } else {
+                                                          minutos =
+                                                              "$contadorMinutos";
+                                                        }
+                                                        var formato =
+                                                            "$horas:$minutos";
+                                                        var fecha = new DateFormat(
+                                                            "yyyy-MM-dd");
+
+                                                        reminder
+                                                            .reminderDate = fecha
+                                                                .format(selectedDay)
+                                                                .toString() +
+                                                            " $horas:$minutos";
+
+                                                        print(
+                                                            reminder.reminderDate);
+                                                        reminder.message =
+                                                            message.text;
+                                                        print(reminder.message);
+                                                        reminder =
+                                                            await dataBaseHelper
+                                                                .createAReminder(
+                                                                    widget.idSend,
+                                                                    userName
+                                                                        .toString(),
+                                                                    password
+                                                                        .toString(),
+                                                                    reminder);
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    ReminderPage(widget
+                                                                        .idSend)));
+                                                      },
+                                                      child: Text(
+                                                          "Registrar Recordatorio",
+                                                          style: TextStyle(
+                                                              fontSize: 15.5,
+                                                              color: Color.fromRGBO(
+                                                                  107,
+                                                                  174,
+                                                                  174,
+                                                                  10),
+                                                              fontWeight:
+                                                                  FontWeight.bold)),
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  50)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            }
+                          );
+                        });
                   },
                   child: Icon(
                     Icons.add,
@@ -170,306 +469,15 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
     );
   }
 
-  _bottomSheet(context) {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (_) {
-          return Padding(
-            padding: MediaQuery.of(context).viewInsets,
-            //duration: const Duration(seconds: 1),
-            //curve: Curves.easeInOut,
-            child: Container(
-              height: MediaQuery.of(context).size.height / 2 + 100,
-              padding: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)
-                ],
-                color: Color.fromRGBO(128, 124, 183, 10),
-              ),
-              child: Column(
-                //mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: Center(
-                        child: Text(
-                          "Recordatorio",
-                          style: TextStyle(color: Colors.white, fontSize: 25),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    height: 70,
-                    //color: Colors.white,
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(245, 242, 250, 10),
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                          )
-                        ]),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: TextField(
-                            controller: message,
-                            autofocus: true,
-                            decoration: InputDecoration.collapsed(
-                                hintText: "Escribir un Recordatorio"),
-                            textCapitalization: TextCapitalization.sentences,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Container(
-                          child: Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                  )
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.watch_later_outlined),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text("$contadorHoras horas"),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Column(
-                            children: <Widget>[
-                              IconButton(
-                                  color: Colors.white,
-                                  onPressed: aumentar_horas,
-                                  icon: Icon(Icons.arrow_drop_up)),
-                              IconButton(
-                                  color: Colors.white,
-                                  onPressed: disminuir_horas,
-                                  icon: Icon(Icons.arrow_drop_down))
-                            ],
-                          )
-                        ],
-                      )),
-                      Container(
-                          child: Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                  )
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.watch_later_outlined),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text("$contadorMinutos minutos"),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Column(
-                            children: <Widget>[
-                              IconButton(
-                                  color: Colors.white,
-                                  onPressed: aumentar_minutos,
-                                  icon: Icon(Icons.arrow_drop_up)),
-                              IconButton(
-                                  color: Colors.white,
-                                  onPressed: disminuir_minutos,
-                                  icon: Icon(Icons.arrow_drop_down))
-                            ],
-                          )
-                        ],
-                      )),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Center(
-                      child: Container(
-                        width: 300,
-                        height: 50,
-                        child: RaisedButton(
-                          color: Colors.white,
-                          onPressed: () async {
-                            Reminder reminder = Reminder();
-                            var userName =
-                                await UserSecureStorage.getUsername();
-                            var password =
-                                await UserSecureStorage.getPassword();
-                            var horas;
-                            var minutos;
-                            if (contadorHoras < 10) {
-                              horas = "0$contadorHoras";
-                            } else {
-                              horas = "$contadorHoras";
-                            }
-                            if (contadorMinutos < 10) {
-                              minutos = "0$contadorMinutos";
-                            } else {
-                              minutos = "$contadorMinutos";
-                            }
-                            var formato = "$horas:$minutos";
-                            var fecha = new DateFormat("yyyy-MM-dd");
-
-                            reminder.reminderDate =
-                                fecha.format(selectedDay).toString() +
-                                    " $horas:$minutos";
-
-                            print(reminder.reminderDate);
-                            reminder.message = message.text;
-                            print(reminder.message);
-                            reminder = await dataBaseHelper.createAReminder(
-                                widget.idSend,
-                                userName.toString(),
-                                password.toString(),
-                                reminder);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ReminderPage(widget.idSend)));
-                            /*if (selectedDayString == "exercises") {
-                        Exercise exercise = Exercise();
-                        var userName = await UserSecureStorage.getUsername();
-                        var password = await UserSecureStorage.getPassword();
-                        exercise.duration =
-                            "$contadorHoras horas y $contadorMinutos minutos";
-                        exercise.exerciseDate = _dateController.text;
-                        exercise = await dataBaseHelper.createExercise(
-                          widget.idSend,
-                          userName.toString(),
-                          password.toString(),
-                          exercise,
-                        );
-                      } else if (widget.selectedDayString == "dream") {
-                        SleepRecord sleepRecord = SleepRecord();
-                        var userName = await UserSecureStorage.getUsername();
-                        var password = await UserSecureStorage.getPassword();
-                        // obtener la fecha actual
-                        var now = new DateTime.now();
-                        var formatter = new DateFormat('yyyy-MM-dd HH:mm');
-                        print("fecha inicial: ${formatter}");
-                        sleepRecord.startDate = formatter.format(now);
-
-                        var horas;
-                        var minutos;
-                        if (contadorHoras < 10) {
-                          horas = "0$contadorHoras";
-                        } else {
-                          horas = "$contadorHoras";
-                        }
-                        if (contadorMinutos < 10) {
-                          minutos = "0$contadorMinutos";
-                        } else {
-                          minutos = "$contadorMinutos";
-                        }
-                        print(sleepRecord.endDate);
-                        sleepRecord.endDate =
-                            "${_dateController.text} $horas:$minutos";
-                        print(sleepRecord.endDate);
-                        sleepRecord = await dataBaseHelper.createASleepRecord(
-                          widget.idSend,
-                          userName.toString(),
-                          password.toString(),
-                          sleepRecord,
-                        );
-                      }
-
-                      Navigator.pop(context);
-                  */
-                          },
-                          child: Text("Registrar Recordatorio",
-                              style: TextStyle(
-                                  fontSize: 15.5,
-                                  color: Color.fromRGBO(107, 174, 174, 10),
-                                  fontWeight: FontWeight.bold)),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
-  void aumentar_horas() {
-    setState(() {
-      if (contadorHoras < 23) contadorHoras++;
-    });
-  }
-
-  void disminuir_horas() {
-    setState(() {
-      if (contadorHoras > 0) contadorHoras--;
-    });
-  }
-
-  void aumentar_minutos() {
-    setState(() {
-      if (contadorMinutos < 59) contadorMinutos++;
-    });
-  }
-
-  void disminuir_minutos() {
-    setState(() {
-      if (contadorMinutos > 0) contadorMinutos--;
-    });
-  }
-
   Widget RemindersChart(BuildContext context) {
     List<String> hours = [];
     List<String> minutes = [];
-    // get the hour and minute of the reminder of reminderDate HH:MM
+    List<String> date = [];
     for (int i = 0; i < remindersList.length; i++) {
       hours.add(remindersList[i]['reminderDate'].substring(11, 13));
       minutes.add(remindersList[i]['reminderDate'].substring(14, 16));
+      date.add(DateFormat("EEEE MMM dd, yyyy").format(
+          DateTime.parse(remindersList[i]['reminderDate'].substring(0, 10))));
     }
     return SingleChildScrollView(
       child: Column(
@@ -478,7 +486,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                width: MediaQuery.of(context).size.width - 60,
+                width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -499,14 +507,42 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                               style: TextStyle(fontSize: 16),
                             ),
                           ),
-                          CupertinoSwitch(
-                            value: _switchValue,
-                            onChanged: (value) {
-                              setState(() {
-                                _switchValue = value;
-                              });
-                            },
-                          )
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.1,
+                              child: PopupMenuButton<String>(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  tooltip: "Opciones",
+                                  /*onSelected: (String value) {
+                                    if (value == "Eliminar") {
+                                      dataBaseHelper.deleteReminder(
+                                          remindersList[i]['id']);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ReminderPage(widget.idSend)));
+                                    }
+                                  },*/
+                                  padding: EdgeInsets.zero,
+                                  icon: Icon(Icons.more_horiz),
+                                  itemBuilder: (BuildContext context) =>
+                                      <PopupMenuEntry<String>>[
+                                        PopupMenuItem<String>(
+                                          value: "Modificar",
+                                          child: ListTile(
+                                            leading: Icon(Icons.edit),
+                                            title: Text("Modificar"),
+                                          ),
+                                        ),
+                                        PopupMenuItem<String>(
+                                          value: "Eliminar",
+                                          child: ListTile(
+                                            leading: Icon(Icons.delete),
+                                            title: Text("Eliminar"),
+                                          ),
+                                        )
+                                      ]))
                         ],
                       ),
                       SizedBox(
@@ -517,51 +553,10 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                         children: <Widget>[
                           Container(
                             width: 200,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: myBoxDecoration(),
-                                    child: Text("L",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white))),
-                                // ignore: prefer_const_constructors
-                                Text(
-                                  "M",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Container(
-                                    padding: const EdgeInsets.all(6.0),
-                                    decoration: myBoxDecoration(),
-                                    child: Text("M",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white))),
-                                Text(
-                                  "J",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: myBoxDecoration(),
-                                    child: Text("V",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white))),
-                                Text(
-                                  "S",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: myBoxDecoration(),
-                                    child: Text("D",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white))),
-                              ],
+                            child: Text(
+                              date[i],
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.grey),
                             ),
                           ),
                           Container(
@@ -571,8 +566,6 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  // get the hour and minute
-
                                   hours[i] + ":" + minutes[i] + " horas",
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.white),

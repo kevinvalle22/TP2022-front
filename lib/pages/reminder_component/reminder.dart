@@ -32,7 +32,7 @@ class _ReminderPageState extends State<ReminderPage> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 10,),
-                    TitleHeader("Recordatorios"),
+                    TitleHeader("Recordatorio"),
                     CalendarRemainer(widget.idSend),
                     
                     //ContainerLabelDreams()
