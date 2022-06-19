@@ -357,6 +357,11 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
                                   .toString()
                                   .toLowerCase(),
                         )),
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Ejercicio a realizar: " + exercisesList[i]["message"].toString(),
+                        )),
                   ],
                 ),
               ),
