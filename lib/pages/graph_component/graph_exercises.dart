@@ -227,10 +227,9 @@ class _GraphExercisesPageState extends State<GraphExercisesPage> {
 
   dynamic getColumnas() {
     exercisesList = <ChartData>[
-      for (int i = exercisesList.length - 1; i > 1; i--) ...[
+      for (int i = exercisesList.length; i > 1; i--) ...[
         ChartData(
-            dayOftheWeek[
-                int.parse(exercisesList[i]["dayOfTheWeek"].toString())],
+            exercisesList[i]["dayOfTheWeek"],
             convertToDouble(exercisesList[i]["duration"].toString()),
             Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
                 .withOpacity(1.0)),
@@ -245,12 +244,11 @@ class _GraphExercisesPageState extends State<GraphExercisesPage> {
   }
 
   String string = "03 horas y 07 minutos";
-  // convertir a numero tipo double hh.mm
   double convertToDouble(String string) {
-    List<String> list = string.split(" ");
-    double hours = double.parse(list[0]);
-    double minutes = double.parse(list[3]);
-    double total = hours + (minutes / 100);
-    return total;
+    // convertir a numero tipo double un String ejemplo "2"
+    double number = double.parse(string.split(" ")[0]);
+    // convertir a numero tipo double un String ejemplo "2"
+
+    return number;
   }
 }

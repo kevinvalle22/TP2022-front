@@ -44,7 +44,7 @@ class _GraphMoodsPageState extends State<GraphMoodsPage> {
                   child: Text("Si")),
             ],
           ));
-  List<dynamic> exercisesList = [];
+  List<dynamic> moodsList = [];
   DataBaseHelper httpHelper = new DataBaseHelper();
   Future init() async {
     final name = await UserSecureStorage.getUsername() ?? '';
@@ -52,13 +52,12 @@ class _GraphMoodsPageState extends State<GraphMoodsPage> {
     final token = await UserSecureStorage.getToken() ?? '';
     final userId = await UserSecureStorage.getUserId() ?? '';
 
-    exercisesList =
-        await httpHelper.getExercises(widget.idSend, name, password);
+    moodsList = await httpHelper.getExercises(widget.idSend, name, password);
 
-    print("sleepList: " + exercisesList.toString());
-    print("first: " + exercisesList[0].toString());
-    print("startDate first: " + exercisesList[0]["startDate"].toString());
-    print("size: " + exercisesList.length.toString());
+    print("sleepList: " + moodsList.toString());
+    print("first: " + moodsList[0].toString());
+    print("startDate first: " + moodsList[0]["startDate"].toString());
+    print("size: " + moodsList.length.toString());
     setState(() {});
   }
 
@@ -146,7 +145,7 @@ class _GraphMoodsPageState extends State<GraphMoodsPage> {
                                 height: 30,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  "(Tomar en consideración  a ${exercisesList.length} días)",
+                                  "(Tomar en consideración  a ${moodsList.length} días)",
                                   style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 20,
@@ -181,7 +180,7 @@ class _GraphMoodsPageState extends State<GraphMoodsPage> {
                                 width: 10,
                               ),
                               Text(
-                                "${exercisesList.length} veces",
+                                "${moodsList.length} veces",
                                 style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 15,
@@ -206,7 +205,7 @@ class _GraphMoodsPageState extends State<GraphMoodsPage> {
                                 width: 10,
                               ),
                               Text(
-                                "${exercisesList.length} veces",
+                                "${moodsList.length} veces",
                                 style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 15,
@@ -231,7 +230,7 @@ class _GraphMoodsPageState extends State<GraphMoodsPage> {
                                 width: 10,
                               ),
                               Text(
-                                "${exercisesList.length} veces",
+                                "${moodsList.length} veces",
                                 style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 15,

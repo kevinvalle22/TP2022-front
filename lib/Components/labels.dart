@@ -174,8 +174,7 @@ class ButtomLabel extends StatelessWidget {
         height: 50,
         child: RaisedButton(
           color: Color.fromRGBO(107, 174, 174, 10),
-          onPressed: () {
-          },
+          onPressed: () {},
           child: Text(text,
               style: TextStyle(
                   fontSize: 16,
@@ -254,7 +253,7 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
 
     print("sleepList: " + exercisesList.toString());
     print("first: " + exercisesList[0].toString());
-    print("startDate first: " + exercisesList[0]["exerciseDate"].toString());
+    print("startDate first: " + exercisesList[0]["startDate"].toString());
     print("size: " + exercisesList.length.toString());
     //convert string to int
 
@@ -275,7 +274,7 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
           for (int i = 0; i < exercisesList.length; i++)
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height / 8,
+              height: MediaQuery.of(context).size.height / 6.5,
               constraints:
                   BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
               padding: EdgeInsets.all(4),
@@ -301,7 +300,8 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
                         Flexible(
                           child: Text(
                             "Duración: " +
-                                exercisesList[i]["duration"].toString(),
+                                exercisesList[i]["duration"].toString() +
+                                " horas",
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
@@ -346,15 +346,16 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
                     Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Fecha: " +
-                              exercisesList[i]["exerciseDate"].toString(),
+                          "Fecha: " + exercisesList[i]["startDate"].toString(),
                         )),
                     Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
+                          // Mayuscula la primera letra  y despues todo minusculas
                           "Día de la semana: " +
-                              dayOftheWeek[int.parse(
-                                  exercisesList[i]["dayOfTheWeek"].toString())],
+                              exercisesList[i]["dayOfTheWeek"]
+                                  .toString()
+                                  .toLowerCase(),
                         )),
                   ],
                 ),
@@ -419,7 +420,7 @@ class _ContainerLabelDreamsState extends State<ContainerLabelDreams> {
         for (int i = 0; i < sleepList.length; i++)
           Container(
             width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height / 8,
+            height: MediaQuery.of(context).size.height / 6,
             constraints:
                 BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
             margin: EdgeInsets.symmetric(vertical: 10),
@@ -498,6 +499,13 @@ class _ContainerLabelDreamsState extends State<ContainerLabelDreams> {
                       child: Text(
                         "Me desperté a las: " +
                             sleepList[i]["endDate"].toString(),
+                      )),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Dormí un total de: " +
+                            sleepList[i]["duration"].toString() +
+                            " horas",
                       )),
                   // negrita
                 ],

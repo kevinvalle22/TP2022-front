@@ -155,7 +155,9 @@ class DataBaseHelper {
 
   Future<List> getExercises(
       String urlOption, String userName, String password) async {
+    //with uri.parse we can parse the url
     const urlBase = "https://mental-health-deploy.herokuapp.com/api/users/";
+
     final token = await authenticate(userName, password);
     final strFinal = urlBase + urlOption + "/exercises";
     final url = Uri.parse(strFinal);

@@ -46,7 +46,7 @@ class _GraphDreamsPageState extends State<GraphDreamsPage> {
             ],
           ));
   late TooltipBehavior _tooltipBehavior;
-  List<dynamic> exercisesList = [];
+  List<dynamic> sleepsList = [];
   DataBaseHelper httpHelper = new DataBaseHelper();
   Future init() async {
     final name = await UserSecureStorage.getUsername() ?? '';
@@ -54,13 +54,13 @@ class _GraphDreamsPageState extends State<GraphDreamsPage> {
     final token = await UserSecureStorage.getToken() ?? '';
     final userId = await UserSecureStorage.getUserId() ?? '';
 
-    exercisesList =
-        await httpHelper.getExercises(widget.idSend, name, password);
+    sleepsList =
+        await httpHelper.getSleepsRecords(widget.idSend, name, password);
 
-    print("sleepList: " + exercisesList.toString());
-    print("first: " + exercisesList[0].toString());
-    print("startDate first: " + exercisesList[0]["startDate"].toString());
-    print("size: " + exercisesList.length.toString());
+    print("sleepList: " + sleepsList.toString());
+    print("first: " + sleepsList[0].toString());
+    print("startDate first: " + sleepsList[0]["startDate"].toString());
+    print("size: " + sleepsList.length.toString());
     setState(() {});
   }
 
@@ -134,7 +134,7 @@ class _GraphDreamsPageState extends State<GraphDreamsPage> {
                             Column(
                               children: <Widget>[
                                 Text(
-                                  "Hoy has dormido ${exercisesList.length} horas",
+                                  "Hoy has dormido ${sleepsList.length} horas",
                                   style: TextStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.bold,
@@ -226,7 +226,7 @@ class _GraphDreamsPageState extends State<GraphDreamsPage> {
                     Container(
                       alignment: Alignment.center,
                       child: Text(
-                        "Tomar ${exercisesList.length} días",
+                        "Tomar ${sleepsList.length} días",
                         style: TextStyle(
                             color: Colors.grey,
                             fontSize: 20,
@@ -281,12 +281,12 @@ class _GraphDreamsPageState extends State<GraphDreamsPage> {
   ];
 
   dynamic getColumnas() {
-    exercisesList = <ChartData>[
-      for (int i = exercisesList.length - 1; i > 1; i--) ...[
+    var list;
+    list = <ChartData>[
+      for (int i = 0; i < sleepsList.length; i++) ...[
         ChartData(
-            dayOftheWeek[
-                int.parse(exercisesList[i]["dayOfTheWeek"].toString())],
-            convertToDouble(exercisesList[i]["duration"].toString()),
+            sleepsList[i]["dayOfTheWeek"].toString(),
+            convertToDouble(sleepsList[i]["duration"].toString()),
             Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
                 .withOpacity(1.0)),
         //exercisesList[i]["duration"]
@@ -296,16 +296,14 @@ class _GraphDreamsPageState extends State<GraphDreamsPage> {
       ChartData("Fr", 40)*/
     ];
 
-    return exercisesList;
+    return list;
   }
 
-  String string = "03 horas y 07 minutos";
-  // convertir a numero tipo double hh.mm
   double convertToDouble(String string) {
-    List<String> list = string.split(" ");
-    double hours = double.parse(list[0]);
-    double minutes = double.parse(list[3]);
-    double total = hours + (minutes / 100);
-    return total;
+    // convertir a numero tipo double un String ejemplo "2"
+    double number = double.parse(string.split(" ")[0]);
+    // convertir a numero tipo double un String ejemplo "2"
+
+    return number;
   }
 }
