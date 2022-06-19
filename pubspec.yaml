@@ -28,6 +28,7 @@ dependencies:
   syncfusion_flutter_charts: ^19.4.50
   carousel_slider: ^4.1.1
   flutter_dialogflow_v2: ^0.3.2
+  rflutter_alert: ^2.0.4
   
 dev_dependencies:
   flutter_test:

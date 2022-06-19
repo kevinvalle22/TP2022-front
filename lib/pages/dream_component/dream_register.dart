@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/calendar-widget.dart';
+import 'package:tp2022_front/Components/calendar/calendar_dreams.dart';
 import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/Components/screen_form.dart';
 
@@ -38,26 +39,7 @@ class _DreamRecordsPageState extends State<DreamRecordsPage> {
                 child: Column(
                   children: <Widget>[
                     TitleHeader("Registro de sueño"),
-                    CalendarWidget(widget.idSend),
-                    Row(
-                      children: [
-                        H1Label("Horas de Sueño"),
-                        Container(
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(182, 220, 220, 10),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                _bottomSheet(context);
-                              },
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
-                            ))
-                      ],
-                    ),
+                    CalendarDreams(widget.idSend),
                     ContainerLabelDreams(widget.idSend)
                   ],
                 ),

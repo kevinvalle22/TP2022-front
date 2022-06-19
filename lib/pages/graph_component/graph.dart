@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:ffi';
-
+import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -10,9 +10,14 @@ import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/chart/subscriber_chart.dart';
 import 'package:tp2022_front/Components/chart/subscriber_series.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:tp2022_front/pages/graph_component/graph_moods.dart';
 import 'package:tp2022_front/pages/home.dart';
 import 'package:tp2022_front/security/user_secure_storage.dart';
 import 'package:tp2022_front/utils/endpoints.dart';
+
+import 'chart_data.dart';
+import 'graph_dreams.dart';
+import 'graph_exercises.dart';
 
 class GraphPage extends StatefulWidget {
   final String idSend;
@@ -23,7 +28,7 @@ class GraphPage extends StatefulWidget {
 }
 
 class _GraphPageState extends State<GraphPage> {
-    List<String> dayOftheWeek = [
+  List<String> dayOftheWeek = [
     "Domingo",
     "Lunes",
     "Martes",
@@ -104,10 +109,6 @@ class _GraphPageState extends State<GraphPage> {
                       height: 15,
                     ),
                     Container(
-                      /*constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width),*/
-                      //padding: EdgeInsets.all(10),
-                      //margin: EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
                           color: Color.fromRGBO(232, 227, 238, 10),
                           borderRadius: BorderRadius.circular(15),
@@ -172,12 +173,41 @@ class _GraphPageState extends State<GraphPage> {
                           children: <Widget>[
                             Column(
                               children: [
-                                Text(
-                                  "Gráfica de sueño",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Gráfica de sueño",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(147, 150, 186, 10),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          GraphDreamsPage(
+                                                              widget.idSend)));
+                                            },
+                                            child: Icon(
+                                              Icons.open_in_full_outlined,
+                                              color: Colors.white,
+                                              size: 18,
+                                            )))
+                                  ],
                                 ),
                                 SizedBox(
                                   height: 20,
@@ -207,17 +237,47 @@ class _GraphPageState extends State<GraphPage> {
                               ],
                             ),
                             SizedBox(
-                              width: 30,
+                              width: 10,
                             ),
                             Container(
                               child: Column(
                                 children: [
-                                  Text(
-                                    "Emociones",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Emociones",
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Container(
+                                          padding: EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                            color: Color.fromRGBO(
+                                                147, 150, 186, 10),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            GraphMoodsPage(
+                                                                widget
+                                                                    .idSend)));
+                                              },
+                                              child: Icon(
+                                                Icons.open_in_full_outlined,
+                                                color: Colors.white,
+                                                size: 18,
+                                              )))
+                                    ],
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -259,15 +319,41 @@ class _GraphPageState extends State<GraphPage> {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Tiempo de ejercicios",
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
+                    Row(
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Tiempo de ejercicios",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(147, 150, 186, 10),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              GraphExercisesPage(
+                                                  widget.idSend)));
+                                },
+                                child: Icon(
+                                  Icons.open_in_full_outlined,
+                                  color: Colors.white,
+                                )))
+                      ],
                     ),
                     SizedBox(
                       height: 10,
@@ -286,23 +372,34 @@ class _GraphPageState extends State<GraphPage> {
                             )
                           ]),
                       child: SfCartesianChart(
-                          primaryXAxis: CategoryAxis(),
-                          primaryYAxis: NumericAxis(),
-                          tooltipBehavior: _tooltipBehavior,
-                          series: <ChartSeries>[
-                            
-                            ColumnSeries<ChartData, String>(
-                                dataSource: getColumnas(),
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y!.toDouble(),
-                                //dataLabelSettings:DataLabelSettings(isVisible: true),
-                                enableTooltip: true,
-                                width: 1,
-                                spacing: 0.2,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
-                                
-                          ],),
+                        primaryXAxis: CategoryAxis(),
+                        primaryYAxis: NumericAxis(),
+                        //tooltipBehavior: _tooltipBehavior,
+                        series: <ChartSeries>[
+                          ColumnSeries<ChartData, String>(
+                              dataSource: getColumnas(),
+                              xValueMapper: (ChartData data, _) => data.x,
+                              yValueMapper: (ChartData data, _) =>
+                                  data.y!.toDouble(),
+                              pointColorMapper: (ChartData data, _) =>
+                                  data.pointColorMapper,
+                              dataLabelMapper: (ChartData data, _) =>
+                                  data.y!.toStringAsFixed(1).toString() +
+                                  (" ") +
+                                  ("h"),
+                              dataLabelSettings: DataLabelSettings(
+                                  isVisible: true,
+                                  labelAlignment:
+                                      ChartDataLabelAlignment.middle,
+                                  textStyle:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              //enableTooltip: true,
+                              width: 1,
+                              spacing: 0.2,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -353,19 +450,23 @@ class _GraphPageState extends State<GraphPage> {
 
   dynamic getColumnas() {
     exercisesList = <ChartData>[
-      for(int i = exercisesList.length-1; i>1;i--)...[
-        
-        ChartData(dayOftheWeek[int.parse(
-                                  exercisesList[i]["dayOfTheWeek"].toString())],convertToDouble(exercisesList[i]["duration"].toString())),
-                                  //exercisesList[i]["duration"]
-      ]      /*ChartData("Tue", 23),
+      for (int i = exercisesList.length - 1; i > 1; i--) ...[
+        ChartData(
+            dayOftheWeek[
+                int.parse(exercisesList[i]["dayOfTheWeek"].toString())],
+            convertToDouble(exercisesList[i]["duration"].toString()),
+            Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                .withOpacity(1.0)),
+        //exercisesList[i]["duration"]
+      ] /*ChartData("Tue", 23),
       ChartData("Wed", 34),
       ChartData("Th", 25),
       ChartData("Fr", 40)*/
     ];
-    
+
     return exercisesList;
   }
+
   String string = "03 horas y 07 minutos";
   // convertir a numero tipo double hh.mm
   double convertToDouble(String string) {
@@ -376,10 +477,3 @@ class _GraphPageState extends State<GraphPage> {
     return total;
   }
 }
-
-class ChartData {
-  ChartData(this.x, this.y);
-  final String x;
-  final double? y;
-}
-

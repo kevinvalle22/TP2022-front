@@ -26,7 +26,7 @@ import 'package:tp2022_front/pages/sign_in.dart';
 
 void main() {
   DataBaseHelper dataBaseHelper = new DataBaseHelper();
-  initializeDateFormatting().then((_) => runApp(MyApp()));
+  initializeDateFormatting('es_ES',null).then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -2,6 +2,7 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:tp2022_front/pages/objective_components/objective.dart';
 import 'package:tp2022_front/security/user_secure_storage.dart';
 import 'dart:math' as math;
 
@@ -173,7 +174,8 @@ class ButtomLabel extends StatelessWidget {
         height: 50,
         child: RaisedButton(
           color: Color.fromRGBO(107, 174, 174, 10),
-          onPressed: () {},
+          onPressed: () {
+          },
           child: Text(text,
               style: TextStyle(
                   fontSize: 16,
@@ -273,7 +275,7 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
           for (int i = 0; i < exercisesList.length; i++)
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height / 10,
+              height: MediaQuery.of(context).size.height / 8,
               constraints:
                   BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
               padding: EdgeInsets.all(4),
@@ -293,13 +295,54 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: Column(
                   children: [
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Duración: " +
-                              exercisesList[i]["duration"].toString(),
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            "Duración: " +
+                                exercisesList[i]["duration"].toString(),
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.1,
+                            child: PopupMenuButton<String>(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                tooltip: "Opciones",
+                                /*onSelected: (String value) {
+                                    if (value == "Eliminar") {
+                                      dataBaseHelper.deleteReminder(
+                                          remindersList[i]['id']);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ReminderPage(widget.idSend)));
+                                    }
+                                  },*/
+                                //padding: EdgeInsets.zero,
+                                icon: Icon(Icons.more_horiz),
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<String>>[
+                                      PopupMenuItem<String>(
+                                        value: "Modificar",
+                                        child: ListTile(
+                                          leading: Icon(Icons.edit),
+                                          title: Text("Modificar"),
+                                        ),
+                                      ),
+                                      PopupMenuItem<String>(
+                                        value: "Eliminar",
+                                        child: ListTile(
+                                          leading: Icon(Icons.delete),
+                                          title: Text("Eliminar"),
+                                        ),
+                                      )
+                                    ]))
+                      ],
+                    ),
                     Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -376,11 +419,10 @@ class _ContainerLabelDreamsState extends State<ContainerLabelDreams> {
         for (int i = 0; i < sleepList.length; i++)
           Container(
             width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height / 10,
+            height: MediaQuery.of(context).size.height / 8,
             constraints:
                 BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
-            padding: EdgeInsets.all(2),
-            margin: EdgeInsets.symmetric(vertical: 1),
+            margin: EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
                 color: Color.fromRGBO(246, 239, 227, 10),
                 borderRadius: BorderRadius.circular(15),
@@ -395,19 +437,55 @@ class _ContainerLabelDreamsState extends State<ContainerLabelDreams> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: Column(
                 // ajust el tamaño de la columna
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-
-                    child: Text(
-                      "Dormí un total de: " +
-                          sleepList[i]["duration"].toString() +
-                          " horas",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-
-                    // style: TextStyle(fontWeight: FontWeight.bold)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          "Dormí un total de: " +
+                              sleepList[i]["duration"].toString() +
+                              " horas",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          child: PopupMenuButton<String>(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              tooltip: "Opciones",
+                              /*onSelected: (String value) {
+                                    if (value == "Eliminar") {
+                                      dataBaseHelper.deleteReminder(
+                                          remindersList[i]['id']);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ReminderPage(widget.idSend)));
+                                    }
+                                  },*/
+                              //padding: EdgeInsets.zero,
+                              icon: Icon(Icons.more_horiz),
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<String>>[
+                                    PopupMenuItem<String>(
+                                      value: "Modificar",
+                                      child: ListTile(
+                                        leading: Icon(Icons.edit),
+                                        title: Text("Modificar"),
+                                      ),
+                                    ),
+                                    PopupMenuItem<String>(
+                                      value: "Eliminar",
+                                      child: ListTile(
+                                        leading: Icon(Icons.delete),
+                                        title: Text("Eliminar"),
+                                      ),
+                                    )
+                                  ]))
+                    ],
                   ),
                   Container(
                       alignment: Alignment.centerLeft,
