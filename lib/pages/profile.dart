@@ -67,6 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    double ancho = MediaQuery.of(context).size.width * 0.1;
     return WillPopScope(
       onWillPop: () async {
         final shouldPop = await showWarning(context);
@@ -83,147 +84,127 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.center,
                       child: Text("Mi perfil",
                           style: TextStyle(
                               color: Color.fromRGBO(98, 89, 134, 10),
                               fontSize: 35.0,
                               fontWeight: FontWeight.bold)),
                     ),
-
-                    //Avatar y Nombre del Usuario
-
-                    Container(
-                      constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width * 0.9),
-                      padding: EdgeInsets.all(15),
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      decoration: box(),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 5.0,
-                                )),
-                            child: CircleAvatar(
-                                radius: 40,
-                                backgroundImage:
-                                    AssetImage('assets/perfil.png')),
-                          ),
-                          Text(
-                            "Emilio Jones",
-                            style: TextStyle(
-                                color: Color.fromRGBO(98, 89, 134, 10),
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
+                    Divider(
+                      color: Colors.grey,
                     ),
-
                     H1Label("Usuario:"),
                     Container(
                       width: 350,
-                      height: 50,
+                      height: ancho,
                       decoration: box(),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         alignment: Alignment.centerLeft,
                         child: Text(
                           user.userName,
-                          style: style(),
+                          style: style(context),
                         ),
                       ),
                     ),
                     H1Label("Email:"),
                     Container(
                       width: 350,
-                      height: 50,
+                      height: ancho,
                       decoration: box(),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         alignment: Alignment.centerLeft,
                         child: Text(
                           user.email,
-                          style: style(),
+                          style: style(context),
                         ),
                       ),
                     ),
                     H1Label("Número de celular:"),
                     Container(
                       width: 350,
-                      height: 50,
+                      height: ancho,
                       decoration: box(),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          user.phone,
-                          style: style(),
+                          "(+51)" + " " + user.phone,
+                          style: style(context),
                         ),
                       ),
                     ),
                     H1Label("Contraseña:"),
                     Container(
                       width: 350,
-                      height: 50,
+                      height: ancho,
                       decoration: box(),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "*********",
-                          style: style(),
+                          style: style(context),
                         ),
                       ),
                     ),
                     H1Label("Universidad:"),
                     Container(
                       width: 350,
-                      height: 50,
+                      height: ancho,
                       decoration: box(),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         alignment: Alignment.centerLeft,
                         child: Text(
                           user.university,
-                          style: style(),
+                          style: style(context),
                         ),
                       ),
                     ),
                     H1Label("Provincia:"),
                     Container(
                       width: 350,
-                      height: 50,
+                      height: ancho,
                       decoration: box(),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         alignment: Alignment.centerLeft,
                         child: Text(
                           user.province,
-                          style: style(),
+                          style: style(context),
                         ),
                       ),
                     ),
                     H1Label("Distrito:"),
                     Container(
                       width: 350,
-                      height: 50,
+                      height: ancho,
                       decoration: box(),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         alignment: Alignment.centerLeft,
                         child: Text(
                           user.district,
-                          style: style(),
+                          style: style(context),
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: FlatButton(
+                          onPressed: () {},
+                          child: Text("ELIMINAR MI CUENTA",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(104, 110, 174, 10),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold))),
+                    )
                   ],
                 ),
               )
@@ -253,6 +234,8 @@ BoxDecoration box() {
       ]);
 }
 
-TextStyle style() {
-  return TextStyle(color: Color.fromRGBO(150, 140, 182, 10), fontSize: 20);
+TextStyle style(BuildContext context) {
+  return TextStyle(
+      color: Color.fromRGBO(150, 140, 182, 10),
+      fontSize: MediaQuery.of(context).size.width * 0.04);
 }

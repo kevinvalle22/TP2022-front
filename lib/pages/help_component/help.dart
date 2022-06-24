@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 //import 'package:flutter_dialpad/flutter_dialpad.dart';
 
@@ -430,143 +430,210 @@ class TelefonoPage extends StatefulWidget {
 }
 
 class _TelefonoPageState extends State<TelefonoPage> {
-  String display = '';
+  String display = '113';
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white,
-      bottomNavigationBar: ListTile(
-        leading: Icon(
-          Icons.home,
-          size: 40,
-        ),
-        trailing: Icon(
-          Icons.person_outline,
-          size: 40,
-        ),
+      backgroundColor: Color.fromRGBO(254, 250, 238, 10),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Color.fromRGBO(254, 250, 238, 10),
+        selectedItemColor: Color.fromRGBO(104, 174, 174, 10),
+        unselectedItemColor: Color.fromRGBO(179, 179, 179, 10),
+        selectedFontSize: MediaQuery.of(context).size.width * 0.03,
+        unselectedFontSize: MediaQuery.of(context).size.width * 0.03,
+        currentIndex: 2,
+        onTap: (value) {
+          // seleccionar un icono y cambiarle el color
+        },
+        items: [
+          BottomNavigationBarItem(
+            label: 'Recientes',
+            icon: Icon(Icons.watch_later),
+          ),
+          BottomNavigationBarItem(
+            label: 'Contactos',
+            icon: Icon(Icons.account_circle_outlined),
+          ),
+          BottomNavigationBarItem(
+            label: 'Teclado',
+            icon: Icon(Icons.keyboard_alt),
+          ),
+          BottomNavigationBarItem(
+            label: 'Favoritos',
+            icon: Icon(Icons.star),
+          ),
+        ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            ListTile(
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  display,
-                  textScaleFactor: 1.0,
-                  style: TextStyle(
-                      fontSize: 35,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.09,
+                child: Center(
+                  child: Text(
+                    display,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.12,
+                        color: Colors.black),
+                  ),
                 ),
               ),
-              trailing: Container(
-                width: 80,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.ideographic,
+              Divider(
+                color: Colors.grey,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.09,
+                child: Center(
+                  child: Text(
+                    "Agregar número",
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.05,
+                        color: Color.fromRGBO(100, 164, 164, 10)),
+                  ),
+                ),
+              ),
+              Divider(
+                color: Colors.grey,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.79,
+                child: Column(
                   children: [
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child:
-                          Icon(Icons.person_add, size: 35, color: Colors.blue),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dialPadButton(size, '1', ''),
+                        dialPadButton(size, '2', 'ABC'),
+                        dialPadButton(size, '3', 'DEF')
+                      ],
                     ),
-                    InkWell(
-                      onTap: () {
-                        if (display.length != 0) {
-                          setState(() {
-                            display = display.substring(0, display.length - 1);
-                          });
-                        }
-                      },
-                      child: Icon(
-                        Icons.backspace,
-                        size: 35,
-                        color: Colors.red,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dialPadButton(size, '4', 'GHI'),
+                        dialPadButton(size, '5', 'JKL'),
+                        dialPadButton(size, '6', 'MNO')
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dialPadButton(size, '7', 'PQRS'),
+                        dialPadButton(size, '8', 'TUV'),
+                        dialPadButton(size, '9', 'WXYZ')
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dialPadButton(size, '*', ''),
+                        dialPadButton(size, '0', '+'),
+                        dialPadButton(size, '#', '')
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.25,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.15,
+                              width: MediaQuery.of(context).size.width * 0.25,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color.fromRGBO(142, 209, 171, 10),
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.call,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              //FlutterPhoneDirectCaller.callNumber(display);
+                              Navigator.pop(context);
+                            },
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.05),
+                          InkWell(
+                            onTap: () {
+                              if (display.length != 0) {
+                                setState(() {
+                                  display =
+                                      display.substring(0, display.length - 1);
+                                });
+                              }
+                            },
+                            child: Icon(
+                              Icons.backspace,
+                              size: MediaQuery.of(context).size.height * 0.08,
+                              color: Colors.grey,
+                            ),
+                          )
+                        ],
                       ),
                     )
                   ],
                 ),
-              ),
-            ),
-            Divider(
-              color: Colors.grey,
-            ),
-            Row(
-              children: [
-                dialPadButton(size, '1'),
-                dialPadButton(size, '2'),
-                dialPadButton(size, '3')
-              ],
-            ),
-            Row(
-              children: [
-                dialPadButton(size, '4'),
-                dialPadButton(size, '5'),
-                dialPadButton(size, '6')
-              ],
-            ),
-            Row(
-              children: [
-                dialPadButton(size, '7'),
-                dialPadButton(size, '8'),
-                dialPadButton(size, '9')
-              ],
-            ),
-            Row(
-              children: [
-                dialPadButton(size, '*', color: Colors.grey),
-                dialPadButton(size, '0'),
-                dialPadButton(size, '#', color: Colors.grey)
-              ],
-            ),
-            InkWell(
-              child: Container(
-                height: 80,
-                width: double.infinity,
-                color: Colors.blue,
-                child: Center(
-                  child: Icon(
-                    Icons.call,
-                    color: Colors.white,
-                    size: 40,
-                  ),
-                ),
-              ),
-              onTap: (){
-                //FlutterPhoneDirectCaller.callNumber(display);
-                Navigator.pop(context);
-              },
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget dialPadButton(Size size, String value, {Color? color}) {
+  Widget dialPadButton(Size size, String value, String value2, {Color? color}) {
     return InkWell(
       highlightColor: Colors.black45,
       onTap: () {
-        setState(() {
-          display = display + value;
-        });
+        if (display.length < 9)
+          setState(() {
+            display = display + value;
+          });
       },
-      child: Container(
-        height: size.height * 0.15,
-        width: size.width * 0.33,
-        decoration:
-            BoxDecoration(border: Border.all(color: Colors.grey, width: 0.025)),
-        child: Center(
-          child: Text(
-            value,
-            textScaleFactor: 1.0,
-            style: TextStyle(
-                color: color ?? Color.fromRGBO(87, 152, 228, 10),
-                fontSize: 35,
-                fontWeight: FontWeight.bold),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          alignment: Alignment.center,
+          height: MediaQuery.of(context).size.height * 0.11,
+          width: MediaQuery.of(context).size.width * 0.23,
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(224, 222, 232, 10),
+              border: Border.all(color: Colors.grey, width: 0.025),
+              shape: BoxShape.circle),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  value,
+                  textScaleFactor: 1.0,
+                  style: TextStyle(
+                      color: color ?? Colors.black,
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  value2,
+                  textScaleFactor: 1.0,
+                  style: TextStyle(
+                      color: color ?? Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
         ),
       ),

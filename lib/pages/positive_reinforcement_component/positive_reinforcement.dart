@@ -132,26 +132,8 @@ class _BodyState extends State<Body> {
       children: [
         Container(
           alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-          child: Row(
-            children: [
-              const Text("Afirmación diaria",
-                  style: TextStyle(
-                      color: Color.fromRGBO(146, 150, 187, 10),
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold)),
-              IconButton(
-                  icon: Image.asset('assets/bell_slash.png'), onPressed: () {}),
-            ],
-          ),
-        ),
-        Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-            child: Affirmation(context)),
-        Container(
-          alignment: Alignment.centerLeft,
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: const Text("Escribir afirmaciones personalizadas",
+          child: const Text("Afirmaciones personalizadas",
               style: TextStyle(
                   color: Color.fromRGBO(146, 150, 187, 10),
                   fontSize: 20.0,
@@ -164,7 +146,7 @@ class _BodyState extends State<Body> {
         Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: const Text("Mis Favoritas",
+          child: const Text("Mis Afirmaciones",
               style: TextStyle(
                   color: Color.fromRGBO(146, 150, 187, 10),
                   fontSize: 20.0,
@@ -178,101 +160,6 @@ class _BodyState extends State<Body> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget Affirmation(BuildContext context) {
-    List<String> entries = <String>[
-      '"Yo estoy feliz con quien soy aquí y ahora."',
-      '"Celebré cada meta que logre con gratitud y alegría."',
-      '"Soy feliz y libre porque soy yo"',
-      '"Estoy aprendiendo a confiar en el viaje"',
-      '"Soy capaz. Tengo potencial para triunfar"',
-      '"Creo en un mundo libre de estrés para mi"'
-    ];
-    return GestureDetector(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)
-            ],
-            color: Color.fromRGBO(243, 212, 229, 10),
-            borderRadius: BorderRadius.circular(9.0)),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                alignment: Alignment.topRight,
-                // ignore: prefer_const_constructors
-                child: IconButton(
-                    icon: Image.asset(
-                      'assets/reload.png',
-                      width: 20,
-                      height: 20,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        afirm = '';
-                        if (cont2 != 5) {
-                          buttonColor = Colors.black;
-                          cont2++;
-                        } else {
-                          cont2 = 0;
-                        }
-                      });
-                    }),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                width: MediaQuery.of(context).size.width - 100,
-                alignment: Alignment.center,
-                // ignore: prefer_const_constructors
-                child: Text(entries[cont2],
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal)),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed('/assertion_settings');
-                    },
-                    child: Container(
-                      // ignore: prefer_const_constructors
-                      child: const Icon(Icons.more_horiz),
-                    ),
-                  ),
-                  Container(
-                    // ignore: prefer_const_constructors
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.favorite,
-                      ),
-                      color: buttonColor,
-                      onPressed: () {
-                        setState(() {
-                          afirm = entries[cont2];
-                          if (cont == 1) {
-                            buttonColor = Colors.black;
-                          } else {
-                            buttonColor = Colors.red;
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
     );
   }
 
@@ -318,7 +205,7 @@ class _BodyState extends State<Body> {
                   color: const Color.fromRGBO(104, 174, 174, 6),
                   onPressed: () {},
                   child: const Text(
-                    "GUARDAR EN FAVORITO",
+                    "AÑADIR AFIRMACION",
                     style: TextStyle(
                         fontSize: 14,
                         color: Colors.white,

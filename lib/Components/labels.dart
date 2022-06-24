@@ -46,7 +46,7 @@ class H1Label extends StatelessWidget {
           h1,
           style: TextStyle(
               color: Color.fromRGBO(147, 150, 186, 10),
-              fontSize: 25,
+              fontSize: 22,
               fontWeight: FontWeight.bold),
         ),
       ),
