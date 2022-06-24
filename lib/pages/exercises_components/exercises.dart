@@ -22,7 +22,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
     'Ejercicio 6',
   ];
   String text =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla a.";
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex.";
   bool _boxes = true;
   @override
   Widget build(BuildContext context) {
@@ -39,8 +39,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
               child: Column(
                 children: [
                   TitleHeader("Ejercicios de respiración "),
-                  H1Label("Ejercicios"),
-                  if (_boxes == true)
+                  if (_boxes == true) ...[
+                    H1Label("Ejercicios"),
                     Wrap(
                       children: <Widget>[
                         for (int i = 0; i < 6; i++)
@@ -71,9 +71,10 @@ class _ExercisesPageState extends State<ExercisesPage> {
                           )
                       ],
                     )
-                  else
+                  ] else
                     Column(
                       children: [
+                        H1Label("Respiración consciente"),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Container(
@@ -91,6 +92,14 @@ class _ExercisesPageState extends State<ExercisesPage> {
                                 padding: EdgeInsets.all(10.0),
                                 child: Text(text),
                               )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            margin: EdgeInsets.only(left: 15),
+                            alignment: Alignment.centerLeft,
+                            child: Text("Duración estimada: 5 min aprox")
+                          ),
                         ),
                         GestureDetector(
                           onTap: () {

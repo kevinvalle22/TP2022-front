@@ -41,7 +41,10 @@ class _HomePageState extends State<HomePage> {
                   child: Text("Si")),
             ],
           ));
-
+  String afirm = '';
+  int cont = 0;
+  int cont2 = 0;
+  Color buttonColor = Colors.black;
   @override
   void initState() {
     super.initState();
@@ -237,8 +240,15 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(50)),
             ),
           ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.016,
+          ),
           Container(
-            child: Affirmation(),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+            child: Affirmation(context),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.016,
           ),
           Container(
             child: Reminder(context),
@@ -251,75 +261,80 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget Affirmation() {
-    return Builder(builder: (context) {
-      return Column(
-        children: <Widget>[
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              children: [
-                const Text("Afirmación diaria",
-                    style: TextStyle(
-                        color: Color.fromRGBO(146, 150, 187, 10),
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold)),
-                IconButton(
-                    icon: Image.asset('assets/bell_slash.png'),
-                    onPressed: () {}),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            width: 350,
-            height: 100,
-            child: RaisedButton(
-              color: const Color.fromRGBO(243, 212, 229, 10),
-              onPressed: () {
+  Widget Affirmation(BuildContext context) {
+    List<String> entries = <String>[
+      '"Yo estoy feliz con quien soy aquí y ahora."',
+      '"Celebré cada meta que logre con gratitud y alegría."',
+      '"Soy feliz y libre porque soy yo"',
+      '"Estoy aprendiendo a confiar en el viaje"',
+      '"Soy capaz. Tengo potencial para triunfar"',
+      '"Creo en un mundo libre de estrés para mi"'
+    ];
+    return Container(
+      width: MediaQuery.of(context).size.width / 1.2,
+      decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)
+          ],
+          color: Color.fromRGBO(243, 212, 229, 10),
+          borderRadius: BorderRadius.circular(9.0)),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
                             PositiveReinforcementPage(widget.idSend)));
               },
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.topRight,
-                    // ignore: prefer_const_constructors
-                    child: const Icon(Icons.more_horiz),
-                  ),
-                  Container(
-                    child: const Text(
-                        '"Yo estoy feliz con quien soy aquí y ahora."',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal)),
-                  ),
-                  Container(
-                    alignment: Alignment.bottomRight,
-                    // ignore: prefer_const_constructors
-                    child: const Icon(
-                      Icons.favorite,
-                      color: Color.fromRGBO(200, 110, 137, 10),
-                    ),
-                  ),
-                ],
+              child: Container(
+                alignment: Alignment.topRight,
+                // ignore: prefer_const_constructors
+                child: const Icon(Icons.more_horiz),
               ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)),
             ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-        ],
-      );
-    });
+            Container(
+              width: MediaQuery.of(context).size.width - 80,
+              alignment: Alignment.center,
+              // ignore: prefer_const_constructors
+              child: Text(entries[cont2],
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal)),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.04,
+              child: Container(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                    alignment: Alignment.topRight,
+                    icon: Image.asset(
+                      'assets/reload.png',
+                      width: 18,
+                      height: 18,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        afirm = '';
+                        if (cont2 != 5) {
+                          buttonColor = Colors.black;
+                          cont2++;
+                        } else {
+                          cont2 = 0;
+                        }
+                      });
+                    }),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget Reminder(BuildContext context) {
