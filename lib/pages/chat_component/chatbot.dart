@@ -32,7 +32,8 @@ class _ChatBotState extends State<ChatBotPage> {
 
   TextEditingController messageInsert = TextEditingController();
   //List<Map> messsages = List();
-  final messsages = List<Map>.filled(1, {"data":0,"message":"Buenos Días"}, growable: true);
+  final messsages = List<Map>.filled(1, {"data": 0, "message": "Buenos Días"},
+      growable: true);
 
   @override
   Widget build(BuildContext context) {
