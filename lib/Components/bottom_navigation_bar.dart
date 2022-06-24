@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/pages/chat_component/chatbot.dart';
 import 'package:tp2022_front/pages/graph_component/graph.dart';
 import 'package:tp2022_front/pages/home.dart';
 import 'package:tp2022_front/pages/learn_component/learn.dart';
 import 'package:tp2022_front/pages/profile.dart';
+import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 
 class BottomNavigation extends StatefulWidget {
   final String idSend;
@@ -84,12 +87,30 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   widget.botColorIcon ? null : Colors.lightGreenAccent,
               icon: Image.asset('assets/bot.png'),
               onPressed: () {
-                widget.isTheSameBot
-                    ? null
-                    : Navigator.push(
+                dynamic user = {
+                  'userId': widget
+                      .idSend, //Replace it with the userId of the logged in user
+                  'password':
+                      'secret' //Put password here if user has password, ignore otherwise
+                };
+                dynamic conversationObject = {
+                  'appId':
+                      '2b582f32821ad1179e5ace33665091779', // The [APP_ID](https://dashboard.kommunicate.io/settings/install) obtained from kommunicate dashboard.
+                  'kmUser': jsonEncode(user)
+                };
+
+                KommunicateFlutterPlugin.buildConversation(conversationObject)
+                    .then((clientConversationId) {
+                  print("Conversation builder success : " +
+                      clientConversationId.toString());
+                }).catchError((error) {
+                  print("Conversation builder error : " + error.toString());
+                });
+
+                /* Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ChatBotPage(widget.idSend)));
+                            builder: (context) => ChatBotPage(widget.idSend))); */
               },
             ),
           ),
@@ -120,11 +141,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
             child: IconButton(
               icon: Image.asset('assets/usuario.png'),
               onPressed: () {
-                widget.isTheSameProfile?null:
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProfilePage(widget.idSend)));
+                widget.isTheSameProfile
+                    ? null
+                    : Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfilePage(widget.idSend)));
               },
               splashColor: Color.fromRGBO(67, 58, 108, 10),
             ),

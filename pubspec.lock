@@ -267,7 +267,16 @@ packages:
       name: js
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "0.6.4"
+  kommunicate_flutter:
+    dependency: "direct main"
+    description:
+      name: kommunicate_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.7"
+
   lints:
     dependency: transitive
     description:
@@ -295,7 +304,9 @@ packages:
       name: material_color_utilities
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "0.1.4"
+
   meta:
     dependency: transitive
     description:
@@ -419,7 +430,9 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "0.4.9"
+
   typed_data:
     dependency: transitive
     description:
@@ -433,7 +446,9 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "2.1.2"
+
   wave:
     dependency: "direct main"
     description:
