@@ -64,14 +64,15 @@ class _CalendarExercisesState extends State<CalendarExercises> {
 
     exercisesList =
         await dataBaseHelper.getExercises(widget.idSend, name, password);
-    List<String> list = [];
+
     print("sleepList: " + exercisesList.toString());
     print("first: " + exercisesList[0].toString());
     print("startDate first: " + exercisesList[0]["startDate"].toString());
     print("size: " + exercisesList.length.toString());
+
     //convert string to int
     //lista vacia  mensaje de error
-    print("sleepList: " + list.toString());
+
     setState(() {});
   }
 
@@ -156,7 +157,8 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                               padding: MediaQuery.of(context).viewInsets,
                               duration: Duration(seconds: 1),
                               child: Container(
-                                height: MediaQuery.of(context).size.height / 2.9,
+                                height:
+                                    MediaQuery.of(context).size.height / 2.2,
                                 padding: EdgeInsets.all(10),
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
@@ -384,6 +386,8 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                                       resultIn!.minute
                                                           .toString()
                                                           .padLeft(2, '0');
+                                              print("Fecha de inicio" +
+                                                  exercise.startDate);
                                               exercise.endDate =
                                                   selectedDayString +
                                                       " " +
@@ -395,6 +399,8 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                                       resultFin!.minute
                                                           .toString()
                                                           .padLeft(2, '0');
+                                              print("Fecha de inicio" +
+                                                  exercise.endDate);
                                               exercise.message = message.text;
                                               exercise = await dataBaseHelper
                                                   .createExercise(
@@ -457,13 +463,13 @@ class _CalendarExercisesState extends State<CalendarExercises> {
       date = date.map((e) => e.replaceAll('SATURDAY', 'Sábado')).toList();
       date = date.map((e) => e.replaceAll('SUNDAY', 'Domingo')).toList();
     }
+
     return SingleChildScrollView(
       child: Column(
         children: [
           for (int i = 0; i < exercisesList.length; i++)
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height / 6.5,
               constraints:
                   BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
               padding: EdgeInsets.all(4),
@@ -489,7 +495,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                         Flexible(
                           child: Text(
                             "Duración: " +
-                                exercisesList[i]["duration"].toString() +
+                                (exercisesList[i]["duration"].toString()) +
                                 " horas",
                             style: TextStyle(fontSize: 16),
                           ),
@@ -512,6 +518,32 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                     }
                                   },*/
                                 //padding: EdgeInsets.zero,
+                                onSelected: (String value) async {
+                                  if (value == "Eliminar") {
+                                    final name =
+                                        await UserSecureStorage.getUsername() ??
+                                            '';
+                                    final password =
+                                        await UserSecureStorage.getPassword() ??
+                                            '';
+                                    dataBaseHelper.deleteAnExercise(
+                                        widget.idSend,
+                                        name,
+                                        password,
+                                        int.parse(
+                                            exercisesList[i]['id'].toString()));
+                                    exercisesList =
+                                        await dataBaseHelper.getExercises(
+                                            widget.idSend, name, password);
+
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RecordExercisesPage(
+                                                    widget.idSend)));
+                                  }
+                                },
                                 icon: Icon(Icons.more_horiz),
                                 itemBuilder: (BuildContext context) =>
                                     <PopupMenuEntry<String>>[

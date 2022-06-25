@@ -354,12 +354,12 @@ class DataBaseHelper {
     }
   }
 
-  Future<Exercise> deleteAnExercise(String urlOption, String userName,
-      String password, String exerciseId) async {
+  Future<int> deleteAnExercise(String urlOption, String userName,
+      String password, int exerciseId) async {
     int id = int.parse(urlOption);
-    int id2 = int.parse(exerciseId);
+
     final requestUrl =
-        "https://mental-health-deploy.herokuapp.com/api/users/$id/exercises/$id2";
+        "https://mental-health-deploy.herokuapp.com/api/users/$id/exercises/$exerciseId";
 
     final token = await authenticate(userName, password);
 
@@ -373,8 +373,8 @@ class DataBaseHelper {
     );
     print(result.statusCode);
     if (result.statusCode == HttpStatus.ok) {
-      final jsonResponse = json.decode(result.body);
-      return Exercise.fromJson(jsonResponse);
+      final jsonResponse = HttpStatus.ok;
+      return HttpStatus.ok;
     } else {
       throw Exception('Failed request');
     }

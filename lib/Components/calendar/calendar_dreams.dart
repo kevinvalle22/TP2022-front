@@ -183,7 +183,7 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                             padding: MediaQuery.of(context).viewInsets,
                             duration: Duration(seconds: 1),
                             child: Container(
-                              height: MediaQuery.of(context).size.height / 2.9,
+                              height: MediaQuery.of(context).size.height / 2.2,
                               padding: EdgeInsets.all(10),
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
@@ -483,9 +483,10 @@ class _CalendarDreamsState extends State<CalendarDreams> {
   Widget DreamsChart(BuildContext context) {
     List<String> duracion = [];
     for (int i = 0; i < sleepList.length; i++) {
-      duracion.add(sleepList[i]['duration'].substring(1, 3));
+      duracion.add(sleepList[i]['duration']);
       //aumentar 24 horas
-      duracion = duracion.map((e) => e.startsWith('-') ? e.substring(1) : e).toList();
+      duracion =
+          duracion.map((e) => e.startsWith('-') ? e.substring(1) : e).toList();
     }
     return SingleChildScrollView(
         child: Column(
@@ -493,7 +494,6 @@ class _CalendarDreamsState extends State<CalendarDreams> {
         for (int i = 0; i < sleepList.length; i++)
           Container(
             width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height / 6,
             constraints:
                 BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
             margin: EdgeInsets.symmetric(vertical: 10),
@@ -517,9 +517,7 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                     children: [
                       Flexible(
                         child: Text(
-                          "Dormí un total de: " +
-                              duracion[i] +
-                              " horas",
+                          "Dormí un total de: " + duracion[i] + " horas",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -576,9 +574,7 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                   Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Dormí un total de: " +
-                            duracion[i] +
-                            " horas",
+                        "Dormí un total de: " + duracion[i] + " horas",
                       )),
                   Container(
                       alignment: Alignment.centerLeft,

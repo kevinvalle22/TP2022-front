@@ -316,6 +316,21 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
                                     }
                                   },*/
                                 //padding: EdgeInsets.zero,
+                                onSelected: (String value) async {
+                                  if (value == "Eliminar") {
+                                    final name =
+                                        await UserSecureStorage.getUsername() ??
+                                            '';
+                                    final password =
+                                        await UserSecureStorage.getPassword() ??
+                                            '';
+                                    await httpHelper.deleteAnExercise(
+                                        widget.idSend,
+                                        name,
+                                        password,
+                                        exercisesList[i]['id']);
+                                  }
+                                },
                                 icon: Icon(Icons.more_horiz),
                                 itemBuilder: (BuildContext context) =>
                                     <PopupMenuEntry<String>>[
