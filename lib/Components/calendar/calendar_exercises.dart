@@ -55,6 +55,32 @@ class _CalendarExercisesState extends State<CalendarExercises> {
     print(resultFin!.hour);
   }
 
+  List<dynamic> exercisesList = [];
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
+
+    exercisesList =
+        await dataBaseHelper.getExercises(widget.idSend, name, password);
+    List<String> list = [];
+    print("sleepList: " + exercisesList.toString());
+    print("first: " + exercisesList[0].toString());
+    print("startDate first: " + exercisesList[0]["startDate"].toString());
+    print("size: " + exercisesList.length.toString());
+    //convert string to int
+    //lista vacia  mensaje de error
+    print("sleepList: " + list.toString());
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -126,10 +152,11 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                         builder: (BuildContext context) {
                           return StatefulBuilder(builder:
                               (BuildContext context, StateSetter setState) {
-                            return Padding(
-                              padding: EdgeInsets.all(10.0),
+                            return AnimatedPadding(
+                              padding: MediaQuery.of(context).viewInsets,
+                              duration: Duration(seconds: 1),
                               child: Container(
-                                height: MediaQuery.of(context).size.height / 2,
+                                height: MediaQuery.of(context).size.height / 2.9,
                                 padding: EdgeInsets.all(10),
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
@@ -141,7 +168,8 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                   color: Color.fromRGBO(128, 124, 183, 10),
                                 ),
                                 child: Column(
-                                  //mainAxisSize: MainAxisSize.min,
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -181,6 +209,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                         children: <Widget>[
                                           Expanded(
                                             child: TextField(
+                                              autofocus: true,
                                               controller: message,
                                               decoration: InputDecoration.collapsed(
                                                   hintText:
@@ -348,8 +377,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                               exercise.startDate =
                                                   selectedDayString +
                                                       " " +
-                                                      resultIn!
-                                                          .hour
+                                                      resultIn!.hour
                                                           .toString()
                                                           .padLeft(2, '0') +
                                                       ":" +
@@ -411,7 +439,119 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                 ))
           ],
         ),
+        ExercisesChart(context)
       ],
+    );
+  }
+
+  Widget ExercisesChart(BuildContext context) {
+    List<String> date = [];
+    for (int i = 0; i < exercisesList.length; i++) {
+      //cambiar a de ingles a español el dayOfTheWeek
+      date.add(exercisesList[i]['dayOfTheWeek']);
+      date = date.map((e) => e.replaceAll('MONDAY', 'Lunes')).toList();
+      date = date.map((e) => e.replaceAll('TUESDAY', 'Martes')).toList();
+      date = date.map((e) => e.replaceAll('WEDNESDAY', 'Miércoles')).toList();
+      date = date.map((e) => e.replaceAll('THRUSDAY', 'Jueves')).toList();
+      date = date.map((e) => e.replaceAll('FRIDAY', 'Viernes')).toList();
+      date = date.map((e) => e.replaceAll('SATURDAY', 'Sábado')).toList();
+      date = date.map((e) => e.replaceAll('SUNDAY', 'Domingo')).toList();
+    }
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          for (int i = 0; i < exercisesList.length; i++)
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height / 6.5,
+              constraints:
+                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+              padding: EdgeInsets.all(4),
+              margin: EdgeInsets.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(246, 239, 227, 10),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                    )
+                  ]),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            "Duración: " +
+                                exercisesList[i]["duration"].toString() +
+                                " horas",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.1,
+                            child: PopupMenuButton<String>(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                tooltip: "Opciones",
+                                /*onSelected: (String value) {
+                                    if (value == "Eliminar") {
+                                      dataBaseHelper.deleteReminder(
+                                          remindersList[i]['id']);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ReminderPage(widget.idSend)));
+                                    }
+                                  },*/
+                                //padding: EdgeInsets.zero,
+                                icon: Icon(Icons.more_horiz),
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<String>>[
+                                      PopupMenuItem<String>(
+                                        value: "Modificar",
+                                        child: ListTile(
+                                          leading: Icon(Icons.edit),
+                                          title: Text("Modificar"),
+                                        ),
+                                      ),
+                                      PopupMenuItem<String>(
+                                        value: "Eliminar",
+                                        child: ListTile(
+                                          leading: Icon(Icons.delete),
+                                          title: Text("Eliminar"),
+                                        ),
+                                      )
+                                    ]))
+                      ],
+                    ),
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Fecha: " + exercisesList[i]["startDate"].toString(),
+                        )),
+                    Container(alignment: Alignment.centerLeft, child: Text(
+                        // Mayuscula la primera letra  y despues todo minusculas
+                        "Día de la semana: " + date[i])),
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Ejercicio a realizar: " +
+                              exercisesList[i]["message"].toString(),
+                        )),
+                  ],
+                ),
+              ),
+            )
+        ],
+      ),
     );
   }
 }

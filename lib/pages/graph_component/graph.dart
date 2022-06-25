@@ -53,31 +53,12 @@ class _GraphPageState extends State<GraphPage> {
                   child: Text("Si")),
             ],
           ));
-  late TooltipBehavior _tooltipBehavior;
-  List<dynamic> exercisesList = [];
-  DataBaseHelper httpHelper = new DataBaseHelper();
-  Future init() async {
-    final name = await UserSecureStorage.getUsername() ?? '';
-    final password = await UserSecureStorage.getPassword() ?? '';
-    final token = await UserSecureStorage.getToken() ?? '';
-    final userId = await UserSecureStorage.getUserId() ?? '';
 
-    exercisesList =
-        await httpHelper.getExercises(widget.idSend, name, password);
-
-    print("sleepList: " + exercisesList.toString());
-    print("first: " + exercisesList[0].toString());
-    print("startDate first: " + exercisesList[0]["startDate"].toString());
-    print("size: " + exercisesList.length.toString());
-    setState(() {});
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    init();
-    _tooltipBehavior = TooltipBehavior(enable: true);
   }
 
   @override
@@ -92,7 +73,7 @@ class _GraphPageState extends State<GraphPage> {
           child: SafeArea(
               child: Stack(
             children: <Widget>[
-              BackgroundImage('assets/6.jpg'),
+              BackgroundImage('assets/fondos/home graficas.png'),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(

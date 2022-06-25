@@ -56,14 +56,14 @@ class _DreamRecordsPageState extends State<DreamRecordsPage> {
             child: Container(
                 child: Stack(
               children: <Widget>[
-                Container(child: BackgroundImage('assets/7.jpg')),
+                Container(child: BackgroundImage('assets/fondos/sueño.png')),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
                       TitleHeader("Registro de sueño"),
                       CalendarDreams(widget.idSend),
-                      ContainerLabelDreams(widget.idSend)
+                      //ContainerLabelDreams(widget.idSend)
                     ],
                   ),
                 ),
@@ -78,17 +78,4 @@ class _DreamRecordsPageState extends State<DreamRecordsPage> {
     );
   }
 
-  _bottomSheet(context) {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext c) {
-          return ScreenFormExercises(
-              "Registro de Horas",
-              "Escribir una Fecha ...",
-              "REGISTRAR HORAS",
-              widget.idSend,
-              "dream");
-        });
-  }
 }

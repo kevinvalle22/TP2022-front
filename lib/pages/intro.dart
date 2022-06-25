@@ -20,7 +20,7 @@ class IntroPage extends StatelessWidget {
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage('assets/4.jpg'),
+                    image: AssetImage('assets/fondos/Intro 1.png'),
                   ),
                 ),
               ),

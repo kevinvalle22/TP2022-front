@@ -47,14 +47,13 @@ class _RecordExercisesPageState extends State<RecordExercisesPage> {
             child: Container(
                 child: Stack(
               children: <Widget>[
-                Container(child: BackgroundImage('assets/7.jpg')),
+                Container(child: BackgroundImage('assets/fondos/ejercicios fisicos.png')),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
                       TitleHeader("Ejercicios físicos"),
                       CalendarExercises(widget.idSend),
-                      ContainerLabelExercises(widget.idSend)
                     ],
                   ),
                 ),
