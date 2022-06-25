@@ -8,9 +8,7 @@ import 'package:tp2022_front/models/User.dart';
 import 'package:tp2022_front/models/SleepRecord.dart';
 import 'package:http/http.dart' as http;
 
-
 import '../models/Affirmation.dart';
-
 
 //global variable to store the token
 
@@ -243,7 +241,7 @@ class DataBaseHelper {
     }
   }
 
-    Future<Thought> createThoughts(String urlOption, String userName,
+  Future<Thought> createThoughts(String urlOption, String userName,
       String password, Thought thought) async {
     int id = int.parse(urlOption);
     final requestUrl =
@@ -271,7 +269,7 @@ class DataBaseHelper {
     }
   }
 
-    Future<List> getThoughts(
+  Future<List> getThoughts(
       String urlOption, String userName, String password) async {
     const urlBase = "https://mental-health-deploy.herokuapp.com/api/users/";
     final token = await authenticate(userName, password);
@@ -400,63 +398,6 @@ class DataBaseHelper {
       print(list);
       List listOfExercises =
           list.map<Exercise>((json) => Exercise.fromJson(json)).toList();
-      return list;
-    } else {
-      throw Exception('Failed request');
-    }
-  }
-
-  Future<Affirmation> createAffirmation(String urlOption, String userName,
-      String password, Affirmation affirmation) async {
-    const requestUrl = "https://mental-health-deploy.herokuapp.com/api/users/";
-    final url = Uri.parse(requestUrl + urlOption + "/affirmations");
-    final token = await authenticate(userName, password);
-
-    http.Response result = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode({
-        'message': affirmation.message,
-        'affirmationDate': affirmation.affirmationDate,
-        'mondayActive': affirmation.mondayActive,
-        'tuesdayActive': affirmation.tuesdayActive,
-        'wednesdayActive': affirmation.wednesdayActive,
-        'thursdayActive': affirmation.thursdayActive,
-        'fridayActive': affirmation.fridayActive,
-        'saturdayActive': affirmation.saturdayActive,
-        'sundayActive': affirmation.sundayActive
-      }),
-    );
-    if (result.statusCode == HttpStatus.ok) {
-      final jsonResponse = json.decode(result.body);
-      return Affirmation.fromJson(jsonResponse);
-    } else {
-      throw Exception('Failed request');
-    }
-  }
-
-  Future<List> getAffirmations(
-      String urlOption, String userName, String password) async {
-    const urlBase = "https://mental-health-deploy.herokuapp.com/api/users/";
-    final token = await authenticate(userName, password);
-    final strFinal = urlBase + urlOption + "/affirmations";
-    final url = Uri.parse(strFinal);
-
-    http.Response result = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-    if (result.statusCode == HttpStatus.ok) {
-      final jsonResponse = json.decode(result.body);
-      final list = jsonResponse['content'];
-      print(list);
-      List listOfSleepRecords =
-          list.map<Affirmation>((json) => Affirmation.fromJson(json)).toList();
       return list;
     } else {
       throw Exception('Failed request');
