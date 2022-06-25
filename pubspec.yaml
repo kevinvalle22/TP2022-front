@@ -51,4 +51,6 @@ flutter:
     - assets/inicio/
     - assets/graficas/
     - assets/pantallas/
+    - assets/fondos/
+    - assets/icons/
     - assets/jsons/mentalhealth-351303-5e59479258b8.json

@@ -39,7 +39,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage('assets/2.jpg'),
+                    image: AssetImage('assets/fondos/create new account.png'),
                   ),
                 ),
               ),

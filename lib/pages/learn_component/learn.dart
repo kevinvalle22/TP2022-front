@@ -68,7 +68,7 @@ class _LearnPageState extends State<LearnPage> {
                 child: Stack(
               children: <Widget>[
                 Container(
-                  child: BackgroundImage('assets/2.jpg'),
+                  child: BackgroundImage('assets/fondos/info.png'),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),

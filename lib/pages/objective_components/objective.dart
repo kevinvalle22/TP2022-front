@@ -49,7 +49,7 @@ class _ObjectivePage extends State<ObjectivePage> {
                 child: Stack(
               children: <Widget>[
                 Container(
-                  child: BackgroundImage('assets/7.jpg'),
+                  child: BackgroundImage('assets/fondos/objetivo.png'),
                 ),
                 Column(
                   children: <Widget>[
@@ -69,26 +69,19 @@ class _ObjectivePage extends State<ObjectivePage> {
                                       width: 5,
                                     ),
                                     Container(
-                                        padding: EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(147, 150, 186, 10),
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        child: GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          NewObjetivePage(
-                                                              widget.idSend)));
-                                            },
-                                            child: Icon(
-                                              Icons.add_to_photos,
-                                              color: Colors.white,
-                                            )))
+                                        child: IconButton(
+                                      icon: Image.asset(
+                                          'assets/icons/add goals.png'),
+                                      iconSize: 20,
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NewObjetivePage(
+                                                        widget.idSend)));
+                                      },
+                                    ))
                                   ],
                                 ),
                                 SizedBox(

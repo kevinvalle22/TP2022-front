@@ -78,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: SafeArea(
               child: Stack(
             children: <Widget>[
-              BackgroundImage('assets/7.jpg'),
+              BackgroundImage('assets/fondos/profile.png'),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(

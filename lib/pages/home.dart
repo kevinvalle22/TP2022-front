@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage('assets/5.jpg'),
+            image: AssetImage('assets/fondos/home.png'),
           ),
         ),
       ),
@@ -226,10 +226,10 @@ class _HomePageState extends State<HomePage> {
             child: RaisedButton(
               color: Color.fromRGBO(107, 174, 174, 10),
               onPressed: () {
-                Navigator.push(
+                /*Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ChatBotPage(widget.idSend)));
+                        builder: (context) => ChatBotPage(widget.idSend)));*/
               },
               child: const Text("¿TE GUSTARIA TOMAR UN TEST?",
                   style: TextStyle(

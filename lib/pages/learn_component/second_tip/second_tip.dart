@@ -61,7 +61,7 @@ class _MentalHealthPagesState extends State<MentalHealthPages> {
             child: Stack(
           children: <Widget>[
             Container(
-              child: BackgroundImage('assets/2.jpg'),
+              color: Color.fromRGBO(254, 246, 238, 10)
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -165,7 +165,7 @@ late Timer _timer;
             child: Stack(
           children: <Widget>[
             Container(
-              child: BackgroundImage('assets/2.jpg'),
+              color: Color.fromRGBO(254, 246, 238, 10),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),

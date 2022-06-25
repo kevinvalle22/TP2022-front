@@ -102,74 +102,71 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                             return Stack(
                               children: [
                                 Container(
-                                    child: BackgroundImage('assets/7.jpg')),
+                                    child: BackgroundImage('assets/fondos/nuevo recordatorio.png')),
                                 Column(
                                   children: [
                                     SizedBox(
                                       height: 35,
                                     ),
                                     TitleHeader("Recordatorio"),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10.0),
-                                        margin: EdgeInsets.all(10),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(182, 220, 220, 10),
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        child: TableCalendar(
-                                          rowHeight: 40,
-                                          locale: 'es_ES',
-                                          headerStyle: HeaderStyle(
-                                              titleCentered: true,
-                                              formatButtonVisible: false,
-                                              titleTextStyle: TextStyle(
-                                                  fontSize: 25,
-                                                  fontWeight: FontWeight.bold),
-                                              headerPadding:
-                                                  EdgeInsets.symmetric(
-                                                      horizontal: 0,
-                                                      vertical: 10)),
-                                          focusedDay: selectedDay,
-                                          firstDay: DateTime.now(),
-                                          lastDay: DateTime.now()
-                                              .add(Duration(days: 200)),
-                                          startingDayOfWeek:
-                                              StartingDayOfWeek.sunday,
-                                          daysOfWeekVisible: true,
-                                          onDaySelected: (DateTime selectDay,
-                                              DateTime focusDay) {
-                                            setState(() {
-                                              selectedDay = selectDay;
-                                              focusedDay = focusDay;
-                                              selectedDayString =
-                                                  DateFormat('yyyy-MM-dd')
-                                                      .format(focusDay);
-                                              // push a new screen
-                                            });
-                                            print(selectedDayString);
-                                          },
-                                          selectedDayPredicate:
-                                              (DateTime date) {
-                                            return isSameDay(selectedDay, date);
-                                          },
-                                          calendarStyle: CalendarStyle(
-                                              isTodayHighlighted: true,
-                                              selectedDecoration: BoxDecoration(
-                                                color: Colors.blue,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              selectedTextStyle: TextStyle(
-                                                  color: Colors.white),
-                                              todayDecoration: BoxDecoration(
-                                                  color: Colors.purpleAccent,
-                                                  shape: BoxShape.circle)),
-                                        ),
+                                    Container(
+                                      padding: const EdgeInsets.all(10.0),
+                                      margin: EdgeInsets.all(10),
+                                      width:
+                                          MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            Color.fromRGBO(182, 220, 220, 10),
+                                        borderRadius:
+                                            BorderRadius.circular(15),
+                                      ),
+                                      child: TableCalendar(
+                                        rowHeight: 40,
+                                        locale: 'es_ES',
+                                        headerStyle: HeaderStyle(
+                                            titleCentered: true,
+                                            formatButtonVisible: false,
+                                            titleTextStyle: TextStyle(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold),
+                                            headerPadding:
+                                                EdgeInsets.symmetric(
+                                                    horizontal: 0,
+                                                    vertical: 10)),
+                                        focusedDay: selectedDay,
+                                        firstDay: DateTime.now(),
+                                        lastDay: DateTime.now()
+                                            .add(Duration(days: 200)),
+                                        startingDayOfWeek:
+                                            StartingDayOfWeek.sunday,
+                                        daysOfWeekVisible: true,
+                                        onDaySelected: (DateTime selectDay,
+                                            DateTime focusDay) {
+                                          setState(() {
+                                            selectedDay = selectDay;
+                                            focusedDay = focusDay;
+                                            selectedDayString =
+                                                DateFormat('yyyy-MM-dd')
+                                                    .format(focusDay);
+                                            // push a new screen
+                                          });
+                                          print(selectedDayString);
+                                        },
+                                        selectedDayPredicate:
+                                            (DateTime date) {
+                                          return isSameDay(selectedDay, date);
+                                        },
+                                        calendarStyle: CalendarStyle(
+                                            isTodayHighlighted: true,
+                                            selectedDecoration: BoxDecoration(
+                                              color: Colors.blue,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            selectedTextStyle: TextStyle(
+                                                color: Colors.white),
+                                            todayDecoration: BoxDecoration(
+                                                color: Colors.purpleAccent,
+                                                shape: BoxShape.circle)),
                                       ),
                                     ),
                                     Padding(

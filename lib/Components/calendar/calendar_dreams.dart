@@ -18,7 +18,7 @@ class _CalendarDreamsState extends State<CalendarDreams> {
   //para sacar 6:15PM ejem
   String? fechaIn = "";
   String? fechaFin = "";
-
+  final TextEditingController message = TextEditingController();
   TimeOfDay? resultIn = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay? resultFin = TimeOfDay(hour: 00, minute: 00);
 
@@ -57,11 +57,11 @@ class _CalendarDreamsState extends State<CalendarDreams> {
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
             child: child!,
           );
-        }).then((value){
-          setState(() {
-            resultIn = value;
-          });
-        });
+        }).then((value) {
+      setState(() {
+        resultIn = value;
+      });
+    });
   }
 
   Future<void> _showFin() async {
@@ -79,6 +79,29 @@ class _CalendarDreamsState extends State<CalendarDreams> {
     }
     print(resultFin!.hour);
     print(fechaFin);
+  }
+
+  List<dynamic> sleepList = [];
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
+
+    sleepList =
+        await dataBaseHelper.getSleepsRecords(widget.idSend, name, password);
+
+    print("sleepList: " + sleepList.toString());
+    print("first: " + sleepList[0].toString());
+    print("startDate first: " + sleepList[0]["startDate"].toString());
+    print("size: " + sleepList.length.toString());
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
   }
 
   @override
@@ -156,10 +179,11 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                         enableDrag: true,
                         context: context,
                         builder: (BuildContext context) {
-                          return Padding(
-                            padding: EdgeInsets.all(10.0),
+                          return AnimatedPadding(
+                            padding: MediaQuery.of(context).viewInsets,
+                            duration: Duration(seconds: 1),
                             child: Container(
-                              height: MediaQuery.of(context).size.height / 2,
+                              height: MediaQuery.of(context).size.height / 2.9,
                               padding: EdgeInsets.all(10),
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
@@ -209,7 +233,8 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                                       children: <Widget>[
                                         Expanded(
                                           child: TextField(
-                                            //controller: message,
+                                            controller: message,
+                                            autofocus: true,
                                             decoration: InputDecoration.collapsed(
                                                 hintText:
                                                     "Escribir descripción ..."),
@@ -409,6 +434,7 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                                                         .toString()
                                                         .padLeft(2, '0');
                                             print(sleepRecord.endDate);
+                                            sleepRecord.message = message.text;
                                             sleepRecord = await dataBaseHelper
                                                 .createASleepRecord(
                                               widget.idSend,
@@ -423,7 +449,7 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                                                         DreamRecordsPage(
                                                             widget.idSend)));
                                           },
-                                          child: Text("REGISTRAR horas",
+                                          child: Text("REGISTRAR HORAS",
                                               style: TextStyle(
                                                   fontSize: 15.5,
                                                   color: Color.fromRGBO(
@@ -449,7 +475,122 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                 ))
           ],
         ),
+        DreamsChart(context),
       ],
     );
+  }
+
+  Widget DreamsChart(BuildContext context) {
+    List<String> duracion = [];
+    for (int i = 0; i < sleepList.length; i++) {
+      duracion.add(sleepList[i]['duration'].substring(1, 3));
+      //aumentar 24 horas
+      duracion = duracion.map((e) => e.startsWith('-') ? e.substring(1) : e).toList();
+    }
+    return SingleChildScrollView(
+        child: Column(
+      children: [
+        for (int i = 0; i < sleepList.length; i++)
+          Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height / 6,
+            constraints:
+                BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+            margin: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+                color: Color.fromRGBO(246, 239, 227, 10),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                  )
+                ]),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: Column(
+                // ajust el tamaño de la columna
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          "Dormí un total de: " +
+                              duracion[i] +
+                              " horas",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          child: PopupMenuButton<String>(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              tooltip: "Opciones",
+                              /*onSelected: (String value) {
+                                    if (value == "Eliminar") {
+                                      dataBaseHelper.deleteReminder(
+                                          remindersList[i]['id']);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ReminderPage(widget.idSend)));
+                                    }
+                                  },*/
+                              //padding: EdgeInsets.zero,
+                              icon: Icon(Icons.more_horiz),
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<String>>[
+                                    PopupMenuItem<String>(
+                                      value: "Modificar",
+                                      child: ListTile(
+                                        leading: Icon(Icons.edit),
+                                        title: Text("Modificar"),
+                                      ),
+                                    ),
+                                    PopupMenuItem<String>(
+                                      value: "Eliminar",
+                                      child: ListTile(
+                                        leading: Icon(Icons.delete),
+                                        title: Text("Eliminar"),
+                                      ),
+                                    )
+                                  ]))
+                    ],
+                  ),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Me fui a dormir a las: " +
+                            sleepList[i]["startDate"].toString(),
+                      )),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Me desperté a las: " +
+                            sleepList[i]["endDate"].toString(),
+                      )),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Dormí un total de: " +
+                            duracion[i] +
+                            " horas",
+                      )),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        sleepList[i]["message"].toString() + " .",
+                      )),
+                  // negrita
+                ],
+              ),
+            ),
+          )
+      ],
+    ));
   }
 }

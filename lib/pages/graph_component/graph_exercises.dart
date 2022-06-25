@@ -90,7 +90,7 @@ class _GraphExercisesPageState extends State<GraphExercisesPage> {
           child: SafeArea(
               child: Stack(
             children: <Widget>[
-              BackgroundImage('assets/6.jpg'),
+              BackgroundImage('assets/fondos/x cada grafica.png'),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(

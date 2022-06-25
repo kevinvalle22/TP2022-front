@@ -48,7 +48,7 @@ class _ReminderPageState extends State<ReminderPage> {
             child: Container(
                 child: Stack(
               children: <Widget>[
-                Container(child: BackgroundImage('assets/7.jpg')),
+                Container(child: BackgroundImage('assets/fondos/recordatorio.png')),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(

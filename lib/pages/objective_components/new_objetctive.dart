@@ -26,7 +26,7 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
           child: Stack(
             children: <Widget>[
               Container(
-                child: BackgroundImage('assets/7.jpg'),
+                child: BackgroundImage('assets/fondos/objetivo.png'),
               ),
               Column(
                 children: <Widget>[

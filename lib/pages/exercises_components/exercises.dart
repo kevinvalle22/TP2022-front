@@ -32,7 +32,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
             child: Stack(
           children: <Widget>[
             Container(
-              child: BackgroundImage('assets/2.jpg'),
+              child: BackgroundImage('assets/fondos/ejercicios respiracion.png'),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),

@@ -223,14 +223,6 @@ class ContainerLabelExercises extends StatefulWidget {
 }
 
 class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
-  List<String> hours = [
-    "0 horas y 30 minutos",
-    "0 horas y 5 minutos",
-    "0 horas y 15 minutos",
-    "0 horas y 10 minutos",
-    "0 horas y 5 minutos"
-  ];
-
   List<String> dayOftheWeek = [
     "Domingo",
     "Lunes",
@@ -256,6 +248,7 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
     print("startDate first: " + exercisesList[0]["startDate"].toString());
     print("size: " + exercisesList.length.toString());
     //convert string to int
+    //lista vacia  mensaje de error
 
     setState(() {});
   }

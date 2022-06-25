@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use, non_constant_identifier_names, use_key_in_widget_constructors, prefer_const_constructors
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 
@@ -37,15 +38,19 @@ Widget Cuerpo(BuildContext context) {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage('assets/7.jpg'),
+                image: AssetImage('assets/fondos/afirmaciones-reforzamiento.png'),
               ),
             ),
           ),
-          Positioned(
-            top: 50,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Components(),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Components(),
+              ),
+            ),
           ),
         ],
       )
@@ -126,6 +131,9 @@ class _BodyState extends State<Body> {
   int cont2 = 0;
   Color buttonColor = Colors.black;
   List<String> lista = <String>[];
+  bool _switchValue = false;
+  bool _switchValue2 = true;
+  bool aasdaads = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -155,11 +163,201 @@ class _BodyState extends State<Body> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           child: SizedBox(
-            child: Affirmations(context, afirm),
-            height: 200,
+            child: AffimtationChart(context),
           ),
         ),
+        Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          child: const Text("Configuración",
+              style: TextStyle(
+                  color: Color.fromRGBO(146, 150, 187, 10),
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold)),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width - 60,
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)
+              ],
+              color: Color.fromRGBO(250, 233, 207, 1),
+              borderRadius: BorderRadius.circular(20.0)),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: Text(
+                    "Recibir afirmaciones diarias.",
+                    style: TextStyle(fontSize: 17),
+                  ),
+                ),
+                CupertinoSwitch(
+                  value: _switchValue2,
+                  onChanged: (value) {/*
+                    _switchValue2 = value;
+                    if(_switchValue2==false)
+                    {
+                      setState(() {
+                        _switchValue2=true;
+                        aasdaads = true;
+                      });
+                    }
+                    else
+                    {
+                      setState(() {
+                        _switchValue2=false;
+                        aasdaads = false;
+                      });
+                    }*/
+                  },
+                )
+              ],
+            ),
+          ),
+        )
       ],
+    );
+  }
+
+  Widget AffimtationChart(BuildContext context) {
+    return Column(
+      children: [
+        for (int i = 0; i < 3; i++)
+          Padding(
+            padding: const EdgeInsets.all(7.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width - 60,
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(.1), blurRadius: 3)
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.0)),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.favorite,
+                              color: Color.fromRGBO(219, 106, 106, 1)),
+                        ),
+                        Expanded(
+                          child: Text(
+                            "Tomar Aguaasdasdasdasdasdasdasdasdasdasdasdasd",
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        CupertinoSwitch(
+                          value: _switchValue,
+                          onChanged: (value) {
+                            _switchValue = value;
+                            setState(() {});
+                          },
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: 200,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: myBoxDecoration(),
+                                  child: Text("L",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white))),
+                              // ignore: prefer_const_constructors
+                              Text(
+                                "M",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              Container(
+                                  padding: const EdgeInsets.all(6.0),
+                                  decoration: myBoxDecoration(),
+                                  child: Text("M",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white))),
+                              Text(
+                                "J",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: myBoxDecoration(),
+                                  child: Text("V",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white))),
+                              Text(
+                                "S",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: myBoxDecoration(),
+                                  child: Text("D",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white))),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 50,
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: timeBoxDecoration(),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                "05:15 AM",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(
+                                Icons.timer,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  BoxDecoration myBoxDecoration() {
+    return BoxDecoration(
+        color: Color.fromRGBO(137, 132, 193, 1),
+        shape: BoxShape.circle);
+  }
+
+  BoxDecoration timeBoxDecoration() {
+    return BoxDecoration(
+      color: Color.fromRGBO(137, 132, 193, 1),
+      borderRadius: BorderRadius.circular(20),
     );
   }
 
@@ -220,53 +418,5 @@ class _BodyState extends State<Body> {
         ),
       ),
     );
-  }
-
-  Widget Affirmations(BuildContext context, String quote) {
-    List names = [
-      '"Soy feliz y libre porque soy yo"',
-      "Estoy aprendiendo a confiar en el viaje",
-      '"Soy capaz. Tengo potencial para triunfar"',
-      "Creo en el mundo libre de estrés para mi"
-    ];
-
-    if (quote != '') {
-      if (lista.contains(quote)) {
-        cont = 0;
-        lista.remove(quote);
-      } else {
-        cont = 1;
-        lista.add(quote);
-      }
-    }
-    return ListView.builder(
-        padding: const EdgeInsets.all(9),
-        itemCount: lista.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            //height: 40,
-            decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(color: Colors.white.withOpacity(.1), blurRadius: 3)
-                ],
-                color: Color.fromRGBO(254, 227, 211, 10),
-                borderRadius: BorderRadius.circular(9.0)),
-            alignment: Alignment.centerLeft,
-            child: Row(
-              children: [
-                Icon(
-                  Icons.favorite,
-                  color: Color.fromRGBO(219, 167, 138, 10),
-                ),
-                Flexible(
-                  child: Text(
-                    lista[index],
-                    style: TextStyle(fontSize: 14),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
   }
 }
