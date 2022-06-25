@@ -18,6 +18,8 @@ class _CalendarDreamsState extends State<CalendarDreams> {
   //para sacar 6:15PM ejem
   String? fechaIn = "";
   String? fechaFin = "";
+  bool suenio = false;
+  bool siesta=false;
   final TextEditingController message = TextEditingController();
   TimeOfDay? resultIn = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay? resultFin = TimeOfDay(hour: 00, minute: 00);
@@ -64,7 +66,7 @@ class _CalendarDreamsState extends State<CalendarDreams> {
     });
   }
 
-  Future<void> _showFin() async {
+  Future<void> _showFin(BuildContext context) async {
     resultFin = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
@@ -179,293 +181,431 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                         enableDrag: true,
                         context: context,
                         builder: (BuildContext context) {
-                          return AnimatedPadding(
-                            padding: MediaQuery.of(context).viewInsets,
-                            duration: Duration(seconds: 1),
-                            child: Container(
-                              height: MediaQuery.of(context).size.height / 2.2,
-                              padding: EdgeInsets.all(10),
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(.1),
-                                      blurRadius: 3)
-                                ],
-                                color: Color.fromRGBO(128, 124, 183, 10),
-                              ),
-                              child: Column(
-                                //mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: Center(
-                                        child: Text(
-                                          "Registro de horas",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 25),
+                          return StatefulBuilder(builder:
+                              (BuildContext context, StateSetter myState) {
+                            return AnimatedPadding(
+                              padding: MediaQuery.of(context).viewInsets,
+                              duration: Duration(seconds: 1),
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height / 2,
+                                padding: EdgeInsets.all(10),
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black.withOpacity(.1),
+                                        blurRadius: 3)
+                                  ],
+                                  color: Color.fromRGBO(128, 124, 183, 10),
+                                ),
+                                child: Column(
+                                  //mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            child: Text(
+                                              "Registro de horas",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 24),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    245, 242, 250, 10),
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                  )
+                                                ]),
+                                            child: CheckboxListTile(
+                                              //poner texto en checkbox
+                                              dense: true,
+                                              title: Text(
+                                                "Sueño Largo",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16),
+                                              ),
+                                              checkColor: Colors.greenAccent,
+                                              activeColor: Colors.green,
+                                              value: suenio,
+                                              onChanged: (value) {
+                                                myState(() {
+                                                  suenio = value!;
+                                                  print(suenio);
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          SizedBox(height: 10,),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    245, 242, 250, 10),
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                  )
+                                                ]),
+                                            child: CheckboxListTile(
+                                              //poner texto en checkbox
+                                              dense: true,
+                                              title: Text(
+                                                "Sueño corto durante el mismo día",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16),
+                                              ),
+                                              checkColor: Colors.greenAccent,
+                                              activeColor: Colors.green,
+                                              value: siesta,
+                                              onChanged: (value) {
+                                                myState(() {
+                                                  siesta = value!;
+                                                  print(siesta);
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 15),
+                                      height: 50,
+                                      //color: Colors.white,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(245, 242, 250, 10),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 2,
+                                              blurRadius: 5,
+                                            )
+                                          ]),
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: MediaQuery.of(context).size.width*0.84,
+                                        child: TextField(
+                                          textAlign: TextAlign.center,
+                                          controller: message,
+                                          autofocus: true,
+                                          decoration: InputDecoration.collapsed(
+                                            floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                              hintText:
+                                                  "Escribir descripción ..."),
+                                          textCapitalization:
+                                              TextCapitalization.sentences,
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 15),
-                                    height: 50,
-                                    //color: Colors.white,
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Color.fromRGBO(245, 242, 250, 10),
-                                        borderRadius: BorderRadius.circular(15),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 2,
-                                            blurRadius: 5,
-                                          )
-                                        ]),
-                                    child: Row(
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
-                                        Expanded(
-                                          child: TextField(
-                                            controller: message,
-                                            autofocus: true,
-                                            decoration: InputDecoration.collapsed(
-                                                hintText:
-                                                    "Escribir descripción ..."),
-                                            textCapitalization:
-                                                TextCapitalization.sentences,
-                                          ),
-                                        ),
+                                        Container(
+                                            child: Row(
+                                          children: [
+                                            Container(
+                                              width: 50,
+                                              child: Text(
+                                                "Hora inicial",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            Text(":",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white)),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            GestureDetector(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.5),
+                                                        spreadRadius: 2,
+                                                        blurRadius: 5,
+                                                      )
+                                                    ]),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons
+                                                          .watch_later_outlined),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(resultIn!.hour
+                                                              .toString()
+                                                              .padLeft(2, '0') +
+                                                          ":" +
+                                                          resultIn!.minute
+                                                              .toString()
+                                                              .padLeft(2, '0')),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                myState(() {
+                                                  print(suenio);
+                                                  _showIni(context);
+                                                  //_showA();
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        )),
+                                        Container(
+                                            child: Row(
+                                          children: [
+                                            Container(
+                                              width: 50,
+                                              child: Text(
+                                                "Hora final",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            Text(":",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white)),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            GestureDetector(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.5),
+                                                        spreadRadius: 2,
+                                                        blurRadius: 5,
+                                                      )
+                                                    ]),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons
+                                                          .watch_later_outlined),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(resultFin!.hour
+                                                              .toString()
+                                                              .padLeft(2, '0') +
+                                                          ":" +
+                                                          resultFin!.minute
+                                                              .toString()
+                                                              .padLeft(2, '0')),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                myState(() {
+                                                  print(suenio);
+                                                  _showFin(context);
+                                                  //_showA();
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        )),
                                       ],
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Container(
-                                          child: Row(
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            child: Text(
-                                              "Hora inicial",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          Text(":",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white)),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          GestureDetector(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.5),
-                                                      spreadRadius: 2,
-                                                      blurRadius: 5,
-                                                    )
-                                                  ]),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons
-                                                        .watch_later_outlined),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(resultIn!.hour
+                                    SizedBox(height: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Center(
+                                        child: Container(
+                                          width: 300,
+                                          height: 50,
+                                          child: RaisedButton(
+                                            color: Colors.white,
+                                            onPressed: () async {
+                                              SleepRecord sleepRecord =
+                                                  SleepRecord();
+                                              var userName =
+                                                  await UserSecureStorage
+                                                      .getUsername();
+                                              var password =
+                                                  await UserSecureStorage
+                                                      .getPassword();
+                                              // obtener la fecha actual
+                                              var now = DateTime.now()
+                                                  .add(Duration(days: 1));
+                                              var formatter =
+                                                  DateFormat('yyyy-MM-dd');
+                                              print(
+                                                  "fecha inicial: ${formatter}");
+                                              if (suenio == true) {
+                                                sleepRecord.startDate =
+                                                    selectedDayString +
+                                                        " " +
+                                                        resultIn!.hour
                                                             .toString()
                                                             .padLeft(2, '0') +
                                                         ":" +
                                                         resultIn!.minute
                                                             .toString()
-                                                            .padLeft(2, '0')),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            onTap: () => {
-                                              setState(() {
-                                                _showIni(context);
-                                                //_showA();
-                                              })
-                                            },
-                                          ),
-                                        ],
-                                      )),
-                                      Container(
-                                          child: Row(
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            child: Text(
-                                              "Hora final",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          Text(":",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white)),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          GestureDetector(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.5),
-                                                      spreadRadius: 2,
-                                                      blurRadius: 5,
-                                                    )
-                                                  ]),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons
-                                                        .watch_later_outlined),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(resultFin!.hour
+                                                            .padLeft(2, '0');
+                                                print(sleepRecord.startDate);
+                                                //add 1 day to the selected day
+                                                var a = DateTime.parse(
+                                                    selectedDayString);
+                                                //aumentarle 1 día al día seleccionado
+                                                currentedDayString =
+                                                    formatter.format(a.add(
+                                                        Duration(days: 1)));
+                                                //obtener la fecha final
+                                                sleepRecord.endDate =
+                                                    currentedDayString +
+                                                        " " +
+                                                        resultFin!.hour
                                                             .toString()
                                                             .padLeft(2, '0') +
                                                         ":" +
                                                         resultFin!.minute
                                                             .toString()
-                                                            .padLeft(2, '0')),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            onTap: () => _showFin(),
+                                                            .padLeft(2, '0');
+                                                print(sleepRecord.endDate);
+                                                sleepRecord.message =
+                                                    message.text;
+                                                sleepRecord =
+                                                    await dataBaseHelper
+                                                        .createASleepRecord(
+                                                  widget.idSend,
+                                                  userName.toString(),
+                                                  password.toString(),
+                                                  sleepRecord,
+                                                );
+                                                print("sueño");
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            DreamRecordsPage(
+                                                                widget
+                                                                    .idSend)));
+                                              } else if(siesta==true){
+                                                sleepRecord.startDate =
+                                                    selectedDayString +
+                                                        " " +
+                                                        resultIn!.hour
+                                                            .toString()
+                                                            .padLeft(2, '0') +
+                                                        ":" +
+                                                        resultIn!.minute
+                                                            .toString()
+                                                            .padLeft(2, '0');
+                                                print(sleepRecord.startDate);
+                                                //add 1 day to the selected day
+                                                sleepRecord.endDate =
+                                                    selectedDayString +
+                                                        " " +
+                                                        resultFin!.hour
+                                                            .toString()
+                                                            .padLeft(2, '0') +
+                                                        ":" +
+                                                        resultFin!.minute
+                                                            .toString()
+                                                            .padLeft(2, '0');
+                                                print(sleepRecord.endDate);
+                                                sleepRecord.message =
+                                                    message.text;
+                                                sleepRecord =
+                                                    await dataBaseHelper
+                                                        .createASleepRecord(
+                                                  widget.idSend,
+                                                  userName.toString(),
+                                                  password.toString(),
+                                                  sleepRecord,
+                                                );
+                                                print("siesta");
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            DreamRecordsPage(
+                                                                widget
+                                                                    .idSend)));
+                                              }
+                                            },
+                                            child: Text("REGISTRAR HORAS",
+                                                style: TextStyle(
+                                                    fontSize: 15.5,
+                                                    color: Color.fromRGBO(
+                                                        107, 174, 174, 10),
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
                                           ),
-                                        ],
-                                      )),
-                                    ],
-                                  ),
-                                  SizedBox(height: 20),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Center(
-                                      child: Container(
-                                        width: 300,
-                                        height: 50,
-                                        child: RaisedButton(
-                                          color: Colors.white,
-                                          onPressed: () async {
-                                            SleepRecord sleepRecord =
-                                                SleepRecord();
-                                            var userName =
-                                                await UserSecureStorage
-                                                    .getUsername();
-                                            var password =
-                                                await UserSecureStorage
-                                                    .getPassword();
-                                            // obtener la fecha actual
-                                            var now = DateTime.now()
-                                                .add(Duration(days: 1));
-                                            var formatter =
-                                                DateFormat('yyyy-MM-dd');
-                                            print(
-                                                "fecha inicial: ${formatter}");
-                                            sleepRecord.startDate =
-                                                selectedDayString +
-                                                    " " +
-                                                    resultIn!.hour
-                                                        .toString()
-                                                        .padLeft(2, '0') +
-                                                    ":" +
-                                                    resultIn!.minute
-                                                        .toString()
-                                                        .padLeft(2, '0');
-                                            print(sleepRecord.startDate);
-                                            //add 1 day to the selected day
-                                            var a = DateTime.parse(
-                                                selectedDayString);
-                                            //aumentarle 1 día al día seleccionado
-                                            currentedDayString =
-                                                formatter.format(
-                                                    a.add(Duration(days: 1)));
-                                            //obtener la fecha final
-                                            sleepRecord.endDate =
-                                                currentedDayString +
-                                                    " " +
-                                                    resultFin!.hour
-                                                        .toString()
-                                                        .padLeft(2, '0') +
-                                                    ":" +
-                                                    resultFin!.minute
-                                                        .toString()
-                                                        .padLeft(2, '0');
-                                            print(sleepRecord.endDate);
-                                            sleepRecord.message = message.text;
-                                            sleepRecord = await dataBaseHelper
-                                                .createASleepRecord(
-                                              widget.idSend,
-                                              userName.toString(),
-                                              password.toString(),
-                                              sleepRecord,
-                                            );
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        DreamRecordsPage(
-                                                            widget.idSend)));
-                                          },
-                                          child: Text("REGISTRAR HORAS",
-                                              style: TextStyle(
-                                                  fontSize: 15.5,
-                                                  color: Color.fromRGBO(
-                                                      107, 174, 174, 10),
-                                                  fontWeight: FontWeight.bold)),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(50)),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          });
                         });
                   },
                   child: Icon(
