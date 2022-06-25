@@ -7,6 +7,8 @@ import 'package:tp2022_front/models/User.dart';
 import 'package:tp2022_front/models/SleepRecord.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/Affirmation.dart';
+
 //global variable to store the token
 
 class DataBaseHelper {
@@ -104,6 +106,39 @@ class DataBaseHelper {
     }
   }
 
+  Future<Affirmation> createAffirmation(String urlOption, String userName,
+      String password, Affirmation affirmation) async {
+    const requestUrl = "https://mental-health-deploy.herokuapp.com/api/users/";
+    final url = Uri.parse(requestUrl + urlOption + "/affirmations");
+    final token = await authenticate(userName, password);
+
+    http.Response result = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'message': affirmation.message,
+        'affirmationDate': affirmation.affirmationDate,
+        'mondayActive': affirmation.mondayActive,
+        'tuesdayActive': affirmation.tuesdayActive,
+        'wednesdayActive': affirmation.wednesdayActive,
+        'thursdayActive': affirmation.thursdayActive,
+        'fridayActive': affirmation.fridayActive,
+        'saturdayActive': affirmation.saturdayActive,
+        'sundayActive': affirmation.sundayActive
+      }),
+    );
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(result.body);
+      return Affirmation.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
   Future<SleepRecord> createASleepRecord(String urlOption, String userName,
       String password, SleepRecord sleepRecord) async {
     const requestUrl = "https://mental-health-deploy.herokuapp.com/api/users/";
@@ -120,6 +155,7 @@ class DataBaseHelper {
       body: jsonEncode({
         'startDate': sleepRecord.startDate,
         'endDate': sleepRecord.endDate,
+        'message': sleepRecord.message,
       }),
     );
     if (result.statusCode == HttpStatus.ok) {
@@ -148,6 +184,30 @@ class DataBaseHelper {
       print(list);
       List listOfSleepRecords =
           list.map<SleepRecord>((json) => SleepRecord.fromJson(json)).toList();
+      return list;
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<List> getAffirmations(
+      String urlOption, String userName, String password) async {
+    const urlBase = "https://mental-health-deploy.herokuapp.com/api/users/";
+    final token = await authenticate(userName, password);
+    final strFinal = urlBase + urlOption + "/affirmations";
+    final url = Uri.parse(strFinal);
+
+    http.Response result = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(result.body);
+      final list = jsonResponse['content'];
+      print(list);
+      List listOfSleepRecords =
+          list.map<Affirmation>((json) => Affirmation.fromJson(json)).toList();
       return list;
     } else {
       throw Exception('Failed request');
@@ -204,6 +264,64 @@ class DataBaseHelper {
     if (result.statusCode == HttpStatus.ok) {
       final jsonResponse = json.decode(result.body);
       return Reminder.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<Exercise> editAnExercise(String urlOption, String userName,
+      String password, String exerciseId, Exercise exercise) async {
+    int id = int.parse(urlOption);
+    int id2 = int.parse(exerciseId);
+    //var exercise=getExercises(urlOption, userName, password);
+    final requestUrl =
+        "https://mental-health-deploy.herokuapp.com/api/users/$id/exercises/$id2";
+
+    final token = await authenticate(userName, password);
+
+    http.Response result = await http.put(
+      requestUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'startDate': exercise.startDate,
+        'endDate': exercise.endDate,
+        'message': exercise.message,
+      }),
+    );
+    print(result.statusCode);
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(result.body);
+      return Exercise.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<Exercise> deleteAnExercise(String urlOption, String userName,
+      String password, String exerciseId) async {
+    int id = int.parse(urlOption);
+    int id2 = int.parse(exerciseId);
+    final requestUrl =
+        "https://mental-health-deploy.herokuapp.com/api/users/$id/exercises/$id2";
+
+    final token = await authenticate(userName, password);
+
+    http.Response result = await http.delete(
+      requestUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    print(result.statusCode);
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(result.body);
+      return Exercise.fromJson(jsonResponse);
     } else {
       throw Exception('Failed request');
     }

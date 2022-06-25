@@ -274,11 +274,11 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
           for (int i = 0; i < exercisesList.length; i++)
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height / 6.5,
+              height: MediaQuery.of(context).size.height / 5.5,
               constraints:
                   BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
               padding: EdgeInsets.all(4),
-              margin: EdgeInsets.symmetric(vertical: 8),
+              margin: const EdgeInsets.symmetric(vertical: 8),
               decoration: BoxDecoration(
                   color: Color.fromRGBO(246, 239, 227, 10),
                   borderRadius: BorderRadius.circular(15),
@@ -360,7 +360,8 @@ class _ContainerLabelExercisesState extends State<ContainerLabelExercises> {
                     Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Ejercicio a realizar: " + exercisesList[i]["message"].toString(),
+                          "Ejercicio a realizar: " +
+                              exercisesList[i]["message"].toString(),
                         )),
                   ],
                 ),
