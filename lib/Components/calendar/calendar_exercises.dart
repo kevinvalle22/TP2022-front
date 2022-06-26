@@ -56,6 +56,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
   }
 
   List<dynamic> exercisesList = [];
+
   Future init() async {
     final name = await UserSecureStorage.getUsername() ?? '';
     final password = await UserSecureStorage.getPassword() ?? '';
@@ -64,11 +65,6 @@ class _CalendarExercisesState extends State<CalendarExercises> {
 
     exercisesList =
         await dataBaseHelper.getExercises(widget.idSend, name, password);
-
-    print("sleepList: " + exercisesList.toString());
-    print("first: " + exercisesList[0].toString());
-    print("startDate first: " + exercisesList[0]["startDate"].toString());
-    print("size: " + exercisesList.length.toString());
 
     //convert string to int
     //lista vacia  mensaje de error
@@ -467,46 +463,47 @@ class _CalendarExercisesState extends State<CalendarExercises> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          for (int i = 0; i < exercisesList.length; i++)
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              constraints:
-                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
-              padding: EdgeInsets.all(4),
-              margin: EdgeInsets.symmetric(vertical: 8),
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(246, 239, 227, 10),
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                    )
-                  ]),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            "Duración: " +
-                                (exercisesList[i]["duration"].toString()) +
-                                " horas",
-                            style: TextStyle(fontSize: 16),
+          if (exercisesList.isNotEmpty) ...[
+            for (int i = 0; i < exercisesList.length; i++)
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                constraints:
+                    BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+                padding: EdgeInsets.all(4),
+                margin: EdgeInsets.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(246, 239, 227, 10),
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                      )
+                    ]),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "Duración: " +
+                                  (exercisesList[i]["duration"].toString()) +
+                                  " horas",
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ),
-                        ),
-                        Container(
-                            width: MediaQuery.of(context).size.width * 0.1,
-                            child: PopupMenuButton<String>(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                tooltip: "Opciones",
-                                /*onSelected: (String value) {
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.1,
+                              child: PopupMenuButton<String>(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  tooltip: "Opciones",
+                                  /*onSelected: (String value) {
                                     if (value == "Eliminar") {
                                       dataBaseHelper.deleteReminder(
                                           remindersList[i]['id']);
@@ -517,71 +514,75 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                                   ReminderPage(widget.idSend)));
                                     }
                                   },*/
-                                //padding: EdgeInsets.zero,
-                                onSelected: (String value) async {
-                                  if (value == "Eliminar") {
-                                    final name =
-                                        await UserSecureStorage.getUsername() ??
-                                            '';
-                                    final password =
-                                        await UserSecureStorage.getPassword() ??
-                                            '';
-                                    dataBaseHelper.deleteAnExercise(
-                                        widget.idSend,
-                                        name,
-                                        password,
-                                        int.parse(
-                                            exercisesList[i]['id'].toString()));
-                                    exercisesList =
-                                        await dataBaseHelper.getExercises(
-                                            widget.idSend, name, password);
+                                  //padding: EdgeInsets.zero,
+                                  onSelected: (String value) async {
+                                    if (value == "Eliminar") {
+                                      final name = await UserSecureStorage
+                                              .getUsername() ??
+                                          '';
+                                      final password = await UserSecureStorage
+                                              .getPassword() ??
+                                          '';
+                                      dataBaseHelper.deleteAnExercise(
+                                          widget.idSend,
+                                          name,
+                                          password,
+                                          int.parse(exercisesList[i]['id']
+                                              .toString()));
+                                      exercisesList =
+                                          await dataBaseHelper.getExercises(
+                                              widget.idSend, name, password);
 
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RecordExercisesPage(
-                                                    widget.idSend)));
-                                  }
-                                },
-                                icon: Icon(Icons.more_horiz),
-                                itemBuilder: (BuildContext context) =>
-                                    <PopupMenuEntry<String>>[
-                                      PopupMenuItem<String>(
-                                        value: "Modificar",
-                                        child: ListTile(
-                                          leading: Icon(Icons.edit),
-                                          title: Text("Modificar"),
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RecordExercisesPage(
+                                                      widget.idSend)));
+                                    }
+                                  },
+                                  icon: Icon(Icons.more_horiz),
+                                  itemBuilder: (BuildContext context) =>
+                                      <PopupMenuEntry<String>>[
+                                        PopupMenuItem<String>(
+                                          value: "Modificar",
+                                          child: ListTile(
+                                            leading: Icon(Icons.edit),
+                                            title: Text("Modificar"),
+                                          ),
                                         ),
-                                      ),
-                                      PopupMenuItem<String>(
-                                        value: "Eliminar",
-                                        child: ListTile(
-                                          leading: Icon(Icons.delete),
-                                          title: Text("Eliminar"),
-                                        ),
-                                      )
-                                    ]))
-                      ],
-                    ),
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Fecha: " + exercisesList[i]["startDate"].toString(),
-                        )),
-                    Container(alignment: Alignment.centerLeft, child: Text(
-                        // Mayuscula la primera letra  y despues todo minusculas
-                        "Día de la semana: " + date[i])),
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Ejercicio a realizar: " +
-                              exercisesList[i]["message"].toString(),
-                        )),
-                  ],
+                                        PopupMenuItem<String>(
+                                          value: "Eliminar",
+                                          child: ListTile(
+                                            leading: Icon(Icons.delete),
+                                            title: Text("Eliminar"),
+                                          ),
+                                        )
+                                      ]))
+                        ],
+                      ),
+                      Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Fecha: " +
+                                exercisesList[i]["startDate"].toString(),
+                          )),
+                      Container(alignment: Alignment.centerLeft, child: Text(
+                          // Mayuscula la primera letra  y despues todo minusculas
+                          "Día de la semana: " + date[i])),
+                      Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Ejercicio a realizar: " +
+                                exercisesList[i]["message"].toString(),
+                          )),
+                    ],
+                  ),
                 ),
-              ),
-            )
+              )
+          ] else ...[
+            Text("No hay elementos en la lista")
+          ],
         ],
       ),
     );
