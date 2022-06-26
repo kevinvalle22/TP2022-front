@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
+import 'package:tp2022_front/security/user_secure_storage.dart';
+import 'package:tp2022_front/utils/endpoints.dart';
 
 //void main() => runApp(PositveReinforcementPage());
 
@@ -17,115 +19,6 @@ class PositiveReinforcementPage extends StatefulWidget {
 }
 
 class _PositiveReinforcementPageState extends State<PositiveReinforcementPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(child: Cuerpo(context)),
-      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
-    );
-  }
-}
-
-Widget Cuerpo(BuildContext context) {
-  return Column(
-    children: <Widget>[
-      Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 1,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('assets/fondos/afirmaciones-reforzamiento.png'),
-              ),
-            ),
-          ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Components(),
-              ),
-            ),
-          ),
-        ],
-      )
-    ],
-  );
-}
-
-class Components extends StatefulWidget {
-  const Components({Key? key}) : super(key: key);
-
-  @override
-  State<Components> createState() => _ComponentsState();
-}
-
-class _ComponentsState extends State<Components> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          child: Header(),
-        ),
-        Container(
-          child: Body(),
-        )
-      ],
-    );
-  }
-}
-
-class Header extends StatefulWidget {
-  const Header({Key? key}) : super(key: key);
-
-  @override
-  State<Header> createState() => _HeaderState();
-}
-
-class _HeaderState extends State<Header> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Name(),
-    );
-  }
-
-  Widget Name() {
-    return IntrinsicWidth(
-      child: Column(
-        children: const [
-          Text("Afirmaciones",
-              style: TextStyle(
-                  color: Color.fromRGBO(67, 58, 108, 10),
-                  fontSize: 35.0,
-                  fontWeight: FontWeight.bold)),
-          SizedBox(
-            width: 410,
-            child: Divider(
-              color: Color.fromRGBO(146, 150, 187, 10),
-              thickness: 1,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class Body extends StatefulWidget {
-  const Body({Key? key}) : super(key: key);
-
-  @override
-  State<Body> createState() => _BodyState();
-}
-
-class _BodyState extends State<Body> {
   String afirm = '';
   int cont = 0;
   int cont2 = 0;
@@ -134,98 +27,50 @@ class _BodyState extends State<Body> {
   bool _switchValue = false;
   bool _switchValue2 = true;
   bool aasdaads = false;
+  DataBaseHelper dataBaseHelper = DataBaseHelper();
+  List<dynamic> affirmationsList = [];
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
+
+    affirmationsList =
+        await dataBaseHelper.getAffirmations(widget.idSend, name, password);
+
+    print("sleepList: " + affirmationsList.toString());
+    print("first: " + affirmationsList[0].toString());
+    print("affirmationDate first: " +
+        affirmationsList[0]["affirmationDate"].toString());
+    print("size: " + affirmationsList.length.toString());
+
+    //convert string to int
+    //lista vacia  mensaje de error
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+  }
+
+  bool x = true;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: const Text("Afirmaciones personalizadas",
-              style: TextStyle(
-                  color: Color.fromRGBO(146, 150, 187, 10),
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold)),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: CustomAffirmattons(context),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: const Text("Mis Afirmaciones",
-              style: TextStyle(
-                  color: Color.fromRGBO(146, 150, 187, 10),
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold)),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: SizedBox(
-            child: AffimtationChart(context),
-          ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: const Text("Configuración",
-              style: TextStyle(
-                  color: Color.fromRGBO(146, 150, 187, 10),
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold)),
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width - 60,
-          decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)
-              ],
-              color: Color.fromRGBO(250, 233, 207, 1),
-              borderRadius: BorderRadius.circular(20.0)),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Text(
-                    "Recibir afirmaciones diarias.",
-                    style: TextStyle(fontSize: 17),
-                  ),
-                ),
-                CupertinoSwitch(
-                  value: _switchValue2,
-                  onChanged: (value) {/*
-                    _switchValue2 = value;
-                    if(_switchValue2==false)
-                    {
-                      setState(() {
-                        _switchValue2=true;
-                        aasdaads = true;
-                      });
-                    }
-                    else
-                    {
-                      setState(() {
-                        _switchValue2=false;
-                        aasdaads = false;
-                      });
-                    }*/
-                  },
-                )
-              ],
-            ),
-          ),
-        )
-      ],
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SingleChildScrollView(child: Cuerpo(context)),
+      bottomNavigationBar: BottomNavigation(idSend: widget.idSend),
     );
   }
 
   Widget AffimtationChart(BuildContext context) {
     return Column(
       children: [
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < affirmationsList.length; i++)
           Padding(
             padding: const EdgeInsets.all(7.0),
             child: Container(
@@ -251,7 +96,7 @@ class _BodyState extends State<Body> {
                         ),
                         Expanded(
                           child: Text(
-                            "Tomar Aguaasdasdasdasdasdasdasdasdasdasdasdasd",
+                            affirmationsList[i]["message"].toString(),
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
@@ -277,41 +122,113 @@ class _BodyState extends State<Body> {
                             children: [
                               Container(
                                   padding: const EdgeInsets.all(8.0),
-                                  decoration: myBoxDecoration(),
+                                  decoration: BoxDecoration(
+                                      color: affirmationsList[i]["mondayActive"]
+                                          ? Color.fromRGBO(137, 132, 193, 1)
+                                          : Colors.transparent,
+                                      shape: BoxShape.circle),
                                   child: Text("L",
                                       style: TextStyle(
-                                          fontSize: 18, color: Colors.white))),
+                                          fontSize: 18,
+                                          color: affirmationsList[i]
+                                                  ["mondayActive"]
+                                              ? Colors.white
+                                              : Colors.black))),
                               // ignore: prefer_const_constructors
-                              Text(
-                                "M",
-                                style: TextStyle(fontSize: 18),
+                              Container(
+                                padding: const EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                    color: affirmationsList[i]["tuesdayActive"]
+                                        ? Color.fromRGBO(137, 132, 193, 1)
+                                        : Colors.transparent,
+                                    shape: BoxShape.circle),
+                                child: Text(
+                                  "M",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: affirmationsList[i]["tuesdayActive"]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
                               ),
                               Container(
                                   padding: const EdgeInsets.all(6.0),
-                                  decoration: myBoxDecoration(),
+                                  decoration: BoxDecoration(
+                                      color: affirmationsList[i]
+                                              ["wednesdayActive"]
+                                          ? Color.fromRGBO(137, 132, 193, 1)
+                                          : Colors.transparent,
+                                      shape: BoxShape.circle),
                                   child: Text("M",
                                       style: TextStyle(
-                                          fontSize: 18, color: Colors.white))),
-                              Text(
-                                "J",
-                                style: TextStyle(fontSize: 18),
+                                          fontSize: 18,
+                                          color: affirmationsList[i]
+                                                  ["wednesdayActive"]
+                                              ? Colors.white
+                                              : Colors.black))),
+                              Container(
+                                padding: const EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                    color: affirmationsList[i]["thursdayActive"]
+                                        ? Color.fromRGBO(137, 132, 193, 1)
+                                        : Colors.transparent,
+                                    shape: BoxShape.circle),
+                                child: Text(
+                                  "J",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: affirmationsList[i]
+                                              ["thursdayActive"]
+                                          ? Colors.white
+                                          : Colors.black),
+                                ),
                               ),
                               Container(
                                   padding: const EdgeInsets.all(8.0),
-                                  decoration: myBoxDecoration(),
+                                  decoration: BoxDecoration(
+                                      color: affirmationsList[i]["fridayActive"]
+                                          ? Color.fromRGBO(137, 132, 193, 1)
+                                          : Colors.transparent,
+                                      shape: BoxShape.circle),
                                   child: Text("V",
                                       style: TextStyle(
-                                          fontSize: 18, color: Colors.white))),
-                              Text(
-                                "S",
-                                style: TextStyle(fontSize: 18),
+                                          fontSize: 18,
+                                          color: affirmationsList[i]
+                                                  ["fridayActive"]
+                                              ? Colors.white
+                                              : Colors.black))),
+                              Container(
+                                padding: const EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                    color: affirmationsList[i]["saturdayActive"]
+                                        ? Color.fromRGBO(137, 132, 193, 1)
+                                        : Colors.transparent,
+                                    shape: BoxShape.circle),
+                                child: Text(
+                                  "S",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: affirmationsList[i]
+                                              ["saturdayActive"]
+                                          ? Colors.white
+                                          : Colors.black),
+                                ),
                               ),
                               Container(
                                   padding: const EdgeInsets.all(8.0),
-                                  decoration: myBoxDecoration(),
+                                  decoration: BoxDecoration(
+                                      color: affirmationsList[i]["sundayActive"]
+                                          ? Color.fromRGBO(137, 132, 193, 1)
+                                          : Colors.transparent,
+                                      shape: BoxShape.circle),
                                   child: Text("D",
                                       style: TextStyle(
-                                          fontSize: 18, color: Colors.white))),
+                                          fontSize: 18,
+                                          color: affirmationsList[i]
+                                                  ["sundayActive"]
+                                              ? Colors.white
+                                              : Colors.black))),
                             ],
                           ),
                         ),
@@ -319,23 +236,64 @@ class _BodyState extends State<Body> {
                           height: 50,
                           padding: const EdgeInsets.all(8.0),
                           decoration: timeBoxDecoration(),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                "05:15 AM",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Icon(
-                                Icons.timer,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            ],
-                          ),
+                          child: int.parse(affirmationsList[i]
+                                          ["affirmationDate"]
+                                      .toString()
+                                      .substring(11, 13)) >
+                                  12
+                              ? Row(
+                                  children: <Widget>[
+                                    Text(
+                                      (int.parse(affirmationsList[i][
+                                                              "affirmationDate"]
+                                                          .toString()
+                                                          .substring(11, 13))
+                                                      .toInt() -
+                                                  12)
+                                              .toString() +
+                                          affirmationsList[i]["affirmationDate"]
+                                              .toString()
+                                              .substring(13, 16) +
+                                          " PM",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Icon(
+                                      Icons.timer,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  children: <Widget>[
+                                    Text(
+                                      (int.parse(affirmationsList[i]
+                                                          ["affirmationDate"]
+                                                      .toString()
+                                                      .substring(11, 13))
+                                                  .toInt())
+                                              .toString() +
+                                          affirmationsList[i]["affirmationDate"]
+                                              .toString()
+                                              .substring(13, 16) +
+                                          " AM",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Icon(
+                                      Icons.timer,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ],
+                                ),
                         )
                       ],
                     )
@@ -350,8 +308,7 @@ class _BodyState extends State<Body> {
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
-        color: Color.fromRGBO(137, 132, 193, 1),
-        shape: BoxShape.circle);
+        color: Color.fromRGBO(137, 132, 193, 1), shape: BoxShape.circle);
   }
 
   BoxDecoration timeBoxDecoration() {
@@ -417,6 +374,131 @@ class _BodyState extends State<Body> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget Cuerpo(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Stack(
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * 1,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                      'assets/fondos/afirmaciones-reforzamiento.png'),
+                ),
+              ),
+            ),
+            SafeArea(
+              child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      Text("Afirmaciones",
+                          style: TextStyle(
+                              color: Color.fromRGBO(67, 58, 108, 10),
+                              fontSize: 35.0,
+                              fontWeight: FontWeight.bold)),
+                      SizedBox(
+                        width: 410,
+                        child: Divider(
+                          color: Color.fromRGBO(146, 150, 187, 10),
+                          thickness: 1,
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 5),
+                        child: const Text("Afirmaciones personalizadas",
+                            style: TextStyle(
+                                color: Color.fromRGBO(146, 150, 187, 10),
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      CustomAffirmattons(context),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 5),
+                        child: const Text("Mis Afirmaciones",
+                            style: TextStyle(
+                                color: Color.fromRGBO(146, 150, 187, 10),
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 5),
+                        child: SizedBox(
+                          child: AffimtationChart(context),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 5),
+                        child: const Text("Configuración",
+                            style: TextStyle(
+                                color: Color.fromRGBO(146, 150, 187, 10),
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 60,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(.1),
+                                  blurRadius: 3)
+                            ],
+                            color: Color.fromRGBO(250, 233, 207, 1),
+                            borderRadius: BorderRadius.circular(20.0)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "Recibir afirmaciones diarias.",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ),
+                              CupertinoSwitch(
+                                value: _switchValue2,
+                                onChanged: (value) {
+                                  /*
+                    _switchValue2 = value;
+                    if(_switchValue2==false)
+                    {
+                      setState(() {
+                        _switchValue2=true;
+                        aasdaads = true;
+                      });
+                    }
+                    else
+                    {
+                      setState(() {
+                        _switchValue2=false;
+                        aasdaads = false;
+                      });
+                    }*/
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  )),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

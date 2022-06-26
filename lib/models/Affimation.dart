@@ -7,6 +7,7 @@ String welcomeToJson(Affirmation data) => json.encode(data.toJson());
 
 class Affirmation {
   Affirmation({
+    this.id = 0,
     this.message = '',
     this.affirmationDate = '',
     this.mondayActive = false,
@@ -17,7 +18,7 @@ class Affirmation {
     this.saturdayActive = false,
     this.sundayActive = false,
   });
-
+  int id;
   String message;
   String affirmationDate;
   bool mondayActive;
@@ -29,6 +30,7 @@ class Affirmation {
   bool sundayActive;
 
   factory Affirmation.fromJson(Map<String, dynamic> json) => Affirmation(
+        id: json["id"],
         message: json["message"],
         affirmationDate: json["affirmationDate"],
         mondayActive: json["mondayActive"],
@@ -41,6 +43,7 @@ class Affirmation {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "message": message,
         "affirmationDate": affirmationDate,
         "mondayActive": mondayActive,
