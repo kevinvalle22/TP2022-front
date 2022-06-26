@@ -454,7 +454,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
       date = date.map((e) => e.replaceAll('MONDAY', 'Lunes')).toList();
       date = date.map((e) => e.replaceAll('TUESDAY', 'Martes')).toList();
       date = date.map((e) => e.replaceAll('WEDNESDAY', 'Miércoles')).toList();
-      date = date.map((e) => e.replaceAll('THRUSDAY', 'Jueves')).toList();
+      date = date.map((e) => e.replaceAll('THURSDAY', 'Jueves')).toList();
       date = date.map((e) => e.replaceAll('FRIDAY', 'Viernes')).toList();
       date = date.map((e) => e.replaceAll('SATURDAY', 'Sábado')).toList();
       date = date.map((e) => e.replaceAll('SUNDAY', 'Domingo')).toList();
