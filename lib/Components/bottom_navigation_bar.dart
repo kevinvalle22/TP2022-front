@@ -49,6 +49,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
+      color: Color.fromRGBO(254, 246, 238, 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -85,7 +86,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
             child: IconButton(
               highlightColor:
                   widget.botColorIcon ? null : Colors.lightGreenAccent,
-              icon: Image.asset('assets/bot.png'),
+              icon: Image.asset('assets/icons/bot bar.png'),
+              constraints: BoxConstraints(
+                  minWidth: 100, minHeight: 52.5, maxWidth: double.infinity),
               onPressed: () {
                 dynamic user = {
                   'userId': widget

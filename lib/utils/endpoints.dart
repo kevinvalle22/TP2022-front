@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 //import User from '../models/User';
+import 'package:tp2022_front/models/Affimation.dart';
 import 'package:tp2022_front/models/Exercise.dart';
 import 'package:tp2022_front/models/Goal.dart';
 import 'package:tp2022_front/models/Reminder.dart';
@@ -9,7 +10,6 @@ import 'package:tp2022_front/models/User.dart';
 import 'package:tp2022_front/models/SleepRecord.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/Affirmation.dart';
 
 //global variable to store the token
 
@@ -455,6 +455,84 @@ class DataBaseHelper {
       List listOfExercises =
           list.map<Exercise>((json) => Exercise.fromJson(json)).toList();
       return list;
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<int> deleteAnReminder(String urlOption, String userName,
+      String password, int reminderId) async {
+    int id = int.parse(urlOption);
+
+    final requestUrl =
+        "https://mental-health-deploy.herokuapp.com/api/users/$id/reminders/$reminderId";
+
+    final token = await authenticate(userName, password);
+
+    http.Response result = await http.delete(
+      requestUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    print(result.statusCode);
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = HttpStatus.ok;
+      return HttpStatus.ok;
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<int> deleteAnSleepRecord(
+      String urlOption, String userName, String password, int sleepId) async {
+    int id = int.parse(urlOption);
+
+    final requestUrl =
+        "https://mental-health-deploy.herokuapp.com/api/users/$id/sleeps/$sleepId";
+
+    final token = await authenticate(userName, password);
+
+    http.Response result = await http.delete(
+      requestUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    print(result.statusCode);
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = HttpStatus.ok;
+      return HttpStatus.ok;
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<int> deleteAnThought(
+      String urlOption, String userName, String password, int thoughtId) async {
+    int id = int.parse(urlOption);
+
+    final requestUrl =
+        "https://mental-health-deploy.herokuapp.com/api/users/$id/thoughtRecords/$thoughtId";
+
+    final token = await authenticate(userName, password);
+
+    http.Response result = await http.delete(
+      requestUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    print(result.statusCode);
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = HttpStatus.ok;
+      return HttpStatus.ok;
     } else {
       throw Exception('Failed request');
     }

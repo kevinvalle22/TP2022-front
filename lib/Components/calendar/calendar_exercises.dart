@@ -503,18 +503,6 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                   tooltip: "Opciones",
-                                  /*onSelected: (String value) {
-                                    if (value == "Eliminar") {
-                                      dataBaseHelper.deleteReminder(
-                                          remindersList[i]['id']);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ReminderPage(widget.idSend)));
-                                    }
-                                  },*/
-                                  //padding: EdgeInsets.zero,
                                   onSelected: (String value) async {
                                     if (value == "Eliminar") {
                                       final name = await UserSecureStorage
@@ -581,7 +569,12 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                 ),
               )
           ] else ...[
-            Text("No hay elementos en la lista")
+            Center(
+              child: Text(
+                "No hay elementos en la lista",
+                style: TextStyle(fontSize: 20),
+              ),
+            )
           ],
         ],
       ),

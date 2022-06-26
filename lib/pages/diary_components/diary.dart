@@ -53,10 +53,6 @@ class _DiaryPageState extends State<DiaryPage> {
     thoughtList =
         await dataBaseHelper.getThoughts(widget.idSend, name, password);
 
-    print("sleepList: " + thoughtList.toString());
-    print("first: " + thoughtList[0].toString());
-    print("startDate first: " + thoughtList[0]["startDate"].toString());
-    print("size: " + thoughtList.length.toString());
     setState(() {});
   }
 
@@ -313,79 +309,104 @@ class _DiaryPageState extends State<DiaryPage> {
     return SingleChildScrollView(
         child: Column(
       children: [
-        for (int i = 0; i < thoughtList.length; i++)
-          Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            constraints:
-                BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
-            margin: EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-                color: Color.fromRGBO(246, 239, 227, 10),
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                  )
-                ]),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: Column(
-                // ajust el tamaño de la columna
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          thoughtList[i]['message'],
-                          style: TextStyle(fontSize: 13),
+        if (thoughtList.isNotEmpty) ...[
+          for (int i = 0; i < thoughtList.length; i++)
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              constraints:
+                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+              margin: EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(246, 239, 227, 10),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                    )
+                  ]),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                child: Column(
+                  // ajust el tamaño de la columna
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            thoughtList[i]['message'],
+                            style: TextStyle(fontSize: 13),
+                          ),
                         ),
-                      ),
-                      Container(
-                          width: MediaQuery.of(context).size.width * 0.1,
-                          child: PopupMenuButton<String>(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              tooltip: "Opciones",
-                              /*onSelected: (String value) {
-                                    if (value == "Eliminar") {
-                                      dataBaseHelper.deleteReminder(
-                                          remindersList[i]['id']);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ReminderPage(widget.idSend)));
-                                    }
-                                  },*/
-                              //padding: EdgeInsets.zero,
-                              icon: Icon(Icons.more_horiz),
-                              itemBuilder: (BuildContext context) =>
-                                  <PopupMenuEntry<String>>[
-                                    PopupMenuItem<String>(
-                                      value: "Modificar",
-                                      child: ListTile(
-                                        leading: Icon(Icons.edit),
-                                        title: Text("Modificar"),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.1,
+                            child: PopupMenuButton<String>(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                tooltip: "Opciones",
+                                onSelected: (String value) async {
+                                  if (value == "Eliminar") {
+                                    final name =
+                                        await UserSecureStorage.getUsername() ??
+                                            '';
+                                    final password =
+                                        await UserSecureStorage.getPassword() ??
+                                            '';
+                                    dataBaseHelper.deleteAnThought(
+                                        widget.idSend,
+                                        name,
+                                        password,
+                                        int.parse(
+                                            thoughtList[i]['id'].toString()));
+                                    thoughtList =
+                                        await dataBaseHelper.getThoughts(
+                                            widget.idSend, name, password);
+
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                DiaryPage(widget.idSend)));
+                                  }
+                                },
+                                //padding: EdgeInsets.zero,
+                                icon: Icon(Icons.more_horiz),
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<String>>[
+                                      PopupMenuItem<String>(
+                                        value: "Modificar",
+                                        child: ListTile(
+                                          leading: Icon(Icons.edit),
+                                          title: Text("Modificar"),
+                                        ),
                                       ),
-                                    ),
-                                    PopupMenuItem<String>(
-                                      value: "Eliminar",
-                                      child: ListTile(
-                                        leading: Icon(Icons.delete),
-                                        title: Text("Eliminar"),
-                                      ),
-                                    )
-                                  ]))
-                    ],
-                  ),
-                  // negrita
-                ],
+                                      PopupMenuItem<String>(
+                                        value: "Eliminar",
+                                        child: ListTile(
+                                          leading: Icon(Icons.delete),
+                                          title: Text("Eliminar"),
+                                        ),
+                                      )
+                                    ]))
+                      ],
+                    ),
+                    // negrita
+                  ],
+                ),
               ),
+            )
+        ] else ...[
+          SizedBox(height: 30,),
+          Center(
+            child: Text(
+              "No hay elementos en la lista",
+              style: TextStyle(fontSize: 20),
             ),
-          )
+          ),
+        ]
       ],
     ));
   }

@@ -103,7 +103,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                             return Stack(
                               children: [
                                 Container(
-                                    child: BackgroundImage('assets/fondos/nuevo recordatorio.png')),
+                                    child: BackgroundImage(
+                                        'assets/fondos/nuevo recordatorio.png')),
                                 Column(
                                   children: [
                                     SizedBox(
@@ -113,13 +114,11 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                     Container(
                                       padding: const EdgeInsets.all(10.0),
                                       margin: EdgeInsets.all(10),
-                                      width:
-                                          MediaQuery.of(context).size.width,
+                                      width: MediaQuery.of(context).size.width,
                                       decoration: BoxDecoration(
                                         color:
                                             Color.fromRGBO(182, 220, 220, 10),
-                                        borderRadius:
-                                            BorderRadius.circular(15),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: TableCalendar(
                                         rowHeight: 30,
@@ -130,10 +129,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                             titleTextStyle: TextStyle(
                                                 fontSize: 25,
                                                 fontWeight: FontWeight.bold),
-                                            headerPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 0,
-                                                    vertical: 10)),
+                                            headerPadding: EdgeInsets.symmetric(
+                                                horizontal: 0, vertical: 10)),
                                         focusedDay: selectedDay,
                                         firstDay: DateTime.now(),
                                         lastDay: DateTime.now()
@@ -153,8 +150,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                           });
                                           print(selectedDayString);
                                         },
-                                        selectedDayPredicate:
-                                            (DateTime date) {
+                                        selectedDayPredicate: (DateTime date) {
                                           return isSameDay(selectedDay, date);
                                         },
                                         calendarStyle: CalendarStyle(
@@ -163,8 +159,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                               color: Colors.blue,
                                               shape: BoxShape.circle,
                                             ),
-                                            selectedTextStyle: TextStyle(
-                                                color: Colors.white),
+                                            selectedTextStyle:
+                                                TextStyle(color: Colors.white),
                                             todayDecoration: BoxDecoration(
                                                 color: Colors.purpleAccent,
                                                 shape: BoxShape.circle)),
@@ -184,11 +180,12 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                       .withOpacity(.1),
                                                   blurRadius: 3)
                                             ],
-                                            color:
-                                                Color.fromRGBO(128, 124, 183, 10),
+                                            color: Color.fromRGBO(
+                                                128, 124, 183, 10),
                                           ),
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               Padding(
                                                 padding:
@@ -213,7 +210,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                     color: Color.fromRGBO(
                                                         245, 242, 250, 10),
                                                     borderRadius:
-                                                        BorderRadius.circular(15),
+                                                        BorderRadius.circular(
+                                                            15),
                                                     boxShadow: [
                                                       BoxShadow(
                                                         color: Colors.grey
@@ -241,7 +239,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                               ),
                                               Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceEvenly,
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
                                                 children: <Widget>[
                                                   Container(
                                                       child: Row(
@@ -251,10 +250,12 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                             color: Colors.white,
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(15),
+                                                                    .circular(
+                                                                        15),
                                                             boxShadow: [
                                                               BoxShadow(
-                                                                color: Colors.grey
+                                                                color: Colors
+                                                                    .grey
                                                                     .withOpacity(
                                                                         0.5),
                                                                 spreadRadius: 2,
@@ -281,18 +282,22 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                       Column(
                                                         children: <Widget>[
                                                           IconButton(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               onPressed: () => {
-                                                                    setState(() {
+                                                                    setState(
+                                                                        () {
                                                                       aumentar_horas();
                                                                     })
                                                                   },
                                                               icon: Icon(Icons
                                                                   .arrow_drop_up)),
                                                           IconButton(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               onPressed: () => {
-                                                                    setState(() {
+                                                                    setState(
+                                                                        () {
                                                                       disminuir_horas();
                                                                     })
                                                                   },
@@ -310,10 +315,12 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                             color: Colors.white,
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(15),
+                                                                    .circular(
+                                                                        15),
                                                             boxShadow: [
                                                               BoxShadow(
-                                                                color: Colors.grey
+                                                                color: Colors
+                                                                    .grey
                                                                     .withOpacity(
                                                                         0.5),
                                                                 spreadRadius: 2,
@@ -340,18 +347,22 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                       Column(
                                                         children: <Widget>[
                                                           IconButton(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               onPressed: () => {
-                                                                    setState(() {
+                                                                    setState(
+                                                                        () {
                                                                       aumentar_minutos();
                                                                     })
                                                                   },
                                                               icon: Icon(Icons
                                                                   .arrow_drop_up)),
                                                           IconButton(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               onPressed: () => {
-                                                                    setState(() {
+                                                                    setState(
+                                                                        () {
                                                                       disminuir_minutos();
                                                                     })
                                                                   },
@@ -384,7 +395,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                                 .getPassword();
                                                         var horas;
                                                         var minutos;
-                                                        if (contadorHoras < 10) {
+                                                        if (contadorHoras <
+                                                            10) {
                                                           horas =
                                                               "0$contadorHoras";
                                                         } else {
@@ -404,28 +416,27 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                         var fecha =
                                                             new DateFormat(
                                                                 "yyyy-MM-dd");
-                                    
+
                                                         reminder
                                                             .reminderDate = fecha
                                                                 .format(
                                                                     selectedDay)
                                                                 .toString() +
                                                             " $horas:$minutos";
-                                    
+
                                                         print(reminder
                                                             .reminderDate);
                                                         reminder.message =
                                                             message.text;
                                                         print(reminder.message);
-                                                        reminder =
-                                                            await dataBaseHelper
-                                                                .createAReminder(
-                                                                    widget.idSend,
-                                                                    userName
-                                                                        .toString(),
-                                                                    password
-                                                                        .toString(),
-                                                                    reminder);
+                                                        reminder = await dataBaseHelper
+                                                            .createAReminder(
+                                                                widget.idSend,
+                                                                userName
+                                                                    .toString(),
+                                                                password
+                                                                    .toString(),
+                                                                reminder);
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
@@ -438,8 +449,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                           "Registrar Recordatorio",
                                                           style: TextStyle(
                                                               fontSize: 15.5,
-                                                              color:
-                                                                  Color.fromRGBO(
+                                                              color: Color
+                                                                  .fromRGBO(
                                                                       107,
                                                                       174,
                                                                       174,
@@ -504,7 +515,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
 
       //reemplazar los meses abreviados a los meses completos en español con split
       //enero
-      //replace june with junio avoid repetition of the word 
+      //replace june with junio avoid repetition of the word
       date = date.map((e) => e.replaceAll("Jan", "enero")).toList();
       date = date.map((e) => e.replaceAll("Feb", "febrero")).toList();
       date = date.map((e) => e.replaceAll("Mar", "marzo")).toList();
@@ -521,119 +532,144 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          for (int i = 0; i < remindersList.length; i++)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(.1), blurRadius: 3)
-                    ],
-                    color: Color.fromRGBO(226, 238, 239, 10),
-                    borderRadius: BorderRadius.circular(9.0)),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              remindersList[i]['message'],
-                              style: TextStyle(fontSize: 16),
+          if (remindersList.isNotEmpty) ...[
+            for (int i = 0; i < remindersList.length; i++)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(.1), blurRadius: 3)
+                      ],
+                      color: Color.fromRGBO(226, 238, 239, 10),
+                      borderRadius: BorderRadius.circular(9.0)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                remindersList[i]['message'],
+                                style: TextStyle(fontSize: 16),
+                              ),
                             ),
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * 0.1,
-                              child: PopupMenuButton<String>(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  tooltip: "Opciones",
-                                  /*onSelected: (String value) {
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.1,
+                                child: PopupMenuButton<String>(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    tooltip: "Opciones",
+                                    onSelected: (String value) async{
                                     if (value == "Eliminar") {
-                                      dataBaseHelper.deleteReminder(
-                                          remindersList[i]['id']);
+                                      final name = await UserSecureStorage
+                                              .getUsername() ??
+                                          '';
+                                      final password = await UserSecureStorage
+                                              .getPassword() ??
+                                          '';
+                                      dataBaseHelper.deleteAnReminder(
+                                          widget.idSend,
+                                          name,
+                                          password,
+                                          int.parse(remindersList[i]['id']
+                                              .toString()));
+                                      remindersList =
+                                          await dataBaseHelper.getReminders(
+                                              widget.idSend, name, password);
+
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  ReminderPage(widget.idSend)));
+                                                  ReminderPage(
+                                                      widget.idSend)));
                                     }
-                                  },*/
-                                  padding: EdgeInsets.zero,
-                                  icon: Icon(Icons.more_horiz),
-                                  itemBuilder: (BuildContext context) =>
-                                      <PopupMenuEntry<String>>[
-                                        PopupMenuItem<String>(
-                                          value: "Modificar",
-                                          child: ListTile(
-                                            leading: Icon(Icons.edit),
-                                            title: Text("Modificar"),
+                                  },
+                                    padding: EdgeInsets.zero,
+                                    icon: Icon(Icons.more_horiz),
+                                    itemBuilder: (BuildContext context) =>
+                                        <PopupMenuEntry<String>>[
+                                          PopupMenuItem<String>(
+                                            value: "Modificar",
+                                            child: ListTile(
+                                              leading: Icon(Icons.edit),
+                                              title: Text("Modificar"),
+                                            ),
                                           ),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: "Eliminar",
-                                          child: ListTile(
-                                            leading: Icon(Icons.delete),
-                                            title: Text("Eliminar"),
-                                          ),
-                                        )
-                                      ]))
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            child: Text(
-                              date[i].split(" ")[0] +
-                                  " " +
-                                  //number of the day
-                                  date[i].split(" ")[2] +
-                                  " de " +
-                                  date[i].split(" ")[1] +
-                                  " del " +
-                                  date[i].split(" ")[3],
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.grey),
+                                          PopupMenuItem<String>(
+                                            value: "Eliminar",
+                                            child: ListTile(
+                                              leading: Icon(Icons.delete),
+                                              title: Text("Eliminar"),
+                                            ),
+                                          )
+                                        ]))
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: Text(
+                                date[i].split(" ")[0] +
+                                    " " +
+                                    //number of the day
+                                    date[i].split(" ")[2] +
+                                    " de " +
+                                    date[i].split(" ")[1] +
+                                    " del " +
+                                    date[i].split(" ")[3],
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              ),
                             ),
-                          ),
-                          Container(
-                            height: 50,
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: timeBoxDecoration(),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  hours[i] + ":" + minutes[i] + " horas",
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.white),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Icon(
-                                  Icons.timer,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      )
-                    ],
+                            Container(
+                              height: 50,
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: timeBoxDecoration(),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    hours[i] + ":" + minutes[i] + " horas",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.white),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Icon(
+                                    Icons.timer,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
+          ] else ...[
+            Center(
+              child: Text(
+                "No hay elementos en la lista",
+                style: TextStyle(fontSize: 20),
+              ),
+            )
+          ]
         ],
       ),
     );

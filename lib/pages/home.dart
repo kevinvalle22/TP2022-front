@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/pages/chat_component/chatbot.dart';
 import 'package:tp2022_front/pages/diary_components/diary.dart';
@@ -13,6 +14,7 @@ import 'package:tp2022_front/pages/positive_reinforcement_component/positive_rei
 import 'package:tp2022_front/pages/reminder_component/reminder.dart';
 import 'package:tp2022_front/pages/sign_in.dart';
 import 'package:tp2022_front/pages/test.dart';
+import 'package:tp2022_front/security/user_secure_storage.dart';
 
 import '../utils/endpoints.dart';
 
@@ -27,6 +29,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  DataBaseHelper dataBaseHelper = DataBaseHelper();
+  List<dynamic> affirmationsList = [];
   Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -45,29 +49,81 @@ class _HomePageState extends State<HomePage> {
   int cont = 0;
   int cont2 = 0;
   Color buttonColor = Colors.black;
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
+
+    affirmationsList =
+        await dataBaseHelper.getAffirmations(widget.idSend, name, password);
+    print("affirmationDate first: " +
+        affirmationsList[0]["affirmationDate"].toString());
+    print("size" + affirmationsList.length.toString());
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
+    init();
   }
 
   @override
   Widget build(BuildContext context) {
     print("el id del usuario logeado es el ${widget.idSend}");
-    // TODO: implement build
-    return WillPopScope(
-      onWillPop: () async {
-        final shouldPop = await showWarning(context);
-        return shouldPop ?? false;
-      },
-      child: Scaffold(
-        body: SafeArea(child: SingleChildScrollView(child: Cuerpo(context))),
-        bottomNavigationBar: BottomNavigation(
-          isTheSameHome: true,
-          homeColorIcon: false,
-          idSend: widget.idSend,
+    if (affirmationsList.length == 0) {
+      return Scaffold(
+        body: Column(
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 1,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/fondos/loading.png'),
+                    ),
+                  ),
+                ),
+                Column(
+                  children: [
+                    Container(
+                      width: 180,
+                      height: 180,
+                      child: Image.asset('assets/bot.png'),
+                    ),
+                    Container(
+                        child: SpinKitCircle(
+                      size: 100,
+                      color: (Color.fromRGBO(147, 150, 186, 20)),
+                    ))
+                  ],
+                )
+              ],
+            ),
+          ],
         ),
-      ),
-    );
+      );
+    } else {
+      // TODO: implement build
+      return WillPopScope(
+        onWillPop: () async {
+          final shouldPop = await showWarning(context);
+          return shouldPop ?? false;
+        },
+        child: Scaffold(
+          body: SafeArea(child: SingleChildScrollView(child: Cuerpo(context))),
+          bottomNavigationBar: BottomNavigation(
+            isTheSameHome: true,
+            homeColorIcon: false,
+            idSend: widget.idSend,
+          ),
+        ),
+      );
+    }
   }
 
   Widget Cuerpo(BuildContext context) {
@@ -270,6 +326,11 @@ class _HomePageState extends State<HomePage> {
       '"Soy capaz. Tengo potencial para triunfar"',
       '"Creo en un mundo libre de estrés para mi"'
     ];
+    List<String> afirmaciones = <String>[];
+    for (int i = 0; i < affirmationsList.length; i++) {
+      afirmaciones.add(affirmationsList[i]['message']);
+    }
+    print(afirmaciones);
     return Container(
       width: MediaQuery.of(context).size.width / 1.2,
       decoration: BoxDecoration(
@@ -300,7 +361,7 @@ class _HomePageState extends State<HomePage> {
               width: MediaQuery.of(context).size.width - 80,
               alignment: Alignment.center,
               // ignore: prefer_const_constructors
-              child: Text(entries[cont2],
+              child: Text(afirmaciones[cont2],
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 16,
@@ -321,7 +382,7 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       setState(() {
                         afirm = '';
-                        if (cont2 != 5) {
+                        if (cont2 != affirmationsList.length - 1) {
                           buttonColor = Colors.black;
                           cont2++;
                         } else {

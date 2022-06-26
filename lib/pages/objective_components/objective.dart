@@ -130,7 +130,7 @@ class _ObjectivePage extends State<ObjectivePage> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     ObjectiveInfo(
-                                                        widget.idSend, "15")));
+                                                        widget.idSend, "19")));
                                       },
                                       child: PendingChart(context),
                                     ),
