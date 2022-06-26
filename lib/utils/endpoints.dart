@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 //import User from '../models/User';
 import 'package:tp2022_front/models/Exercise.dart';
+import 'package:tp2022_front/models/Goal.dart';
 import 'package:tp2022_front/models/Reminder.dart';
 import 'package:tp2022_front/models/Thoughts.dart';
 import 'package:tp2022_front/models/User.dart';
@@ -167,6 +168,37 @@ class DataBaseHelper {
     }
   }
 
+  Future<Goal> createAGoalRecord(
+      String urlOption, String userName, String password, Goal goal) async {
+    const requestUrl = "https://mental-health-deploy.herokuapp.com/api/users/";
+    final url = Uri.parse(requestUrl + urlOption + "/goals");
+    final token = await authenticate(userName, password);
+
+    http.Response result = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'startDate': goal.startDate,
+        'message': goal.message,
+        'type': goal.type,
+        'status': goal.status,
+        'actionPlan1': goal.actionPlan1,
+        'actionPlan2': goal.actionPlan2,
+        'actionPlan3': goal.actionPlan3,
+      }),
+    );
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(result.body);
+      return Goal.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
   Future<List> getSleepsRecords(
       String urlOption, String userName, String password) async {
     const urlBase = "https://mental-health-deploy.herokuapp.com/api/users/";
@@ -185,6 +217,30 @@ class DataBaseHelper {
       print(list);
       List listOfSleepRecords =
           list.map<SleepRecord>((json) => SleepRecord.fromJson(json)).toList();
+      return list;
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<List> getGoalsRecord(
+      String urlOption, String userName, String password) async {
+    const urlBase = "https://mental-health-deploy.herokuapp.com/api/users/";
+    final token = await authenticate(userName, password);
+    final strFinal = urlBase + urlOption + "/goals";
+    final url = Uri.parse(strFinal);
+
+    http.Response result = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(utf8.decode(result.bodyBytes));
+      final list = jsonResponse['content'];
+      print(list);
+      List listOfSleepRecords =
+          list.map<Goal>((json) => Goal.fromJson(json)).toList();
       return list;
     } else {
       throw Exception('Failed request');

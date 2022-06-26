@@ -1,9 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/labels.dart';
+import 'package:tp2022_front/models/Goal.dart';
+import 'package:tp2022_front/security/user_secure_storage.dart';
+import 'package:tp2022_front/utils/endpoints.dart';
 import 'objective.dart';
 
 //void main() => runApp(NewObjetivePage());
@@ -17,7 +21,29 @@ class NewObjetivePage extends StatefulWidget {
 }
 
 class _NewObjetivePageState extends State<NewObjetivePage> {
-  TextEditingController _dateController = TextEditingController();
+  TextEditingController message = TextEditingController();
+  TextEditingController actionPlan1 = TextEditingController();
+  TextEditingController actionPlan2 = TextEditingController();
+  TextEditingController actionPlan3 = TextEditingController();
+  String selectedDayString = '';
+  var selected;
+  DataBaseHelper dataBaseHelper = DataBaseHelper();
+
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
+
+    //
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,21 +68,22 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
                       child: Column(
                         children: <Widget>[
                           H1Label("Objetivo"),
-                          InputLabell("Escribir objetivo ...",),
+                          InputLabell("Escribir objetivo ...", message),
                           H1Label("Tipo de Objetivo"),
-                          TagsLabelObjective(),
+                          TagContainer(context),
                           H1Label("Plan de Acción"),
                           Container(
                             child: InputLabell(
-                              "¿Cuál será tu primer paso?",
-                            ),
+                                "¿Cuál será tu primer paso?", actionPlan1),
                           ),
                           Container(
-                            child: InputLabell("¿Qué harás para cumplirlo?"),
+                            child: InputLabell(
+                                "¿Qué harás para cumplirlo?", actionPlan2),
                           ),
                           Container(
-                            child:
-                                InputLabell("¿Cómo controlarás tu constancia?"),
+                            child: InputLabell(
+                                "¿Cómo controlarás tu constancia?",
+                                actionPlan3),
                           ),
                           Buttom("CREAR OBJETIVO"),
                           SizedBox(
@@ -87,7 +114,52 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
     );
   }
 
-  Widget InputLabell(String text) {
+  Widget TagContainer(BuildContext context) {
+    var duration = ["Corto Plazo", "Mediano Plazo", "Largo Plazo"];
+    List<Color> colors = [
+      Color.fromRGBO(186, 152, 209, 10),
+      Color.fromRGBO(106, 168, 231, 10),
+      Color.fromRGBO(156, 212, 176, 10)
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            for (int i = 0; i < duration.length; i++)
+              GestureDetector(
+                  onTap: () {
+                    if (duration[0] == duration[i]) {
+                      selected = "corto plazo";
+                      print(selected);
+                    } else if (duration[1] == duration[i]) {
+                      selected = "mediano plazo";
+                      print(selected);
+                    } else if (duration[2] == duration[i]) {
+                      selected = "largo plazo";
+                      print(selected);
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: colors[i],
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      duration[i],
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget InputLabell(String text, TextEditingController textEditingController) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
@@ -108,6 +180,7 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
           children: <Widget>[
             Expanded(
               child: TextField(
+                controller: textEditingController,
                 //controller: dateController,
                 dragStartBehavior: DragStartBehavior.start,
                 decoration: InputDecoration.collapsed(hintText: text),
@@ -128,7 +201,22 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
         height: 50,
         child: RaisedButton(
           color: Color.fromRGBO(107, 174, 174, 10),
-          onPressed: () {
+          onPressed: () async {
+            var userName = await UserSecureStorage.getUsername();
+            var password = await UserSecureStorage.getPassword();
+            DateTime.now();
+            Goal goal = Goal();
+            goal.actionPlan1 = actionPlan1.text;
+            goal.actionPlan2 = actionPlan2.text;
+            goal.actionPlan3 = actionPlan3.text;
+            goal.message = message.text;
+            selectedDayString =
+                DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
+            goal.startDate = selectedDayString;
+            goal.status = "pendiente";
+            goal.type = selected;
+            goal = await dataBaseHelper.createAGoalRecord(
+                widget.idSend, userName.toString(), password.toString(), goal);
             Alert(
               context: context,
               type: AlertType.success,

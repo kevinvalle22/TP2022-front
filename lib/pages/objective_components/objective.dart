@@ -4,6 +4,8 @@ import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/pages/objective_components/new_objetctive.dart';
+import 'package:tp2022_front/security/user_secure_storage.dart';
+import 'package:tp2022_front/utils/endpoints.dart';
 
 import '../home.dart';
 
@@ -35,6 +37,37 @@ class _ObjectivePage extends State<ObjectivePage> {
                   child: Text("Si")),
             ],
           ));
+  List<dynamic> goalsList = [];
+  DataBaseHelper dataBaseHelper = DataBaseHelper();
+  Iterable<dynamic> goalInit = Iterable.empty();
+  Iterable<dynamic> goalDone = Iterable.empty();
+  Future init() async {
+    final name = await UserSecureStorage.getUsername() ?? '';
+    final password = await UserSecureStorage.getPassword() ?? '';
+    final token = await UserSecureStorage.getToken() ?? '';
+    final userId = await UserSecureStorage.getUserId() ?? '';
+
+    goalsList =
+        await dataBaseHelper.getGoalsRecord(widget.idSend, name, password);
+
+    print("goalsList: " + goalsList.toString());
+    print("first: " + goalsList[0].toString());
+    print("startDate first: " + goalsList[0]["startDate"].toString());
+    print("size: " + goalsList.length.toString());
+    goalInit = goalsList.where((element) => element["status"] == "pendiente");
+    goalDone = goalsList.where((element) => element["status"] == "completado");
+    print("los valores pendientes son: " + goalInit.toString());
+    setState(() {});
+  }
+
+  //convert string to int
+  //lista vacia  mensaje de error
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -84,27 +117,24 @@ class _ObjectivePage extends State<ObjectivePage> {
                                     ))
                                   ],
                                 ),
+                                PendingChart(context),
                                 SizedBox(
                                   height: 15,
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ObjectiveInfo(widget.idSend)));
-                                  },
-                                  child: Container(
-                                    child: Contenedor(
-                                      name: "Salud física",
-                                      description:
-                                          "Hacer ejercicios físicos constantemente.",
-                                      indexDuration: 2,
-                                      idSend: widget.idSend,
-                                      enable: true,
+                                Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ObjectiveInfo(
+                                                        widget.idSend, "15")));
+                                      },
+                                      child: PendingChart(context),
                                     ),
-                                  ),
+                                  ],
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -114,13 +144,7 @@ class _ObjectivePage extends State<ObjectivePage> {
                                   height: 10,
                                 ),
                                 Container(
-                                  child: ContenedorTerminado(
-                                    name: "Salud física",
-                                    description:
-                                        "Hacer ejercicios físicos constantemente.",
-                                    indexDuration: 2,
-                                    idSend: widget.idSend,
-                                  ),
+                                  child: DoneChart(context),
                                 ),
                               ],
                             ),
@@ -136,266 +160,240 @@ class _ObjectivePage extends State<ObjectivePage> {
       ),
     );
   }
-}
 
-class Contenedor extends StatefulWidget {
-  final String idSend;
-  Contenedor(
-      {required this.name,
-      required this.description,
-      this.indexDuration = 0,
-      required this.idSend,
-      required this.enable});
+  Widget PendingChart(BuildContext context) {
+    List<Color> colors = [
+      Color.fromRGBO(186, 152, 209, 10),
+      Color.fromRGBO(106, 168, 231, 10),
+      Color.fromRGBO(156, 212, 176, 10)
+    ];
+    Color col0r = Color.fromARGB(0, 137, 137, 218);
+    var type;
+    @override
+    initState() {
+      type = '';
+    }
 
-  String name;
-  String description;
-  int indexDuration;
-  bool enable = true;
-  @override
-  State<Contenedor> createState() => _ContenedorState();
-}
+    setState(() {
+      if (type == 'largo plazo') {
+        col0r = Color.fromRGBO(156, 212, 176, 10);
+      } else if (type == 'mediano plazo') {
+        col0r = Color.fromRGBO(106, 168, 231, 10);
+      } else {
+        col0r = Color.fromRGBO(186, 152, 209, 10);
+      }
+    });
 
-class _ContenedorState extends State<Contenedor> {
-  var duration = ["Corto Plazo", "Mediano Plazo", "Largo Plazo"];
-
-  List<Color> colors = [
-    Color.fromRGBO(186, 152, 209, 10),
-    Color.fromRGBO(106, 168, 231, 10),
-    Color.fromRGBO(156, 212, 176, 10)
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-            )
-          ]),
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                  width: MediaQuery.of(context).size.width / 2.8,
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: colors[widget.indexDuration],
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Text(
-                    duration[widget.indexDuration],
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
-                  )),
+    return Column(
+      children: [
+        for (int i = 0; i < goalInit.length; i++)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                    )
+                  ]),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                          width: MediaQuery.of(context).size.width / 2.8,
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: col0r,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            goalInit.elementAt(i)["type"].toString(),
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          )),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(child: Text(goalInit.elementAt(i)["message"])),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.1,
+                            child: PopupMenuButton<String>(
+                                enabled: true,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                tooltip: "Opciones",
+                                onSelected: (String value) {
+                                  if (value == "Modificar") {
+                                    /*dataBaseHelper.deleteReminder(
+                                                remindersList[i]['id']);*/
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ObjectiveMod(widget.idSend)));
+                                  }
+                                },
+                                //padding: EdgeInsets.zero,
+                                icon: Icon(Icons.more_horiz),
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<String>>[
+                                      PopupMenuItem<String>(
+                                        value: "Completado",
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.check,
+                                            color: Colors.green,
+                                          ),
+                                          title: Text(
+                                            "Completado",
+                                            style:
+                                                TextStyle(color: Colors.green),
+                                          ),
+                                        ),
+                                      ),
+                                      PopupMenuItem<String>(
+                                        value: "Modificar",
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.edit,
+                                            color: Color.fromRGBO(
+                                                139, 168, 194, 10),
+                                          ),
+                                          title: Text("Modificar",
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      139, 168, 194, 10))),
+                                        ),
+                                      ),
+                                      PopupMenuItem<String>(
+                                        value: "Eliminar",
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          title: Text("Eliminar",
+                                              style: TextStyle(
+                                                  color: Colors.redAccent)),
+                                        ),
+                                      )
+                                    ]))
+                      ],
+                    )
+                  ],
+                ),
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(child: Text(widget.description)),
-                Container(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    child: PopupMenuButton<String>(
-                        enabled: widget.enable,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        tooltip: "Opciones",
-                        onSelected: (String value) {
-                          if (value == "Modificar") {
-                            /*dataBaseHelper.deleteReminder(
-                                          remindersList[i]['id']);*/
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ObjectiveMod(widget.idSend)));
-                          }
-                        },
-                        //padding: EdgeInsets.zero,
-                        icon: Icon(Icons.more_horiz),
-                        itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry<String>>[
-                              PopupMenuItem<String>(
-                                value: "Completado",
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.check,
-                                    color: Colors.green,
-                                  ),
-                                  title: Text(
-                                    "Completado",
-                                    style: TextStyle(color: Colors.green),
-                                  ),
-                                ),
-                              ),
-                              PopupMenuItem<String>(
-                                value: "Modificar",
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.edit,
-                                    color: Color.fromRGBO(139, 168, 194, 10),
-                                  ),
-                                  title: Text("Modificar",
-                                      style: TextStyle(
-                                          color: Color.fromRGBO(
-                                              139, 168, 194, 10))),
-                                ),
-                              ),
-                              PopupMenuItem<String>(
-                                value: "Eliminar",
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
-                                  title: Text("Eliminar",
-                                      style:
-                                          TextStyle(color: Colors.redAccent)),
-                                ),
-                              )
-                            ]))
-              ],
-            )
-          ],
-        ),
-      ),
+          ),
+      ],
     );
   }
-}
 
-class ContenedorTerminado extends StatefulWidget {
-  final String idSend;
-  ContenedorTerminado(
-      {required this.name,
-      required this.description,
-      this.indexDuration = 0,
-      required this.idSend});
-
-  String name;
-  String description;
-  int indexDuration;
-
-  @override
-  State<ContenedorTerminado> createState() => _ContenedorTerminadoState();
-}
-
-class _ContenedorTerminadoState extends State<ContenedorTerminado> {
-  var duration = ["Corto Plazo", "Mediano Plazo", "Largo Plazo"];
-
-  List<Color> colors = [
-    Color.fromRGBO(186, 152, 209, 10),
-    Color.fromRGBO(106, 168, 231, 10),
-    Color.fromRGBO(156, 212, 176, 10)
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Color.fromRGBO(251, 249, 255, 10),
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-            )
-          ]),
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                  width: MediaQuery.of(context).size.width / 2.8,
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: colors[widget.indexDuration],
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Text(
-                    duration[widget.indexDuration],
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
-                  )),
+  Widget DoneChart(BuildContext context) {
+    return Column(
+      children: [
+        for (int i = 0; i < goalDone.length; i++)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(251, 249, 255, 10),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                    )
+                  ]),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                          width: MediaQuery.of(context).size.width / 2.8,
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            "duracion",
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          )),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(child: Text(goalDone.elementAt(i)["message"])),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.1,
+                            child: PopupMenuButton<String>(
+                                enabled: false,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                tooltip: "Opciones",
+                                onSelected: (String value) {
+                                  if (value == "Modificar") {
+                                    /*dataBaseHelper.deleteReminder(
+                                                remindersList[i]['id']);*/
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ObjectiveMod(widget.idSend)));
+                                  }
+                                },
+                                //padding: EdgeInsets.zero,
+                                icon: Icon(Icons.more_horiz),
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<String>>[
+                                      PopupMenuItem<String>(
+                                        value: "Modificar",
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.edit,
+                                            color: Color.fromRGBO(
+                                                139, 168, 194, 10),
+                                          ),
+                                          title: Text("Modificar",
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      139, 168, 194, 10))),
+                                        ),
+                                      ),
+                                      PopupMenuItem<String>(
+                                        value: "Eliminar",
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          title: Text("Eliminar",
+                                              style: TextStyle(
+                                                  color: Colors.redAccent)),
+                                        ),
+                                      )
+                                    ]))
+                      ],
+                    )
+                  ],
+                ),
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(child: Text(widget.description)),
-                Container(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    child: PopupMenuButton<String>(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        tooltip: "Opciones",
-                        onSelected: (String value) {
-                          if (value == "Modificar") {
-                            /*dataBaseHelper.deleteReminder(
-                                          remindersList[i]['id']);*/
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ObjectiveMod(widget.idSend)));
-                          }
-                        },
-                        //padding: EdgeInsets.zero,
-                        icon: Icon(Icons.more_horiz),
-                        itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry<String>>[
-                              PopupMenuItem<String>(
-                                value: "Completado",
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.check,
-                                    color: Colors.green,
-                                  ),
-                                  title: Text(
-                                    "Completado",
-                                    style: TextStyle(color: Colors.green),
-                                  ),
-                                ),
-                              ),
-                              PopupMenuItem<String>(
-                                value: "Modificar",
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.edit,
-                                    color: Color.fromRGBO(139, 168, 194, 10),
-                                  ),
-                                  title: Text("Modificar",
-                                      style: TextStyle(
-                                          color: Color.fromRGBO(
-                                              139, 168, 194, 10))),
-                                ),
-                              ),
-                              PopupMenuItem<String>(
-                                value: "Eliminar",
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
-                                  title: Text("Eliminar",
-                                      style:
-                                          TextStyle(color: Colors.redAccent)),
-                                ),
-                              )
-                            ]))
-              ],
-            )
-          ],
-        ),
-      ),
+          ),
+      ],
     );
   }
 }
@@ -528,8 +526,8 @@ class _ObjectiveModState extends State<ObjectiveMod> {
 
 class ObjectiveInfo extends StatefulWidget {
   final String idSend;
-
-  ObjectiveInfo(this.idSend);
+  final String goalId;
+  ObjectiveInfo(this.idSend, this.goalId);
   @override
   State<ObjectiveInfo> createState() => _ObjectiveInfoState();
 }
@@ -567,14 +565,47 @@ class _ObjectiveInfoState extends State<ObjectiveInfo> {
                             SizedBox(
                               height: 10,
                             ),
-                            Container(
-                              child: Contenedor(
-                                name: "Salud física",
-                                description:
-                                    "Hacer ejercicios físicos constantemente.",
-                                indexDuration: 1,
-                                idSend: widget.idSend,
-                                enable: false,
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 5,
+                                      )
+                                    ]),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.centerLeft,
+                                        child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.8,
+                                            padding: EdgeInsets.all(8),
+                                            decoration: BoxDecoration(
+                                              color: Colors.red,
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                            child: Text(
+                                              "a",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                              textAlign: TextAlign.center,
+                                            )),
+                                      ),
+                                      Flexible(child: Text("a")),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                             SizedBox(
