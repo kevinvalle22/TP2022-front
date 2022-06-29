@@ -50,13 +50,8 @@ class _ObjectivePage extends State<ObjectivePage> {
     goalsList =
         await dataBaseHelper.getGoalsRecord(widget.idSend, name, password);
 
-    print("goalsList: " + goalsList.toString());
-    print("first: " + goalsList[0].toString());
-    print("startDate first: " + goalsList[0]["startDate"].toString());
-    print("size: " + goalsList.length.toString());
     goalInit = goalsList.where((element) => element["status"] == "pendiente");
     goalDone = goalsList.where((element) => element["status"] == "completado");
-    print("los valores pendientes son: " + goalInit.toString());
     setState(() {});
   }
 
@@ -121,24 +116,6 @@ class _ObjectivePage extends State<ObjectivePage> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ObjectiveInfo(
-                                                        widget.idSend, "19")));
-                                      },
-                                      child: PendingChart(context),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
                                 H1Label("Objetivos Terminados"),
                                 SizedBox(
                                   height: 10,
@@ -183,9 +160,8 @@ class _ObjectivePage extends State<ObjectivePage> {
         col0r = Color.fromRGBO(186, 152, 209, 10);
       }
     });
-
-    return Column(
-      children: [
+    return Column(children: [
+      if (goalsList.isNotEmpty) ...[
         for (int i = 0; i < goalInit.length; i++)
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -309,126 +285,144 @@ class _ObjectivePage extends State<ObjectivePage> {
               ),
             ),
           ),
+      ] else ...[
+        Center(
+          child: Text(
+            "No hay objetivos pendientes en la lista",
+            style: TextStyle(fontSize: 15,color: Colors.red)
+          ),
+        )
       ],
-    );
+    ]);
   }
 
   Widget DoneChart(BuildContext context) {
     return Column(
       children: [
-        for (int i = 0; i < goalDone.length; i++)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(251, 249, 255, 10),
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                    )
-                  ]),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                          width: MediaQuery.of(context).size.width / 2.8,
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Text(
-                            "duracion",
-                            style: TextStyle(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          )),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(child: Text(goalDone.elementAt(i)["message"])),
-                        Container(
-                            width: MediaQuery.of(context).size.width * 0.1,
-                            child: PopupMenuButton<String>(
-                                enabled: false,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                tooltip: "Opciones",
-                                onSelected: (String value) async {
-                                  if (value == "Modificar") {
-                                    /*dataBaseHelper.deleteReminder(
+        if (goalDone.isNotEmpty) ...[
+          for (int i = 0; i < goalDone.length; i++)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(251, 249, 255, 10),
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                      )
+                    ]),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                            width: MediaQuery.of(context).size.width / 2.8,
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Text(
+                              "duracion",
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.center,
+                            )),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                              child: Text(goalDone.elementAt(i)["message"])),
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.1,
+                              child: PopupMenuButton<String>(
+                                  enabled: false,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  tooltip: "Opciones",
+                                  onSelected: (String value) async {
+                                    if (value == "Modificar") {
+                                      /*dataBaseHelper.deleteReminder(
                                                 remindersList[i]['id']);*/
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ObjectiveMod(widget.idSend)));
-                                  } else if (value == "Eliminar") {
-                                    var userName =
-                                        await UserSecureStorage.getUsername();
-                                    var password =
-                                        await UserSecureStorage.getPassword();
-                                    /*dataBaseHelper.deleteReminder(
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ObjectiveMod(widget.idSend)));
+                                    } else if (value == "Eliminar") {
+                                      var userName =
+                                          await UserSecureStorage.getUsername();
+                                      var password =
+                                          await UserSecureStorage.getPassword();
+                                      /*dataBaseHelper.deleteReminder(
                                                 remindersList[i]['id']);*/
-                                    dataBaseHelper.deleteAnGoal(
-                                      widget.idSend,
-                                      userName.toString(),
-                                      password.toString(),
-                                      int.parse(goalDone.elementAt(i)["id"]),
-                                    );
-                                    print("eliminado" +
-                                        goalsList[i]['message'].toString());
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ObjectivePage(widget.idSend)));
-                                  }
-                                },
-                                //padding: EdgeInsets.zero,
-                                icon: Icon(Icons.more_horiz),
-                                itemBuilder: (BuildContext context) =>
-                                    <PopupMenuEntry<String>>[
-                                      PopupMenuItem<String>(
-                                        value: "Modificar",
-                                        child: ListTile(
-                                          leading: Icon(
-                                            Icons.edit,
-                                            color: Color.fromRGBO(
-                                                139, 168, 194, 10),
+                                      dataBaseHelper.deleteAnGoal(
+                                        widget.idSend,
+                                        userName.toString(),
+                                        password.toString(),
+                                        int.parse(goalDone.elementAt(i)["id"]),
+                                      );
+                                      print("eliminado" +
+                                          goalsList[i]['message'].toString());
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ObjectivePage(
+                                                      widget.idSend)));
+                                    }
+                                  },
+                                  //padding: EdgeInsets.zero,
+                                  icon: Icon(Icons.more_horiz),
+                                  itemBuilder: (BuildContext context) =>
+                                      <PopupMenuEntry<String>>[
+                                        PopupMenuItem<String>(
+                                          value: "Modificar",
+                                          child: ListTile(
+                                            leading: Icon(
+                                              Icons.edit,
+                                              color: Color.fromRGBO(
+                                                  139, 168, 194, 10),
+                                            ),
+                                            title: Text("Modificar",
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        139, 168, 194, 10))),
                                           ),
-                                          title: Text("Modificar",
-                                              style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      139, 168, 194, 10))),
                                         ),
-                                      ),
-                                      PopupMenuItem<String>(
-                                        value: "Eliminar",
-                                        child: ListTile(
-                                          leading: Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
+                                        PopupMenuItem<String>(
+                                          value: "Eliminar",
+                                          child: ListTile(
+                                            leading: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                            title: Text("Eliminar",
+                                                style: TextStyle(
+                                                    color: Colors.redAccent)),
                                           ),
-                                          title: Text("Eliminar",
-                                              style: TextStyle(
-                                                  color: Colors.redAccent)),
-                                        ),
-                                      )
-                                    ]))
-                      ],
-                    )
-                  ],
+                                        )
+                                      ]))
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
+        ] else ...[
+          Center(
+            child: Text(
+              "No hay objetivos terminados en la lista",
+              style: TextStyle(fontSize: 15,color: Colors.red),
+            ),
+          )
+        ]
       ],
     );
   }

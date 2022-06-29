@@ -133,12 +133,42 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
                   onTap: () {
                     if (duration[0] == duration[i]) {
                       selected = "corto plazo";
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          duration: Duration(seconds: 2),
+                          content: Text(
+                            "$selected",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: colors[i],
+                        ),
+                      );
                       print(selected);
                     } else if (duration[1] == duration[i]) {
                       selected = "mediano plazo";
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          duration: Duration(seconds: 2),
+                          content: Text(
+                            "$selected",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: colors[i],
+                        ),
+                      );
                       print(selected);
                     } else if (duration[2] == duration[i]) {
                       selected = "largo plazo";
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          duration: Duration(seconds: 2),
+                          content: Text(
+                            "$selected",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: colors[i],
+                        ),
+                      );
                       print(selected);
                     }
                   },
@@ -217,28 +247,49 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
             goal.type = selected;
             goal = await dataBaseHelper.createAGoalRecord(
                 widget.idSend, userName.toString(), password.toString(), goal);
-            Alert(
-              context: context,
-              type: AlertType.success,
-              title: "CREACIÓN EXITOSA",
-              desc: "¡Se guardó con éxito su objetivo!",
-              buttons: [
-                DialogButton(
-                  child: Text(
-                    "COOL",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+            if (goal != null) {
+              Alert(
+                context: context,
+                type: AlertType.error,
+                title: "CREACIÓN FALLIDA",
+                desc: "Vuelva a guardar los datos completos, otra vez",
+                buttons: [
+                  DialogButton(
+                    child: Text(
+                      "Volver",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    width: 120,
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ObjectivePage(widget.idSend)));
-                  },
-                  width: 120,
-                )
-              ],
-            ).show();
+                ],
+              ).show();
+            } else {
+              Alert(
+                context: context,
+                type: AlertType.success,
+                title: "CREACIÓN EXITOSA",
+                desc: "¡Se guardó con éxito su objetivo!",
+                buttons: [
+                  DialogButton(
+                    child: Text(
+                      "Aceptar",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ObjectivePage(widget.idSend)));
+                    },
+                    width: 120,
+                  ),
+                ],
+              ).show();
+            }
           },
           child: Text(text,
               style: TextStyle(
