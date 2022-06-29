@@ -10,7 +10,6 @@ import 'package:tp2022_front/models/User.dart';
 import 'package:tp2022_front/models/SleepRecord.dart';
 import 'package:http/http.dart' as http;
 
-
 //global variable to store the token
 
 class DataBaseHelper {
@@ -518,6 +517,32 @@ class DataBaseHelper {
 
     final requestUrl =
         "https://mental-health-deploy.herokuapp.com/api/users/$id/thoughtRecords/$thoughtId";
+
+    final token = await authenticate(userName, password);
+
+    http.Response result = await http.delete(
+      requestUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    print(result.statusCode);
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = HttpStatus.ok;
+      return HttpStatus.ok;
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<int> deleteAnGoal(
+      String urlOption, String userName, String password, int goalId) async {
+    int id = int.parse(urlOption);
+
+    final requestUrl =
+        "https://mental-health-deploy.herokuapp.com/api/users/$id/goals/$goalId";
 
     final token = await authenticate(userName, password);
 

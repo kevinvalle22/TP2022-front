@@ -224,68 +224,84 @@ class _ObjectivePage extends State<ObjectivePage> {
                       children: [
                         Flexible(child: Text(goalInit.elementAt(i)["message"])),
                         Container(
-                            width: MediaQuery.of(context).size.width * 0.1,
-                            child: PopupMenuButton<String>(
-                                enabled: true,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                tooltip: "Opciones",
-                                onSelected: (String value) {
-                                  if (value == "Modificar") {
-                                    /*dataBaseHelper.deleteReminder(
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          child: PopupMenuButton<String>(
+                            enabled: true,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            tooltip: "Opciones",
+                            onSelected: (String value) async {
+                              if (value == "Modificar") {
+                                /*dataBaseHelper.deleteReminder(
                                                 remindersList[i]['id']);*/
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ObjectiveMod(widget.idSend)));
-                                  }
-                                },
-                                //padding: EdgeInsets.zero,
-                                icon: Icon(Icons.more_horiz),
-                                itemBuilder: (BuildContext context) =>
-                                    <PopupMenuEntry<String>>[
-                                      PopupMenuItem<String>(
-                                        value: "Completado",
-                                        child: ListTile(
-                                          leading: Icon(
-                                            Icons.check,
-                                            color: Colors.green,
-                                          ),
-                                          title: Text(
-                                            "Completado",
-                                            style:
-                                                TextStyle(color: Colors.green),
-                                          ),
-                                        ),
-                                      ),
-                                      PopupMenuItem<String>(
-                                        value: "Modificar",
-                                        child: ListTile(
-                                          leading: Icon(
-                                            Icons.edit,
-                                            color: Color.fromRGBO(
-                                                139, 168, 194, 10),
-                                          ),
-                                          title: Text("Modificar",
-                                              style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      139, 168, 194, 10))),
-                                        ),
-                                      ),
-                                      PopupMenuItem<String>(
-                                        value: "Eliminar",
-                                        child: ListTile(
-                                          leading: Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ),
-                                          title: Text("Eliminar",
-                                              style: TextStyle(
-                                                  color: Colors.redAccent)),
-                                        ),
-                                      )
-                                    ]))
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ObjectiveMod(widget.idSend)));
+                              } else if (value == "Eliminar") {
+                                final name =
+                                    await UserSecureStorage.getUsername() ?? '';
+                                final password =
+                                    await UserSecureStorage.getPassword() ?? '';
+                                /*dataBaseHelper.deleteReminder(
+                                                remindersList[i]['id']);*/
+                                dataBaseHelper.deleteAnGoal(widget.idSend, name,
+                                    password, goalInit.elementAt(i)["id"]);
+                                print("eliminado" +
+                                    goalInit.elementAt(i)["message"]);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ObjectivePage(widget.idSend)));
+                              }
+                            },
+                            //padding: EdgeInsets.zero,
+                            icon: Icon(Icons.more_horiz),
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry<String>>[
+                              PopupMenuItem<String>(
+                                value: "Completado",
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.check,
+                                    color: Colors.green,
+                                  ),
+                                  title: Text(
+                                    "Completado",
+                                    style: TextStyle(color: Colors.green),
+                                  ),
+                                ),
+                              ),
+                              PopupMenuItem<String>(
+                                value: "Modificar",
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.edit,
+                                    color: Color.fromRGBO(139, 168, 194, 10),
+                                  ),
+                                  title: Text("Modificar",
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(
+                                              139, 168, 194, 10))),
+                                ),
+                              ),
+                              PopupMenuItem<String>(
+                                value: "Eliminar",
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  title: Text("Eliminar",
+                                      style:
+                                          TextStyle(color: Colors.redAccent)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     )
                   ],
@@ -344,7 +360,7 @@ class _ObjectivePage extends State<ObjectivePage> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
                                 tooltip: "Opciones",
-                                onSelected: (String value) {
+                                onSelected: (String value) async {
                                   if (value == "Modificar") {
                                     /*dataBaseHelper.deleteReminder(
                                                 remindersList[i]['id']);*/
@@ -353,6 +369,26 @@ class _ObjectivePage extends State<ObjectivePage> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 ObjectiveMod(widget.idSend)));
+                                  } else if (value == "Eliminar") {
+                                    var userName =
+                                        await UserSecureStorage.getUsername();
+                                    var password =
+                                        await UserSecureStorage.getPassword();
+                                    /*dataBaseHelper.deleteReminder(
+                                                remindersList[i]['id']);*/
+                                    dataBaseHelper.deleteAnGoal(
+                                      widget.idSend,
+                                      userName.toString(),
+                                      password.toString(),
+                                      int.parse(goalDone.elementAt(i)["id"]),
+                                    );
+                                    print("eliminado" +
+                                        goalsList[i]['message'].toString());
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ObjectivePage(widget.idSend)));
                                   }
                                 },
                                 //padding: EdgeInsets.zero,
