@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       width: 180,
                       height: 180,
-                      child: Image.asset('assets/bot.png'),
+                      child: Image.asset('assets/botImage.png'),
                     ),
                     Container(
                         child: SpinKitCircle(

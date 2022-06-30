@@ -8,6 +8,7 @@ class NewAccountPage extends StatefulWidget {
 }
 
 class _NewAccountPageState extends State<NewAccountPage> {
+  final _formKey = GlobalKey<FormState>();
   DataBaseHelper dataBaseHelper = new DataBaseHelper();
   final TextEditingController userName = new TextEditingController();
   final TextEditingController email = new TextEditingController();
@@ -16,6 +17,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
   final TextEditingController university = new TextEditingController();
   final TextEditingController province = new TextEditingController();
   final TextEditingController district = new TextEditingController();
+  bool _validate = false;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -55,51 +57,54 @@ class _NewAccountPageState extends State<NewAccountPage> {
 
   Widget Components(BuildContext context) {
     return Container(
-      child: Column(
-        children: <Widget>[
-          SizedBox(
-            height: 15,
-          ),
-          Container(
-            child: Name(),
-          ),
-          Container(
-            child: UserField(),
-          ),
-          Container(
-            child: EmailField(),
-          ),
-          Container(
-            child: PhoneField(),
-          ),
-          Container(
-            child: PasswordField(),
-          ),
-          Container(
-            child: UniversityField(),
-          ),
-          Container(
-            child: ProvinceField(),
-          ),
-          Container(
-            child: DistrictField(),
-          ),
-          Container(
-            child: CreateAccount(context),
-          ),
-          const Divider(
-            color: Color.fromRGBO(146, 150, 187, 10),
-            indent: 100,
-            endIndent: 100,
-            thickness: 1,
-          ),
-          Container(
-            child: ComeBack(context),
-          ),
-          const SizedBox(
-            height: 50,
-          )
-        ],
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              child: Name(),
+            ),
+            Container(
+              child: UserField(),
+            ),
+            Container(
+              child: EmailField(),
+            ),
+            Container(
+              child: PhoneField(),
+            ),
+            Container(
+              child: PasswordField(),
+            ),
+            Container(
+              child: UniversityField(),
+            ),
+            Container(
+              child: ProvinceField(),
+            ),
+            Container(
+              child: DistrictField(),
+            ),
+            Container(
+              child: CreateAccount(context),
+            ),
+            const Divider(
+              color: Color.fromRGBO(146, 150, 187, 10),
+              indent: 100,
+              endIndent: 100,
+              thickness: 1,
+            ),
+            Container(
+              child: ComeBack(context),
+            ),
+            const SizedBox(
+              height: 50,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -115,27 +120,34 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Widget UserField() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'El nombre de usuario es requerido';
+          }
+          //username unique
+          return null;
+        },
+        keyboardType: TextInputType.name,
         controller: userName,
         decoration: InputDecoration(
-            fillColor: const Color.fromRGBO(232, 227, 238, 10),
-            filled: true,
-            focusColor: const Color.fromRGBO(146, 150, 187, 10),
-            labelStyle:
-                const TextStyle(color: Color.fromRGBO(146, 150, 187, 10)),
-            hintStyle:
-                const TextStyle(color: Color.fromRGBO(146, 150, 187, 10)),
-            labelText: "Usuario",
-            hintText: "usuario",
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  width: 3, color: Color.fromRGBO(232, 227, 238, 10)),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(width: 3, color: Colors.red),
-              borderRadius: BorderRadius.circular(15),
-            )),
+          filled: true,
+          fillColor: const Color.fromRGBO(232, 227, 238, 10),
+          focusColor: const Color.fromRGBO(221, 116, 130, 10),
+          labelStyle: const TextStyle(color: Color.fromRGBO(146, 150, 187, 10)),
+          hintStyle: const TextStyle(color: Color.fromRGBO(146, 150, 187, 10)),
+          labelText: "Usuario",
+          hintText: "usuario",
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+                width: 3, color: Color.fromRGBO(232, 227, 238, 10)),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(width: 3, color: Colors.red),
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
       ),
     );
   }
@@ -143,7 +155,17 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Widget EmailField() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'El email es requerido';
+          }
+          if (!value!.contains('@')) {
+            return 'El email no es valido';
+          }
+          return null;
+        },
+        keyboardType: TextInputType.emailAddress,
         controller: email,
         decoration: InputDecoration(
             fillColor: const Color.fromRGBO(232, 227, 238, 10),
@@ -171,7 +193,16 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Widget PhoneField() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'El numero de telefono es requerido';
+          }
+          if (value!.length != 9) {
+            return 'El numero de telefono debe tener 9 digitos';
+          }
+          return null;
+        },
         controller: phone,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
@@ -200,7 +231,17 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Widget PasswordField() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'La contraseña es requerida';
+          }
+          if (value!.length < 6) {
+            return 'La contraseña debe tener al menos 6 caracteres';
+          }
+          return null;
+        },
+        keyboardType: TextInputType.visiblePassword,
         controller: password,
         obscureText: true,
         decoration: InputDecoration(
@@ -228,7 +269,15 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Widget UniversityField() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'La universidad es requerida';
+          }
+          return null;
+        },
+        textCapitalization: TextCapitalization.sentences,
+        keyboardType: TextInputType.name,
         controller: university,
         decoration: InputDecoration(
             fillColor: const Color.fromRGBO(232, 227, 238, 10),
@@ -256,7 +305,14 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Widget ProvinceField() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'La provincia es requerida';
+          }
+          return null;
+        },
+        textCapitalization: TextCapitalization.sentences,
         controller: province,
         decoration: InputDecoration(
             fillColor: const Color.fromRGBO(232, 227, 238, 10),
@@ -284,7 +340,14 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Widget DistrictField() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'El distrito es requerido';
+          }
+          return null;
+        },
+        textCapitalization: TextCapitalization.sentences,
         controller: district,
         decoration: InputDecoration(
             fillColor: const Color.fromRGBO(232, 227, 238, 10),
@@ -317,15 +380,19 @@ class _NewAccountPageState extends State<NewAccountPage> {
       child: RaisedButton(
         color: Color.fromRGBO(104, 174, 174, 6),
         onPressed: () {
-          dataBaseHelper.register(
-              userName.text.trim(),
-              email.text.trim(),
-              password.text.trim(),
-              phone.text.trim(),
-              university.text.trim(),
-              province.text.trim(),
-              district.text.trim());
-          Navigator.of(context).pop();
+          if (_formKey.currentState!.validate()) {
+            dataBaseHelper.register(
+                userName.text.trim(),
+                email.text.trim(),
+                password.text.trim(),
+                phone.text.trim(),
+                university.text.trim(),
+                province.text.trim(),
+                district.text.trim());
+            Navigator.of(context).pop();
+          } else {
+            print("Ocurrió un problema, revise el formulario");
+          }
         },
         child: Text("Crear Cuenta",
             style: TextStyle(
@@ -347,7 +414,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
       child: RaisedButton(
         color: const Color.fromRGBO(146, 150, 187, 10),
         onPressed: () {
-          Navigator.of(context).pushNamed('/home');
+          Navigator.of(context).pop();
         },
         child: const Text("¿YA TIENES CUENTA? INICIA AHORA",
             style: TextStyle(

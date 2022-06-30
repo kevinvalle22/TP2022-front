@@ -80,6 +80,30 @@ class DataBaseHelper {
     }
   }
 
+  Future<List> getUsuarios(String userName, String password) async {
+    const requestUrl = "https://mental-health-deploy.herokuapp.com/api/users/";
+    final url = Uri.parse(requestUrl);
+    final token = await authenticate(userName, password);
+    http.Response result = await http.get(
+      requestUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(utf8.decode(result.bodyBytes));
+      final list = jsonResponse['content'];
+      print(list);
+      List listOfSleepRecords =
+          list.map<User>((json) => User.fromJson(json)).toList();
+      return list;
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
   Future<Exercise> createExercise(String urlOption, String userName,
       String password, Exercise exercise) async {
     const requestUrl = "https://mental-health-deploy.herokuapp.com/api/users/";
