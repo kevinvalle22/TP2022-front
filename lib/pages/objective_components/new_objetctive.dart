@@ -247,7 +247,7 @@ class _NewObjetivePageState extends State<NewObjetivePage> {
             goal.type = selected;
             goal = await dataBaseHelper.createAGoalRecord(
                 widget.idSend, userName.toString(), password.toString(), goal);
-            if (goal != null) {
+            if (goal == null) {
               Alert(
                 context: context,
                 type: AlertType.error,

@@ -169,10 +169,10 @@ class _HelpPageState extends State<HelpPage> {
                               border: Border.all(
                                   color: Color.fromRGBO(67, 58, 108, 10),
                                   width: .5),
-                              shape: BoxShape.circle,
+                              borderRadius: BorderRadius.circular(15.0),
                             ),
                             child: IconButton(
-                              icon: Icon(Icons.phone_in_talk),
+                              icon: Image.asset('assets/icons/call profesional.png'),
                               onPressed: () {
                                 Navigator.push(
                                     context,
@@ -198,7 +198,7 @@ class _HelpPageState extends State<HelpPage> {
                               border: Border.all(
                                   color: Color.fromRGBO(67, 58, 108, 10),
                                   width: .5),
-                              shape: BoxShape.circle,
+                               borderRadius: BorderRadius.circular(15.0),
                             ),
                             child: IconButton(
                               icon: Icon(Icons.watch_later_outlined),

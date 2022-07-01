@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage> {
     print("el id del usuario logeado es el ${widget.idSend}");
     if (affirmationsList.length == 0) {
       return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Column(
           children: [
             Stack(
@@ -184,19 +185,12 @@ class _HomePageState extends State<HomePage> {
 
   Widget PhoneIcon() {
     return Builder(builder: (context) {
-      return RawMaterialButton(
+      return IconButton(
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => HelpPage(widget.idSend)));
         },
-        child: const Icon(
-          Icons.phone_callback_rounded,
-          color: Colors.red,
-          size: 25.0,
-        ),
-        shape: const CircleBorder(),
-        elevation: 2.0,
-        fillColor: Colors.white,
+        icon: Image.asset('assets/icons/contacto profesional.png'),
       );
     });
   }
@@ -375,7 +369,7 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                     alignment: Alignment.topRight,
                     icon: Image.asset(
-                      'assets/reload.png',
+                      'assets/icons/change.png',
                       width: 18,
                       height: 18,
                     ),
