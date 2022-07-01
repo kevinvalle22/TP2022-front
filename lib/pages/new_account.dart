@@ -116,6 +116,8 @@ class _NewAccountPageState extends State<NewAccountPage> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: TextField(
+        // limitador
+        maxLength: 20,
         controller: userName,
         decoration: InputDecoration(
             fillColor: const Color.fromRGBO(232, 227, 238, 10),

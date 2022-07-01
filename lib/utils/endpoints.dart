@@ -400,6 +400,9 @@ class DataBaseHelper {
         'message': exercise.message,
       }),
     );
+    print(exercise.startDate);
+    print(exercise.endDate);
+    print(exercise.message);
     print(result.statusCode);
     if (result.statusCode == HttpStatus.ok) {
       final jsonResponse = json.decode(result.body);
@@ -546,6 +549,85 @@ class DataBaseHelper {
 
     final token = await authenticate(userName, password);
 
+    http.Response result = await http.delete(
+      requestUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    print(result.statusCode);
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = HttpStatus.ok;
+      return HttpStatus.ok;
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<Thought> updateAnThought(
+      String idSend, String name, String password, Thought thought) async {
+    int id = int.parse(idSend);
+    final requestUrl =
+        "https://mental-health-deploy.herokuapp.com/api/users/$id/thoughtRecords/${thought.id}";
+    final token = await authenticate(name, password);
+    return await http
+        .put(
+      requestUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode(thought.toJson()),
+    )
+        .then((http.Response response) {
+      final int statusCode = response.statusCode;
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+      return Thought.fromJson(json.decode(response.body));
+    });
+  }
+
+  Future<SleepRecord> editASleepRecord(String idSend, String name,
+      String password, SleepRecord sleepRecord) async {
+    int id = int.parse(idSend);
+    final requestUrl =
+        "https://mental-health-deploy.herokuapp.com/api/users/$id/sleeps/${sleepRecord.id}";
+    final token = await authenticate(name, password);
+    http.Response result = await http.put(
+      requestUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'startDate': sleepRecord.startDate,
+        'endDate': sleepRecord.endDate,
+        'message': sleepRecord.message,
+      }),
+    );
+    print(sleepRecord.startDate);
+    print(sleepRecord.endDate);
+    print(sleepRecord.message);
+    print(result.statusCode);
+    if (result.statusCode == HttpStatus.ok) {
+      final jsonResponse = json.decode(result.body);
+      return SleepRecord.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed request');
+    }
+  }
+
+  Future<int> deleteUser(
+      String idSend, String userName, String password) async {
+    int id = int.parse(idSend);
+    final requestUrl =
+        "https://mental-health-deploy.herokuapp.com/api/users/$id";
+    final token = await authenticate(userName, password);
     http.Response result = await http.delete(
       requestUrl,
       headers: {

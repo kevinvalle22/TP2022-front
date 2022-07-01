@@ -72,7 +72,6 @@ class _PositiveReinforcementPageState extends State<PositiveReinforcementPage> {
     print("affirmationDate first: " +
         affirmationsList[0]["affirmationDate"].toString());
 
-
     //convert string to int
     //lista vacia  mensaje de error
     print(selectedDayString);

@@ -151,6 +151,7 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(15),
             )),
         controller: userName,
+        // limitar el numero de caracteres a 20
       ),
     );
   }
@@ -186,7 +187,10 @@ class _LoginPageState extends State<LoginPage> {
       alignment: Alignment.centerRight,
       // ignore: deprecated_member_use
       child: FlatButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ForgotPassword()));
+          },
           child: const Text("¿Olvidaste tu contraseña?",
               style: TextStyle(
                   color: Color.fromRGBO(146, 150, 187, 10), fontSize: 15.0))),
@@ -256,5 +260,103 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     });
+  }
+}
+
+class ForgotPassword extends StatefulWidget {
+  @override
+  _ForgotPasswordState createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
+  TextEditingController email = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Recuperar contraseña"),
+      ),
+      body: Container(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+        child: Column(
+          children: <Widget>[
+            TextField(
+              decoration: InputDecoration(
+                  fillColor: const Color.fromRGBO(232, 227, 238, 10),
+                  filled: true,
+                  labelText: "Correo electrónico",
+                  labelStyle:
+                      const TextStyle(color: Color.fromRGBO(146, 150, 187, 10)),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        width: 3, color: Color.fromRGBO(232, 227, 238, 10)),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 3, color: Colors.red),
+                    borderRadius: BorderRadius.circular(15),
+                  )),
+              controller: email,
+            ),
+            const SizedBox(height: 30),
+            Container(
+              width: 320,
+              height: 50,
+              // ignore: deprecated_member_use
+              child: RaisedButton(
+                color: const Color.fromRGBO(104, 174, 174, 6),
+                onPressed: () async {
+                  // validar
+                  if (email.text.isEmpty) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Error"),
+                            content:
+                                const Text("Ingrese un correo electrónico"),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("Aceptar"),
+                              )
+                            ],
+                          );
+                        });
+                  } else {
+                    // enviar correo
+
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Envío de correo"),
+                            content: const Text("Se ha enviado un correo"),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("Aceptar"),
+                              )
+                            ],
+                          );
+                        });
+                  }
+                },
+                child: const Text(
+                  "ENVIAR",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

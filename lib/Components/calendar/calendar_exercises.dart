@@ -92,44 +92,47 @@ class _CalendarExercisesState extends State<CalendarExercises> {
               color: Color.fromRGBO(182, 220, 220, 10),
               borderRadius: BorderRadius.circular(15),
             ),
-            child: TableCalendar(
-              locale: 'es_ES',
-              headerStyle: HeaderStyle(
-                  titleCentered: true,
-                  formatButtonVisible: false,
-                  titleTextStyle:
-                      TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  headerPadding:
-                      EdgeInsets.symmetric(horizontal: 25, vertical: 10)),
-              focusedDay: selectedDay,
-              firstDay: DateTime.now(),
-              lastDay: DateTime.now().add(Duration(days: 200)),
-              startingDayOfWeek: StartingDayOfWeek.sunday,
-              daysOfWeekVisible: true,
-              onDaySelected: (DateTime selectDay, DateTime focusDay) {
-                setState(() {
-                  selectedDay = selectDay;
-                  focusedDay = focusDay;
-                  //get lima colombia time
-                  selectedDayString =
-                      DateFormat('yyyy-MM-dd').format(selectedDay);
-                });
-                print(selectedDayString);
-              },
-              selectedDayPredicate: (DateTime date) {
-                // use this to go to screen_form.dart
+            child: Expanded(
+              flex: 1,
+              child: TableCalendar(
+                locale: 'es_ES',
+                headerStyle: HeaderStyle(
+                    titleCentered: true,
+                    formatButtonVisible: false,
+                    titleTextStyle:
+                        TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    headerPadding:
+                        EdgeInsets.symmetric(horizontal: 25, vertical: 10)),
+                focusedDay: selectedDay,
+                firstDay: DateTime.now(),
+                lastDay: DateTime.now().add(Duration(days: 200)),
+                startingDayOfWeek: StartingDayOfWeek.sunday,
+                daysOfWeekVisible: true,
+                onDaySelected: (DateTime selectDay, DateTime focusDay) {
+                  setState(() {
+                    selectedDay = selectDay;
+                    focusedDay = focusDay;
+                    //get lima colombia time
+                    selectedDayString =
+                        DateFormat('yyyy-MM-dd').format(selectedDay);
+                  });
+                  print(selectedDayString);
+                },
+                selectedDayPredicate: (DateTime date) {
+                  // use this to go to screen_form.dart
 
-                return isSameDay(selectedDay, date);
-              },
-              calendarStyle: CalendarStyle(
-                  isTodayHighlighted: true,
-                  selectedDecoration: BoxDecoration(
-                    color: Colors.blue,
-                    shape: BoxShape.circle,
-                  ),
-                  selectedTextStyle: TextStyle(color: Colors.white),
-                  todayDecoration: BoxDecoration(
-                      color: Colors.purpleAccent, shape: BoxShape.circle)),
+                  return isSameDay(selectedDay, date);
+                },
+                calendarStyle: CalendarStyle(
+                    isTodayHighlighted: true,
+                    selectedDecoration: BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                    ),
+                    selectedTextStyle: TextStyle(color: Colors.white),
+                    todayDecoration: BoxDecoration(
+                        color: Colors.purpleAccent, shape: BoxShape.circle)),
+              ),
             ),
           ),
         ),
@@ -365,53 +368,105 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                           child: RaisedButton(
                                             color: Colors.white,
                                             onPressed: () async {
-                                              Exercise exercise = Exercise();
-                                              var userName =
-                                                  await UserSecureStorage
-                                                      .getUsername();
-                                              var password =
-                                                  await UserSecureStorage
-                                                      .getPassword();
-                                              exercise.startDate =
-                                                  selectedDayString +
-                                                      " " +
-                                                      resultIn!.hour
-                                                          .toString()
-                                                          .padLeft(2, '0') +
-                                                      ":" +
-                                                      resultIn!.minute
-                                                          .toString()
-                                                          .padLeft(2, '0');
-                                              print("Fecha de inicio" +
-                                                  exercise.startDate);
-                                              exercise.endDate =
-                                                  selectedDayString +
-                                                      " " +
-                                                      resultFin!
-                                                          .hour
-                                                          .toString()
-                                                          .padLeft(2, '0') +
-                                                      ":" +
-                                                      resultFin!.minute
-                                                          .toString()
-                                                          .padLeft(2, '0');
-                                              print("Fecha de inicio" +
-                                                  exercise.endDate);
-                                              exercise.message = message.text;
-                                              exercise = await dataBaseHelper
-                                                  .createExercise(
-                                                widget.idSend,
-                                                userName.toString(),
-                                                password.toString(),
-                                                exercise,
-                                              );
+                                              //validar que no haya campos vacios
+                                              if (message.text.isEmpty) {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        title: Text(
+                                                            "Error al enviar"),
+                                                        content: Text(
+                                                            "No puedes enviar un ejercicio sin descripción"),
+                                                        actions: <Widget>[
+                                                          FlatButton(
+                                                            child:
+                                                                Text("Aceptar"),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                          )
+                                                        ],
+                                                      );
+                                                    });
+                                              } else {
+                                                //validar que no haya campos vacios
+                                                if (resultIn == null ||
+                                                    resultFin == null) {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                              "Error al enviar"),
+                                                          content: Text(
+                                                              "No puedes enviar un ejercicio sin hora de inicio o finalización"),
+                                                          actions: <Widget>[
+                                                            FlatButton(
+                                                              child: Text(
+                                                                  "Aceptar"),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            )
+                                                          ],
+                                                        );
+                                                      });
+                                                } else {
+                                                  Exercise exercise =
+                                                      Exercise();
+                                                  var userName =
+                                                      await UserSecureStorage
+                                                          .getUsername();
+                                                  var password =
+                                                      await UserSecureStorage
+                                                          .getPassword();
+                                                  exercise.startDate =
+                                                      selectedDayString +
+                                                          " " +
+                                                          resultIn!.hour
+                                                              .toString()
+                                                              .padLeft(2, '0') +
+                                                          ":" +
+                                                          resultIn!.minute
+                                                              .toString()
+                                                              .padLeft(2, '0');
+                                                  print("Fecha de inicio" +
+                                                      exercise.startDate);
+                                                  exercise.endDate =
+                                                      selectedDayString +
+                                                          " " +
+                                                          resultFin!.hour
+                                                              .toString()
+                                                              .padLeft(2, '0') +
+                                                          ":" +
+                                                          resultFin!.minute
+                                                              .toString()
+                                                              .padLeft(2, '0');
+                                                  print("Fecha de inicio" +
+                                                      exercise.endDate);
+                                                  exercise.message =
+                                                      message.text;
+                                                  exercise =
+                                                      await dataBaseHelper
+                                                          .createExercise(
+                                                    widget.idSend,
+                                                    userName.toString(),
+                                                    password.toString(),
+                                                    exercise,
+                                                  );
 
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          RecordExercisesPage(
-                                                              widget.idSend)));
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              RecordExercisesPage(
+                                                                  widget
+                                                                      .idSend)));
+                                                }
+                                              }
                                             },
                                             child: Text("REGISTRAR EJERCICIO",
                                                 style: TextStyle(
@@ -504,6 +559,15 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                       borderRadius: BorderRadius.circular(20)),
                                   tooltip: "Opciones",
                                   onSelected: (String value) async {
+                                    if (value == "Modificar") {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditExercisePage(
+                                                      widget.idSend,
+                                                      exercisesList[i]["id"])));
+                                    }
                                     if (value == "Eliminar") {
                                       final name = await UserSecureStorage
                                               .getUsername() ??
@@ -577,6 +641,197 @@ class _CalendarExercisesState extends State<CalendarExercises> {
             )
           ],
         ],
+      ),
+    );
+  }
+}
+
+class EditExercisePage extends StatefulWidget {
+  final String idSend;
+  final int idExercise;
+  EditExercisePage(this.idSend, this.idExercise);
+  @override
+  _EditExercisePageState createState() => _EditExercisePageState();
+}
+
+class _EditExercisePageState extends State<EditExercisePage> {
+  // variables para el formulario de un ejercicio los cuales son duracion, message, startDate, endDate
+  String duration = "";
+  String message = "";
+  String startDate = "";
+  String horadeInicio = ""; //HH:mm
+  String horadeFin = ""; //HH:mm
+  // construir un calendario para la fecha de ejercicios y hora de inicio y fin
+  DateTime _date = DateTime.now();
+  TimeOfDay _time = TimeOfDay.now();
+// seleccionar una fecha y hora para el ejercicio
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: _date,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2100));
+    if (picked != null && picked != _date) {
+      setState(() {
+        _date = picked;
+        startDate = picked.toString().substring(0, 10);
+      });
+    }
+  }
+
+  Future<Null> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked =
+        await showTimePicker(context: context, initialTime: _time);
+    if (picked != null && picked != _time) {
+      setState(() {
+        _time = picked;
+        horadeInicio = _time.hour.toString() + ":" + _time.minute.toString();
+      });
+    }
+  }
+
+  Future<Null> _selectTime2(BuildContext context) async {
+    final TimeOfDay? picked =
+        await showTimePicker(context: context, initialTime: _time);
+    if (picked != null && picked != _time) {
+      setState(() {
+        _time = picked;
+        horadeFin = _time.hour.toString() + ":" + _time.minute.toString();
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print("Ejercicio a modificar: " + widget.idExercise.toString());
+    print(widget.idExercise);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // calendario de un startDate y endDate ambos de mismo dia pero con una hora diferente
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Modificar ejercicio"),
+        backgroundColor: Colors.blue,
+      ),
+      body: Container(
+        child: ListView(
+          children: [
+            Container(
+              child: Column(
+                children: [
+                  Container(
+                    child: Text(
+                      "Ejercicio: ",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Ejercicio",
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          message = value;
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      "Fecha: ",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      startDate,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: RaisedButton(
+                      child: Text("Seleccionar fecha"),
+                      onPressed: () {
+                        _selectDate(context);
+                      },
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      "Hora de inicio: ",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      horadeInicio,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: RaisedButton(
+                      child: Text("Seleccionar hora"),
+                      onPressed: () {
+                        _selectTime(context);
+                      },
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      "Hora de fin: ",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      horadeFin,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: RaisedButton(
+                      child: Text("Seleccionar hora"),
+                      onPressed: () {
+                        _selectTime2(context);
+                      },
+                    ),
+                  ),
+                  Container(
+                    child: RaisedButton(
+                      child: Text("Modificar"),
+                      onPressed: () async {
+                        final name =
+                            await UserSecureStorage.getUsername() ?? '';
+                        final password =
+                            await UserSecureStorage.getPassword() ?? '';
+
+                        Exercise exercise = Exercise(
+                            message: message,
+                            startDate: startDate + " " + horadeInicio,
+                            endDate: startDate + " " + horadeFin);
+                        // modificar un ejercicio
+                        DataBaseHelper dataBaseHelper = DataBaseHelper();
+                        await dataBaseHelper.editAnExercise(widget.idSend, name,
+                            password, widget.idExercise.toString(), exercise);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CalendarExercises(widget.idSend)));
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
