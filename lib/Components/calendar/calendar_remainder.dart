@@ -551,7 +551,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                         BoxShadow(
                             color: Colors.black.withOpacity(.1), blurRadius: 3)
                       ],
-                      color: Color.fromRGBO(226, 238, 239, 10),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(9.0)),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),

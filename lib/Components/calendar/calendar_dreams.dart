@@ -133,12 +133,24 @@ class _CalendarDreamsState extends State<CalendarDreams> {
   }
 
   Widget DreamsChart(BuildContext context) {
-    List<String> duracion = [];
+    List<String> fechaInicial = [];
+    List<String> minutosInicial = [];
+    List<String> horasInicial = [];
+
+    List<String> fechaFinal = [];
+    List<String> minutosFinal = [];
+    List<String> horasFinal = [];
+
     for (int i = 0; i < sleepList.length; i++) {
-      duracion.add(sleepList[i]['duration']);
-      //aumentar 24 horas
-      duracion =
-          duracion.map((e) => e.startsWith('-') ? e.substring(1) : e).toList();
+      horasInicial.add(sleepList[i]["startDate"].toString().substring(11, 13));
+      minutosInicial
+          .add(sleepList[i]["startDate"].toString().substring(14, 16));
+      fechaInicial.add(sleepList[i]["startDate"].toString().substring(0, 10));
+
+      horasFinal.add(sleepList[i]["endDate"].toString().substring(11, 13));
+      minutosFinal
+          .add(sleepList[i]["endDate"].toString().substring(14, 16));
+      fechaFinal.add(sleepList[i]["endDate"].toString().substring(0, 10));
     }
     return SingleChildScrollView(
         child: Column(
@@ -151,7 +163,7 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                   BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
               margin: EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
-                  color: Color.fromRGBO(246, 239, 227, 10),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
@@ -171,7 +183,9 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                       children: [
                         Flexible(
                           child: Text(
-                            "Dormí un total de: " + duracion[i] + " horas",
+                            "Dormí un total de: " +
+                                sleepList[i]['duration'].toString() +
+                                " horas",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -238,19 +252,22 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                     Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Me fui a dormir a las: " +
-                              sleepList[i]["startDate"].toString(),
+                          "Me fui a dormir a las " +
+                              horasInicial[i] +
+                              ":" +
+                              minutosInicial[i] +
+                              " hrs el " +
+                              fechaInicial[i],
                         )),
                     Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Me desperté a las: " +
-                              sleepList[i]["endDate"].toString(),
-                        )),
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Dormí un total de: " + duracion[i] + " horas",
+                          "Me desperté a las " +
+                              horasFinal[i] +
+                              ":" +
+                              minutosFinal[i] +
+                              " hrs el " +
+                              fechaFinal[i],
                         )),
                     Container(
                         alignment: Alignment.centerLeft,

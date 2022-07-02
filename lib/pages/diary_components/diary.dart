@@ -54,7 +54,6 @@ class _DiaryPageState extends State<DiaryPage> {
 
     thoughtList =
         await dataBaseHelper.getThoughts(widget.idSend, name, password);
-
     setState(() {});
   }
 
@@ -116,6 +115,30 @@ class _DiaryPageState extends State<DiaryPage> {
   }
 
   Widget ThoughtsChart(BuildContext context) {
+    List<String> date = [];
+    List<String> numberDate = [];
+    List<String> month = [];
+    List<String> year = [];
+    List<String> fecha = [];
+    for (int i = 0; i < thoughtList.length; i++) {
+
+      fecha.add(DateFormat("MMM dd yyyy").format(
+          DateTime.parse(thoughtList[i]['createdAt'].substring(0, 10))));
+
+      fecha = fecha.map((e) => e.replaceAll("Jan", "enero")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Feb", "febrero")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Mar", "marzo")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Apr", "abril")).toList();
+      fecha = fecha.map((e) => e.replaceAll("May", "mayo")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Jun", "junio")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Jul", "julio")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Aug", "agosto")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Sep", "septiembre")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Oct", "octubre")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Nov", "noviembre")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Dec", "diciembre")).toList();
+      //si es mayor a 10 quitar el 0
+    }
     return SingleChildScrollView(
         child: Column(
       children: [
@@ -127,7 +150,7 @@ class _DiaryPageState extends State<DiaryPage> {
                   BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
               margin: EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
-                  color: Color.fromRGBO(246, 239, 227, 10),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
@@ -208,7 +231,13 @@ class _DiaryPageState extends State<DiaryPage> {
                                     ]))
                       ],
                     ),
-                    // negrita
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        //Jul 02 2022
+                          fecha[i].split(" ")[1]+" de "+fecha[i].split(" ")[0]+" del "+fecha[i].split(" ")[2],
+                          style: TextStyle(fontSize: 12,color: Colors.grey)),
+                    )
                   ],
                 ),
               ),

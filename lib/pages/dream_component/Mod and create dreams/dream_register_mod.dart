@@ -18,8 +18,8 @@ class DreamRegisterDreamMod extends StatefulWidget {
 }
 
 class _DreamRegisterDreamModState extends State<DreamRegisterDreamMod> {
-  String? fechaIn = "";
-  String? fechaFin = "";
+  String? fechaIn = "00:00";
+  String? fechaFin = "00:00";
   bool suenio = false;
   bool siesta = false;
   final TextEditingController message = TextEditingController();
@@ -46,26 +46,15 @@ class _DreamRegisterDreamModState extends State<DreamRegisterDreamMod> {
           );
         });
     if (resultIn != null) {
-      fechaIn = resultIn!.format(context);
+      setState(() {
+        fechaIn = resultIn!.format(context);
+      });
+    }
+    if (resultIn == null) {
+      fechaIn = fechaIn;
     }
     print(resultIn!.hour);
     print(fechaIn);
-  }
-
-  void _showA() {
-    showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-        builder: (context, child) {
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child!,
-          );
-        }).then((value) {
-      setState(() {
-        resultIn = value;
-      });
-    });
   }
 
   Future<void> _showFin(BuildContext context) async {
@@ -79,7 +68,12 @@ class _DreamRegisterDreamModState extends State<DreamRegisterDreamMod> {
           );
         });
     if (resultIn != null) {
-      fechaFin = resultFin!.format(context);
+      setState(() {
+        fechaFin = resultFin!.format(context);
+      });
+    }
+    if (resultFin == null) {
+      fechaFin = fechaFin;
     }
     print(resultFin!.hour);
     print(fechaFin);
@@ -240,7 +234,8 @@ class _DreamRegisterDreamModState extends State<DreamRegisterDreamMod> {
                                                 fontSize: 16),
                                           ),
                                           checkColor: Colors.transparent,
-                                          activeColor: Color.fromRGBO(55, 51, 108, 1),
+                                          activeColor:
+                                              Color.fromRGBO(55, 51, 108, 1),
                                           value: suenio,
                                           onChanged: (value) {
                                             setState(() {
@@ -278,7 +273,8 @@ class _DreamRegisterDreamModState extends State<DreamRegisterDreamMod> {
                                                 fontSize: 16),
                                           ),
                                           checkColor: Colors.transparent,
-                                          activeColor: Color.fromRGBO(55, 51, 108, 1),
+                                          activeColor:
+                                              Color.fromRGBO(55, 51, 108, 1),
                                           value: siesta,
                                           onChanged: (value) {
                                             setState(() {
@@ -315,7 +311,6 @@ class _DreamRegisterDreamModState extends State<DreamRegisterDreamMod> {
                                     child: TextField(
                                       textAlign: TextAlign.center,
                                       controller: message,
-                                      autofocus: true,
                                       decoration: InputDecoration.collapsed(
                                           floatingLabelBehavior:
                                               FloatingLabelBehavior.auto,
@@ -377,13 +372,7 @@ class _DreamRegisterDreamModState extends State<DreamRegisterDreamMod> {
                                                   SizedBox(
                                                     width: 5,
                                                   ),
-                                                  Text(resultIn!.hour
-                                                          .toString()
-                                                          .padLeft(2, '0') +
-                                                      ":" +
-                                                      resultIn!.minute
-                                                          .toString()
-                                                          .padLeft(2, '0')),
+                                                  Text(fechaIn!),
                                                 ],
                                               ),
                                             ),
@@ -442,13 +431,7 @@ class _DreamRegisterDreamModState extends State<DreamRegisterDreamMod> {
                                                   SizedBox(
                                                     width: 5,
                                                   ),
-                                                  Text(resultFin!.hour
-                                                          .toString()
-                                                          .padLeft(2, '0') +
-                                                      ":" +
-                                                      resultFin!.minute
-                                                          .toString()
-                                                          .padLeft(2, '0')),
+                                                  Text(fechaFin!),
                                                 ],
                                               ),
                                             ),

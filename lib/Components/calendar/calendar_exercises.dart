@@ -107,6 +107,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
 
   Widget ExercisesChart(BuildContext context) {
     List<String> date = [];
+    List<String> fecha = [];
     List<String> minutos = [];
     for (int i = 0; i < exercisesList.length; i++) {
       //cambiar a de ingles a español el dayOfTheWeek
@@ -119,23 +120,41 @@ class _CalendarExercisesState extends State<CalendarExercises> {
       date = date.map((e) => e.replaceAll('SATURDAY', 'Sábado')).toList();
       date = date.map((e) => e.replaceAll('SUNDAY', 'Domingo')).toList();
       //obtener los minutos
+      fecha.add(DateFormat("EEEE MMM dd yyyy").format(
+          DateTime.parse(exercisesList[i]['startDate'].substring(0, 10))));
+      fecha = fecha.map((e) => e.replaceAll("Jan", "enero")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Feb", "febrero")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Mar", "marzo")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Apr", "abril")).toList();
+      fecha = fecha.map((e) => e.replaceAll("May", "mayo")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Jun", "junio")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Jul", "julio")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Aug", "agosto")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Sep", "septiembre")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Oct", "octubre")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Nov", "noviembre")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Dec", "diciembre")).toList();
 
+      fecha = fecha.map((e) => e.replaceAll('MONDAY', 'Lunes')).toList();
+      fecha = fecha.map((e) => e.replaceAll('TUESDAY', 'Martes')).toList();
+      fecha = fecha.map((e) => e.replaceAll('WEDNESDAY', 'Miércoles')).toList();
+      fecha = fecha.map((e) => e.replaceAll('THURSDAY', 'Jueves')).toList();
+      fecha = fecha.map((e) => e.replaceAll('FRIDAY', 'Viernes')).toList();
+      fecha = fecha.map((e) => e.replaceAll('SATURDAY', 'Sábado')).toList();
+      fecha = fecha.map((e) => e.replaceAll('SUNDAY', 'Domingo')).toList();
     }
-
+    Color colorcito = Color.fromRGBO(200, 224, 220, 1);
     return SingleChildScrollView(
       child: Column(
         children: [
           if (exercisesList.isNotEmpty) ...[
-            for (int i = 0; i < exercisesList.length; i++)
+            for (int i = 0; i < exercisesList.length; i++) ...[
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
-                constraints:
-                    BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
                 padding: EdgeInsets.all(4),
-                margin: EdgeInsets.symmetric(vertical: 8),
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(246, 239, 227, 10),
-                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(35),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
@@ -153,10 +172,10 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                         children: [
                           Flexible(
                             child: Text(
-                              "Duración: " +
-                                  (exercisesList[i]["duration"].toString()) +
-                                  " horas",
-                              style: TextStyle(fontSize: 16),
+                              (exercisesList[i]["duration"].toString() +
+                                  " horas"),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ),
                           Container(
@@ -166,6 +185,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                       borderRadius: BorderRadius.circular(20)),
                                   tooltip: "Opciones",
                                   onSelected: (String value) async {
+                                    print("true");
                                     if (value == "Eliminar") {
                                       final name = await UserSecureStorage
                                               .getUsername() ??
@@ -205,15 +225,32 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                         PopupMenuItem<String>(
                                           value: "Modificar",
                                           child: ListTile(
-                                            leading: Icon(Icons.edit),
-                                            title: Text("Modificar"),
+                                            leading: Icon(
+                                              Icons.edit,
+                                              color: Color.fromRGBO(
+                                                  139, 168, 194, 10),
+                                            ),
+                                            title: Text(
+                                              "Modificar",
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    139, 168, 194, 10),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                         PopupMenuItem<String>(
                                           value: "Eliminar",
                                           child: ListTile(
-                                            leading: Icon(Icons.delete),
-                                            title: Text("Eliminar"),
+                                            leading: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                            title: Text(
+                                              "Eliminar",
+                                              style:
+                                                  TextStyle(color: Colors.red),
+                                            ),
                                           ),
                                         )
                                       ]))
@@ -222,27 +259,33 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                       Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Fecha: " +
-                                exercisesList[i]["startDate"].toString(),
+                            exercisesList[i]["message"].toString() + ".",
+                            style: TextStyle(fontSize: 16),
                           )),
-                      Container(alignment: Alignment.centerLeft, child: Text(
-                          // Mayuscula la primera letra  y despues todo minusculas
-                          "Día de la semana: " + date[i])),
                       Container(
-                          alignment: Alignment.centerLeft,
+                          alignment: Alignment.centerRight,
                           child: Text(
-                            "Ejercicio a realizar: " +
-                                exercisesList[i]["message"].toString(),
+                            date[i].split(" ")[0] +
+                                " " +
+                                //number of the day
+                                fecha[i].split(" ")[2] +
+                                " de " +
+                                fecha[i].split(" ")[1] +
+                                " del " +
+                                fecha[i].split(" ")[3],
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
                           )),
                     ],
                   ),
                 ),
-              )
+              ),
+              SizedBox(height: 10),
+            ]
           ] else ...[
             Center(
               child: Text(
                 "No hay elementos en la lista",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20, color: Colors.red),
               ),
             )
           ],

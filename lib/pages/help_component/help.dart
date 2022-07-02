@@ -134,114 +134,123 @@ class _HelpPageState extends State<HelpPage> {
       child: Container(
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)
-        ], color: Colors.white, borderRadius: BorderRadius.circular(9.0)),
-        margin: const EdgeInsets.all(9.0),
+        ], color: Colors.white, borderRadius: BorderRadius.circular(25.0)),
+        margin: const EdgeInsets.all(5.0),
         padding: const EdgeInsets.all(9.0),
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-              height: 60,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(9.0),
-                child: Image.asset('assets/doctor.jpg'),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(right: 2),
+                    child: Text("Disponible"),
+                  ),
+                  Container(
+                    width: 10,
+                    height: 10,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.green,
+                    ),
+                  )
+                ],
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(7.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("MINSA",
-                        style: Theme.of(context).textTheme.headline5!.apply(
-                            color: Color.fromRGBO(72, 129, 129, 10),
-                            fontWeightDelta: 5)),
-                    const Text(
-                      "Línea de emergencia",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  height: 100,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(9.0),
+                    child: Image.asset('assets/doctor.jpg'),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(7.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Flexible(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color.fromRGBO(67, 58, 108, 10),
-                                  width: .5),
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            child: IconButton(
-                              icon: Image.asset('assets/icons/call profesional.png'),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            TelefonoPage(widget.idSend)));
-                              },
-                              color: Color.fromRGBO(67, 58, 108, 10),
-                            ),
-                          ),
-                        ),
+                        Text("MINSA",
+                            style: Theme.of(context).textTheme.headline5!.apply(
+                                color: Color.fromRGBO(72, 129, 129, 10),
+                                fontWeightDelta: 5)),
                         const Text(
-                          "113",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(67, 58, 108, 10),
-                          ),
+                          "Línea de emergencia",
+                          style: TextStyle(color: Colors.grey),
                         ),
-                        Flexible(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Color.fromRGBO(67, 58, 108, 10),
+                                    width: .5),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: IconButton(
+                                icon: Image.asset(
+                                  'assets/icons/call profesional.png',
+                                  scale: 20,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              TelefonoPage(widget.idSend)));
+                                },
+                                color: Color.fromRGBO(67, 58, 108, 10),
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                "113",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                   color: Color.fromRGBO(67, 58, 108, 10),
-                                  width: .5),
-                               borderRadius: BorderRadius.circular(15.0),
+                                ),
+                              ),
                             ),
-                            child: IconButton(
-                              icon: Icon(Icons.watch_later_outlined),
-                              onPressed: () {},
-                              color: Color.fromRGBO(67, 58, 108, 10),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Color.fromRGBO(67, 58, 108, 10),
+                                    width: .5),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: IconButton(
+                                icon: Image.asset(
+                                  'assets/icons/time.png',
+                                  scale: 20,
+                                ),
+                                onPressed: () {},
+                                color: Color.fromRGBO(67, 58, 108, 10),
+                              ),
                             ),
-                          ),
-                        ),
-                        Text(
-                          "24 hrs.",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(67, 58, 108, 10),
-                          ),
+                            Container(
+                              child: Text(
+                                "24 hrs.",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(67, 58, 108, 10),
+                                ),
+                              ),
+                            )
+                          ],
                         )
                       ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(right: 2),
-                      child: Text("Disponible"),
                     ),
-                    Container(
-                      width: 10,
-                      height: 10,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.green,
-                      ),
-                    )
-                  ],
+                  ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -254,7 +263,7 @@ class _HelpPageState extends State<HelpPage> {
         width: 340,
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)
-        ], color: Colors.white, borderRadius: BorderRadius.circular(9.0)),
+        ], color: Colors.white, borderRadius: BorderRadius.circular(25.0)),
         padding: const EdgeInsets.all(8.0),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -270,6 +279,9 @@ class _HelpPageState extends State<HelpPage> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 5,
+              ),
               Container(
                   alignment: Alignment.centerLeft,
                   child: Column(
@@ -277,6 +289,9 @@ class _HelpPageState extends State<HelpPage> {
                       Text("2. Habla con alguien"),
                     ],
                   )),
+              SizedBox(
+                height: 5,
+              ),
               Container(
                   alignment: Alignment.centerLeft,
                   child: Column(
@@ -284,6 +299,9 @@ class _HelpPageState extends State<HelpPage> {
                       Text("3. Intenta mantenerte seguro"),
                     ],
                   )),
+              SizedBox(
+                height: 5,
+              ),
               Container(
                   alignment: Alignment.centerLeft,
                   child: Column(
@@ -291,6 +309,9 @@ class _HelpPageState extends State<HelpPage> {
                       Text("4. Procura estar acompañado"),
                     ],
                   )),
+              SizedBox(
+                height: 5,
+              ),
               Container(
                   alignment: Alignment.centerLeft,
                   child: Column(
@@ -308,13 +329,12 @@ class _HelpPageState extends State<HelpPage> {
   Widget Affirmations() {
     return GestureDetector(
       child: Container(
-        width: 340,
+        width: MediaQuery.of(context).size.width*0.9,
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)
-        ], color: Colors.white, borderRadius: BorderRadius.circular(9.0)),
-        padding: const EdgeInsets.all(5.0),
+        ], color: Colors.white, borderRadius: BorderRadius.circular(15.0)),
         child: Padding(
-          padding: const EdgeInsets.all(5.0),
+          padding: EdgeInsets.only(top: 10,left: 5,right: 5,bottom: 10),
           child: Column(
             children: [
               Container(

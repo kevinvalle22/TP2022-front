@@ -54,7 +54,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           IconButton(
-            icon: Icon(Icons.home_outlined),
+            icon: Image.asset(
+              widget.homeColorIcon
+                  ? 'assets/icons/home gray.png'
+                  : 'assets/icons/home action.png',
+              scale: 10,
+            ),
             onPressed: () {
               widget.isTheSameHome
                   ? null
@@ -67,7 +72,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
             splashColor: Color.fromRGBO(67, 58, 108, 10),
           ),
           IconButton(
-            icon: Icon(Icons.crop_square_sharp),
+            icon: Image.asset(
+              widget.learnColorIcon
+                  ? 'assets/icons/info gray.png'
+                  : 'assets/icons/info action.png',
+              scale: 11,
+            ),
             onPressed: () {
               widget.isTheSameLearn
                   ? null
@@ -86,7 +96,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
             child: IconButton(
               highlightColor:
                   widget.botColorIcon ? null : Colors.lightGreenAccent,
-              icon: Image.asset('assets/icons/bot bar.png'),
+              icon: Image.asset(
+                'assets/icons/bot bar.png',
+                scale: 10,
+              ),
               constraints: BoxConstraints(
                   minWidth: 100, minHeight: 52.5, maxWidth: double.infinity),
               onPressed: () {
@@ -118,12 +131,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
           ),
           Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: widget.graphColorIcon ? null : Colors.lightGreenAccent),
             child: IconButton(
               icon: Image.asset(
-                'assets/ios.png',
+                widget.graphColorIcon
+                    ? 'assets/icons/graphics gray.png'
+                    : 'assets/icons/graphics action.png',
+                scale: 10,
               ),
               onPressed: () {
                 widget.isTheSameGraph
@@ -137,12 +150,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
           ),
           Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color:
-                    widget.profileColorIcon ? null : Colors.lightGreenAccent),
             child: IconButton(
-              icon: Image.asset('assets/usuario.png'),
+              icon: Image.asset(
+                widget.profileColorIcon
+                    ? 'assets/icons/profile.png'
+                    : 'assets/icons/profile action.png',
+                scale: 10,
+              ),
               onPressed: () {
                 widget.isTheSameProfile
                     ? null

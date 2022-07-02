@@ -18,6 +18,8 @@ class RecordExercisesCreate extends StatefulWidget {
 class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
   TimeOfDay? resultIn = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay? resultFin = TimeOfDay(hour: 00, minute: 00);
+  String? fechaIn = "00:00";
+  String? fechaFin = "00:00";
   final TextEditingController message = TextEditingController();
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
@@ -26,7 +28,7 @@ class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
   String selectedDayString =
       DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
   DataBaseHelper dataBaseHelper = DataBaseHelper();
-  Future<void> _showIni() async {
+  Future _showIni(BuildContext context) async {
     resultIn = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
@@ -36,11 +38,19 @@ class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
             child: child!,
           );
         });
-
-    print(resultFin!.hour - resultIn!.hour);
+    if (resultIn != null) {
+      setState(() {
+        fechaIn = resultIn!.format(context);
+      });
+    }
+    if (resultIn == null) {
+      fechaIn = fechaIn;
+    }
+    print(resultIn!.hour);
+    print(fechaIn);
   }
 
-  Future<void> _showFin() async {
+  Future<void> _showFin(BuildContext context) async {
     resultFin = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
@@ -50,7 +60,16 @@ class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
             child: child!,
           );
         });
+    if (resultIn != null) {
+      setState(() {
+        fechaFin = resultFin!.format(context);
+      });
+    }
+    if (resultFin == null) {
+      fechaFin = fechaFin;
+    }
     print(resultFin!.hour);
+    print(fechaFin);
   }
 
   @override
@@ -62,8 +81,8 @@ class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
             Stack(
               children: [
                 Container(
-                    child:
-                        BackgroundImage('assets/fondos/ejercicios fisicos.png')),
+                    child: BackgroundImage(
+                        'assets/fondos/ejercicios fisicos.png')),
                 SafeArea(
                   child: Column(
                     children: [
@@ -92,10 +111,11 @@ class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
                                     headerPadding: EdgeInsets.symmetric(
                                         horizontal: 25, vertical: 10)),
                                 rowHeight:
-                                    MediaQuery.of(context).size.height * 0.075,
+                                    MediaQuery.of(context).size.height * 0.065,
                                 focusedDay: selectedDay,
                                 firstDay: DateTime.now(),
-                                lastDay: DateTime.now().add(Duration(days: 200)),
+                                lastDay:
+                                    DateTime.now().add(Duration(days: 200)),
                                 startingDayOfWeek: StartingDayOfWeek.sunday,
                                 daysOfWeekVisible: true,
                                 onDaySelected:
@@ -111,14 +131,15 @@ class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
                                 },
                                 selectedDayPredicate: (DateTime date) {
                                   // use this to go to screen_form.dart
-                  
+
                                   return isSameDay(selectedDay, date);
                                 },
                                 calendarStyle: CalendarStyle(
                                     isTodayHighlighted: true,
                                     selectedDecoration: BoxDecoration(
-                                      color: Colors.blue,
-                                      shape: BoxShape.circle,
+                                      color: Color.fromRGBO(104, 174, 174, 1),
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     selectedTextStyle:
                                         TextStyle(color: Colors.white),
@@ -179,7 +200,6 @@ class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
                                     children: <Widget>[
                                       Expanded(
                                         child: TextField(
-                                          autofocus: true,
                                           controller: message,
                                           decoration: InputDecoration.collapsed(
                                               hintText:
@@ -243,13 +263,7 @@ class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
                                                   SizedBox(
                                                     width: 5,
                                                   ),
-                                                  Text(resultIn!.hour
-                                                          .toString()
-                                                          .padLeft(2, '0') +
-                                                      ":" +
-                                                      resultIn!.minute
-                                                          .toString()
-                                                          .padLeft(2, '0')),
+                                                  Text(fechaIn!),
                                                 ],
                                               ),
                                             ),
@@ -257,7 +271,7 @@ class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
                                           //ontap setstate to get time
                                           onTap: () => {
                                             setState(() {
-                                              _showIni();
+                                              _showIni(context);
                                             })
                                           },
                                         ),
@@ -308,18 +322,19 @@ class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
                                                   SizedBox(
                                                     width: 5,
                                                   ),
-                                                  Text(resultFin!.hour
-                                                          .toString()
-                                                          .padLeft(2, '0') +
-                                                      ":" +
-                                                      resultFin!.minute
-                                                          .toString()
-                                                          .padLeft(2, '0')),
+                                                  Text(fechaFin!),
                                                 ],
                                               ),
                                             ),
                                           ),
-                                          onTap: () => _showFin(),
+                                          onTap: () {
+                                            setState(() {
+                                              _showFin(context);
+                                            });
+                                            (() {
+                                              //_showA();
+                                            });
+                                          },
                                         ),
                                       ],
                                     )),
@@ -371,7 +386,7 @@ class _RecordExercisesCreateState extends State<RecordExercisesCreate> {
                                             password.toString(),
                                             exercise,
                                           );
-                  
+
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
