@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/background_image.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/labels.dart';
+import 'package:tp2022_front/models/Goal.dart';
 import 'package:tp2022_front/pages/objective_components/new_objetctive.dart';
 import 'package:tp2022_front/security/user_secure_storage.dart';
 import 'package:tp2022_front/utils/endpoints.dart';
@@ -115,6 +116,17 @@ class _ObjectivePage extends State<ObjectivePage> {
                                 PendingChart(context),
                                 SizedBox(
                                   height: 15,
+                                ),
+                                Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {},
+                                      child: PendingChart(context),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
                                 ),
                                 H1Label("Objetivos Terminados"),
                                 SizedBox(
@@ -231,6 +243,25 @@ class _ObjectivePage extends State<ObjectivePage> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             ObjectivePage(widget.idSend)));
+                              } else if (value == "Visualizar") {
+                                Goal goal = Goal();
+                                goal.id = goalInit.elementAt(i)["id"];
+                                goal.message = goalInit.elementAt(i)["message"];
+                                goal.type = goalInit.elementAt(i)["type"];
+                                goal.actionPlan1 =
+                                    goalInit.elementAt(i)["actionPlan1"];
+                                goal.actionPlan2 =
+                                    goalInit.elementAt(i)["actionPlan2"];
+                                goal.actionPlan3 =
+                                    goalInit.elementAt(i)["actionPlan3"];
+                                goal.startDate =
+                                    goalInit.elementAt(i)["startDate"];
+                                goal.status = goalInit.elementAt(i)["status"];
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ObjectiveInfo(
+                                            widget.idSend, goal)));
                               }
                             },
                             //padding: EdgeInsets.zero,
@@ -275,6 +306,17 @@ class _ObjectivePage extends State<ObjectivePage> {
                                           TextStyle(color: Colors.redAccent)),
                                 ),
                               ),
+                              PopupMenuItem<String>(
+                                value: "Visualizar",
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.info,
+                                    color: Colors.orange,
+                                  ),
+                                  title: Text("Visualizar",
+                                      style: TextStyle(color: Colors.orange)),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -287,10 +329,8 @@ class _ObjectivePage extends State<ObjectivePage> {
           ),
       ] else ...[
         Center(
-          child: Text(
-            "No hay objetivos pendientes en la lista",
-            style: TextStyle(fontSize: 15,color: Colors.red)
-          ),
+          child: Text("No hay objetivos pendientes en la lista",
+              style: TextStyle(fontSize: 15, color: Colors.red)),
         )
       ],
     ]);
@@ -419,7 +459,7 @@ class _ObjectivePage extends State<ObjectivePage> {
           Center(
             child: Text(
               "No hay objetivos terminados en la lista",
-              style: TextStyle(fontSize: 15,color: Colors.red),
+              style: TextStyle(fontSize: 15, color: Colors.red),
             ),
           )
         ]
@@ -556,8 +596,8 @@ class _ObjectiveModState extends State<ObjectiveMod> {
 
 class ObjectiveInfo extends StatefulWidget {
   final String idSend;
-  final String goalId;
-  ObjectiveInfo(this.idSend, this.goalId);
+  final Goal goal;
+  ObjectiveInfo(this.idSend, this.goal);
   @override
   State<ObjectiveInfo> createState() => _ObjectiveInfoState();
 }
@@ -584,7 +624,7 @@ class _ObjectiveInfoState extends State<ObjectiveInfo> {
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         child: Column(
                           children: [
                             Row(
@@ -595,49 +635,10 @@ class _ObjectiveInfoState extends State<ObjectiveInfo> {
                             SizedBox(
                               height: 10,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 2,
-                                        blurRadius: 5,
-                                      )
-                                    ]),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.centerLeft,
-                                        child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.8,
-                                            padding: EdgeInsets.all(8),
-                                            decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                            child: Text(
-                                              "a",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                              textAlign: TextAlign.center,
-                                            )),
-                                      ),
-                                      Flexible(child: Text("a")),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                            Container(
+                              child: InputLabell(),
                             ),
+                            TagsLabelObjective(),
                             SizedBox(
                               height: 10,
                             ),

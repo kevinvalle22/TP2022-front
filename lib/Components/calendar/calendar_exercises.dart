@@ -84,6 +84,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+
         Row(
           children: [
             H1Label("Historial de ejercicios"),
@@ -98,6 +99,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
               },
               icon: Image.asset('assets/icons/add.png'),
             )
+
           ],
         ),
         ExercisesChart(context)
@@ -185,7 +187,19 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                       borderRadius: BorderRadius.circular(20)),
                                   tooltip: "Opciones",
                                   onSelected: (String value) async {
+
                                     print("true");
+
+                                    if (value == "Modificar") {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditExercisePage(
+                                                      widget.idSend,
+                                                      exercisesList[i]["id"])));
+                                    }
+
                                     if (value == "Eliminar") {
                                       final name = await UserSecureStorage
                                               .getUsername() ??
@@ -290,6 +304,197 @@ class _CalendarExercisesState extends State<CalendarExercises> {
             )
           ],
         ],
+      ),
+    );
+  }
+}
+
+class EditExercisePage extends StatefulWidget {
+  final String idSend;
+  final int idExercise;
+  EditExercisePage(this.idSend, this.idExercise);
+  @override
+  _EditExercisePageState createState() => _EditExercisePageState();
+}
+
+class _EditExercisePageState extends State<EditExercisePage> {
+  // variables para el formulario de un ejercicio los cuales son duracion, message, startDate, endDate
+  String duration = "";
+  String message = "";
+  String startDate = "";
+  String horadeInicio = ""; //HH:mm
+  String horadeFin = ""; //HH:mm
+  // construir un calendario para la fecha de ejercicios y hora de inicio y fin
+  DateTime _date = DateTime.now();
+  TimeOfDay _time = TimeOfDay.now();
+// seleccionar una fecha y hora para el ejercicio
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: _date,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2100));
+    if (picked != null && picked != _date) {
+      setState(() {
+        _date = picked;
+        startDate = picked.toString().substring(0, 10);
+      });
+    }
+  }
+
+  Future<Null> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked =
+        await showTimePicker(context: context, initialTime: _time);
+    if (picked != null && picked != _time) {
+      setState(() {
+        _time = picked;
+        horadeInicio = _time.hour.toString() + ":" + _time.minute.toString();
+      });
+    }
+  }
+
+  Future<Null> _selectTime2(BuildContext context) async {
+    final TimeOfDay? picked =
+        await showTimePicker(context: context, initialTime: _time);
+    if (picked != null && picked != _time) {
+      setState(() {
+        _time = picked;
+        horadeFin = _time.hour.toString() + ":" + _time.minute.toString();
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print("Ejercicio a modificar: " + widget.idExercise.toString());
+    print(widget.idExercise);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // calendario de un startDate y endDate ambos de mismo dia pero con una hora diferente
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Modificar ejercicio"),
+        backgroundColor: Colors.blue,
+      ),
+      body: Container(
+        child: ListView(
+          children: [
+            Container(
+              child: Column(
+                children: [
+                  Container(
+                    child: Text(
+                      "Ejercicio: ",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Ejercicio",
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          message = value;
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      "Fecha: ",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      startDate,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: RaisedButton(
+                      child: Text("Seleccionar fecha"),
+                      onPressed: () {
+                        _selectDate(context);
+                      },
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      "Hora de inicio: ",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      horadeInicio,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: RaisedButton(
+                      child: Text("Seleccionar hora"),
+                      onPressed: () {
+                        _selectTime(context);
+                      },
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      "Hora de fin: ",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      horadeFin,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    child: RaisedButton(
+                      child: Text("Seleccionar hora"),
+                      onPressed: () {
+                        _selectTime2(context);
+                      },
+                    ),
+                  ),
+                  Container(
+                    child: RaisedButton(
+                      child: Text("Modificar"),
+                      onPressed: () async {
+                        final name =
+                            await UserSecureStorage.getUsername() ?? '';
+                        final password =
+                            await UserSecureStorage.getPassword() ?? '';
+
+                        Exercise exercise = Exercise(
+                            message: message,
+                            startDate: startDate + " " + horadeInicio,
+                            endDate: startDate + " " + horadeFin);
+                        // modificar un ejercicio
+                        DataBaseHelper dataBaseHelper = DataBaseHelper();
+                        await dataBaseHelper.editAnExercise(widget.idSend, name,
+                            password, widget.idExercise.toString(), exercise);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CalendarExercises(widget.idSend)));
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -120,6 +120,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Widget UserField() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+
       child: TextFormField(
         validator: (value) {
           if (value!.isEmpty) {
@@ -129,6 +130,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
           return null;
         },
         keyboardType: TextInputType.name,
+
         controller: userName,
         decoration: InputDecoration(
           filled: true,

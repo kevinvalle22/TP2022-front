@@ -6,6 +6,7 @@ import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/Components/labels.dart';
 import 'package:tp2022_front/models/User.dart';
 import 'package:tp2022_front/pages/home.dart';
+import 'package:tp2022_front/pages/sign_in.dart';
 import 'package:tp2022_front/security/user_secure_storage.dart';
 import '../utils/endpoints.dart';
 
@@ -83,6 +84,39 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: <Widget>[
+                    //boton eliminar usuario
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () async {
+                              final name =
+                                  await UserSecureStorage.getUsername() ?? '';
+                              final password =
+                                  await UserSecureStorage.getPassword() ?? '';
+                              await dataBaseHelper.deleteUser(
+                                  widget.idSend, name, password);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()));
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()));
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+
                     Container(
                       alignment: Alignment.center,
                       child: Text("Mi perfil",

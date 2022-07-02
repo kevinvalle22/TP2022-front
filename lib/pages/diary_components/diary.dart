@@ -181,6 +181,19 @@ class _DiaryPageState extends State<DiaryPage> {
                                     borderRadius: BorderRadius.circular(20)),
                                 tooltip: "Opciones",
                                 onSelected: (String value) async {
+                                  if (value == "Modificar") {
+                                    Thought thought = Thought();
+                                    thought.message = thoughtList[i]['message'];
+                                    thought.id = thoughtList[i]['id'];
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ThoughtEditPage(
+                                                  thought,
+                                                  widget.idSend,
+                                                )));
+                                  }
                                   if (value == "Eliminar") {
                                     final name =
                                         await UserSecureStorage.getUsername() ??
@@ -255,5 +268,95 @@ class _DiaryPageState extends State<DiaryPage> {
         ]
       ],
     ));
+  }
+}
+
+class ThoughtEditPage extends StatefulWidget {
+  final Thought thought;
+  final String idSend;
+  ThoughtEditPage(this.thought, this.idSend);
+  @override
+  _ThoughtEditPageState createState() => _ThoughtEditPageState();
+}
+
+class _ThoughtEditPageState extends State<ThoughtEditPage> {
+  DataBaseHelper dataBaseHelper = DataBaseHelper();
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _textController = TextEditingController();
+  Thought thought = Thought();
+  String message = '';
+  @override
+  void initState() {
+    super.initState();
+    message = widget.thought.message;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        title: Text("Editar pensamiento"),
+        backgroundColor: Color.fromRGBO(107, 174, 174, 10),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _textController,
+                  decoration: InputDecoration(
+                    labelText: "Pensamiento",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return "El pensamiento no puede estar vacio";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    message = value!;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                RaisedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      _formKey.currentState?.save();
+                      final name = await UserSecureStorage.getUsername() ?? '';
+                      final password =
+                          await UserSecureStorage.getPassword() ?? '';
+                      thought.message = message;
+                      thought.id = widget.thought.id;
+                      await dataBaseHelper.updateAnThought(
+                          widget.idSend, name, password, thought);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DiaryPage(widget.idSend)));
+                    }
+                  },
+                  child: Text("Guardar"),
+                  color: Color.fromRGBO(107, 174, 174, 10),
+                  textColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
