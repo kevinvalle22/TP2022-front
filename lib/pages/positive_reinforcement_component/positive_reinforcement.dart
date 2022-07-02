@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
 import 'package:tp2022_front/models/Affimation.dart';
+import 'package:tp2022_front/pages/positive_reinforcement_component/assertion_settings.dart';
 import 'package:tp2022_front/security/user_secure_storage.dart';
 import 'package:tp2022_front/utils/endpoints.dart';
 
@@ -28,7 +29,7 @@ class _PositiveReinforcementPageState extends State<PositiveReinforcementPage> {
   int cont = 0;
   int cont2 = 0;
   List<String> lista = <String>[];
-  bool _switchValue = false;
+  bool _switchValue = true;
   bool _switchValue2 = false;
   bool aasdaads = false;
   CalendarFormat format = CalendarFormat.month;
@@ -123,6 +124,71 @@ class _PositiveReinforcementPageState extends State<PositiveReinforcementPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Text(""),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.1,
+                            height: MediaQuery.of(context).size.height * 0.025,
+                            child: PopupMenuButton<String>(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                tooltip: "Opciones",
+                                onSelected: (String value) async {
+                                  if (value == "Modificar") {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AssertionSettings(widget.idSend)));
+                                  }
+                                  /*if (value == "Eliminar") {
+                                            final name = await UserSecureStorage
+                                                    .getUsername() ??
+                                                '';
+                                            final password = await UserSecureStorage
+                                                    .getPassword() ??
+                                                '';
+                                            dataBaseHelper.deleteAnReminder(
+                                                widget.idSend,
+                                                name,
+                                                password,
+                                                int.parse(remindersList[i]['id']
+                                                    .toString()));
+                                            remindersList =
+                                                await dataBaseHelper.getReminders(
+                                                    widget.idSend, name, password);
+
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ReminderPage(
+                                                            widget.idSend)));
+                                          }*/
+                                },
+                                padding: EdgeInsets.zero,
+                                icon: Icon(Icons.more_horiz),
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<String>>[
+                                      PopupMenuItem<String>(
+                                        value: "Modificar",
+                                        child: ListTile(
+                                          leading: Icon(Icons.edit),
+                                          title: Text("Modificar"),
+                                        ),
+                                      ),
+                                      PopupMenuItem<String>(
+                                        value: "Eliminar",
+                                        child: ListTile(
+                                          leading: Icon(Icons.delete),
+                                          title: Text("Eliminar"),
+                                        ),
+                                      )
+                                    ])),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(Icons.favorite,
@@ -137,7 +203,10 @@ class _PositiveReinforcementPageState extends State<PositiveReinforcementPage> {
                         CupertinoSwitch(
                           value: _switchValue,
                           onChanged: (value) {
-                            _switchValue = value;
+                            for (int j = 0; j < affirmationsList.length; j++) {
+                              _switchValue = value;
+                            }
+
                             setState(() {});
                           },
                         )
@@ -534,11 +603,11 @@ class _PositiveReinforcementPageState extends State<PositiveReinforcementPage> {
                     affirmation.affirmationDate = selectedDayString;
                     affirmation.message = message.text;
                     affirmation.mondayActive = true;
-                    affirmation.tuesdayActive = false;
+                    affirmation.tuesdayActive = true;
                     affirmation.wednesdayActive = true;
-                    affirmation.thursdayActive = false;
+                    affirmation.thursdayActive = true;
                     affirmation.fridayActive = true;
-                    affirmation.saturdayActive = false;
+                    affirmation.saturdayActive = true;
                     affirmation.sundayActive = true;
                     affirmation = await dataBaseHelper.createAffirmation(
                         widget.idSend,
@@ -625,9 +694,7 @@ class _PositiveReinforcementPageState extends State<PositiveReinforcementPage> {
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 15, vertical: 5),
-                        child: SizedBox(
-                          child: AffimtationChart(context),
-                        ),
+                        child: AffimtationChart(context),
                       ),
                       Container(
                         alignment: Alignment.centerLeft,

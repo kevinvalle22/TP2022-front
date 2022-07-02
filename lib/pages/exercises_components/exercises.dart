@@ -21,6 +21,14 @@ class _ExercisesPageState extends State<ExercisesPage> {
     'Ejercicio 5',
     'Ejercicio 6',
   ];
+  List<Color> colores5 = [
+    Color.fromRGBO(202, 229, 249, 1),
+    Color.fromRGBO(254, 220, 169, 1),
+    Color.fromRGBO(169, 178, 255, 1),
+    Color.fromRGBO(255, 189, 225, 1),
+    Color.fromRGBO(210, 255, 194, 1),
+    Color.fromRGBO(255, 204, 175, 1),
+  ];
   String text =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex.";
   bool _boxes = true;
@@ -32,7 +40,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
             child: Stack(
           children: <Widget>[
             Container(
-              child: BackgroundImage('assets/fondos/ejercicios respiracion.png'),
+              child:
+                  BackgroundImage('assets/fondos/ejercicios respiracion.png'),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -54,7 +63,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                               },
                               child: Container(
                                   decoration: BoxDecoration(
-                                      color: Color.fromRGBO(232, 227, 238, 10),
+                                      color: colores5[i],
                                       borderRadius: BorderRadius.circular(15),
                                       boxShadow: [
                                         BoxShadow(
@@ -96,10 +105,9 @@ class _ExercisesPageState extends State<ExercisesPage> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            margin: EdgeInsets.only(left: 15),
-                            alignment: Alignment.centerLeft,
-                            child: Text("Duración estimada: 5 min aprox")
-                          ),
+                              margin: EdgeInsets.only(left: 15),
+                              alignment: Alignment.centerLeft,
+                              child: Text("Duración estimada: 5 min aprox")),
                         ),
                         GestureDetector(
                           onTap: () {

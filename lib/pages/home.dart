@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
@@ -72,58 +74,22 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     print("el id del usuario logeado es el ${widget.idSend}");
-    if (affirmationsList.length == 0) {
-      return Scaffold(
-        body: Column(
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 1,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage('assets/fondos/loading.png'),
-                    ),
-                  ),
-                ),
-                Column(
-                  children: [
-                    Container(
-                      width: 180,
-                      height: 180,
-                      child: Image.asset('assets/bot.png'),
-                    ),
-                    Container(
-                        child: SpinKitCircle(
-                      size: 100,
-                      color: (Color.fromRGBO(147, 150, 186, 20)),
-                    ))
-                  ],
-                )
-              ],
-            ),
-          ],
+    // TODO: implement build
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showWarning(context);
+        return shouldPop ?? false;
+      },
+      child: Scaffold(
+        body: SafeArea(child: SingleChildScrollView(child: Cuerpo(context))),
+        bottomNavigationBar: BottomNavigation(
+          isTheSameHome: true,
+          homeColorIcon: false,
+          idSend: widget.idSend,
         ),
-      );
-    } else {
-      // TODO: implement build
-      return WillPopScope(
-        onWillPop: () async {
-          final shouldPop = await showWarning(context);
-          return shouldPop ?? false;
-        },
-        child: Scaffold(
-          body: SafeArea(child: SingleChildScrollView(child: Cuerpo(context))),
-          bottomNavigationBar: BottomNavigation(
-            isTheSameHome: true,
-            homeColorIcon: false,
-            idSend: widget.idSend,
-          ),
-        ),
-      );
-    }
+      ),
+    );
+    //}
   }
 
   Widget Cuerpo(BuildContext context) {
@@ -184,19 +150,12 @@ class _HomePageState extends State<HomePage> {
 
   Widget PhoneIcon() {
     return Builder(builder: (context) {
-      return RawMaterialButton(
+      return IconButton(
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => HelpPage(widget.idSend)));
         },
-        child: const Icon(
-          Icons.phone_callback_rounded,
-          color: Colors.red,
-          size: 25.0,
-        ),
-        shape: const CircleBorder(),
-        elevation: 2.0,
-        fillColor: Colors.white,
+        icon: Image.asset('assets/icons/contacto profesional.png'),
       );
     });
   }
@@ -300,7 +259,6 @@ class _HomePageState extends State<HomePage> {
             height: MediaQuery.of(context).size.height * 0.016,
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
             child: Affirmation(context),
           ),
           SizedBox(
@@ -331,70 +289,95 @@ class _HomePageState extends State<HomePage> {
       afirmaciones.add(affirmationsList[i]['message']);
     }
     print(afirmaciones);
-    return Container(
-      width: MediaQuery.of(context).size.width / 1.2,
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)
-          ],
-          color: Color.fromRGBO(243, 212, 229, 10),
-          borderRadius: BorderRadius.circular(9.0)),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            PositiveReinforcementPage(widget.idSend)));
-              },
-              child: Container(
-                alignment: Alignment.topRight,
-                // ignore: prefer_const_constructors
-                child: const Icon(Icons.more_horiz),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width - 80,
-              alignment: Alignment.center,
-              // ignore: prefer_const_constructors
-              child: Text(afirmaciones[cont2],
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal)),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.04,
-              child: Container(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                    alignment: Alignment.topRight,
-                    icon: Image.asset(
-                      'assets/reload.png',
-                      width: 18,
-                      height: 18,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        afirm = '';
-                        if (cont2 != affirmationsList.length - 1) {
-                          buttonColor = Colors.black;
-                          cont2++;
-                        } else {
-                          cont2 = 0;
-                        }
-                      });
-                    }),
-              ),
-            )
-          ],
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          child: const Text("Afirmaciones",
+              style: TextStyle(
+                  color: Color.fromRGBO(146, 150, 187, 10),
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold)),
         ),
-      ),
+        SizedBox(
+          height: 5,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width / 1.2,
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 3)
+              ],
+              color: Color.fromRGBO(243, 212, 229, 10),
+              borderRadius: BorderRadius.circular(9.0)),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PositiveReinforcementPage(widget.idSend)));
+                  },
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    // ignore: prefer_const_constructors
+                    child: const Icon(Icons.more_horiz),
+                  ),
+                ),
+                if (afirmaciones.length > 0) ...[
+                  Container(
+                    child: Text(
+                      '"' + afirmaciones[cont2] + '."',
+                      style: TextStyle(
+                          color: Color.fromRGBO(67, 58, 108, 10),
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ] else if (affirmationsList.isEmpty) ...[
+                  Container(
+                    child: Text(
+                      "No hay afirmaciones",
+                      style: TextStyle(
+                          color: Color.fromRGBO(67, 58, 108, 10),
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                        alignment: Alignment.topRight,
+                        icon: Image.asset(
+                          'assets/icons/change.png',
+                          width: 18,
+                          height: 18,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            afirm = '';
+                            if (cont2 != affirmationsList.length - 1) {
+                              buttonColor = Colors.black;
+                              cont2++;
+                            } else {
+                              cont2 = 0;
+                            }
+                          });
+                        }),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

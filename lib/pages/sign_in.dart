@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tp2022_front/Components/bottom_navigation_bar.dart';
+import 'package:tp2022_front/pages/intro.dart';
 import '../utils/endpoints.dart';
 import 'package:tp2022_front/main.dart' as main;
 import 'package:tp2022_front/pages/home.dart';
@@ -23,35 +24,29 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController userName = new TextEditingController();
 
-  final TextEditingController password = new TextEditingController();
-
-  Future init() async {
-    final name = await UserSecureStorage.getUsername() ?? '';
-    final password = await UserSecureStorage.getPassword() ?? '';
-    final token = await UserSecureStorage.getToken() ?? '';
-
-    setState(() {
-      this.userName.text = name;
-      this.password.text = password;
-    });
-  }
-
+  final TextEditingController password = new TextEditingController();  
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      //evitar el error de botoom overflow by n pixels
-      resizeToAvoidBottomInset: false,
-      //el teclado no sobreponga los componentes
-      body: GestureDetector(
-        onTap: () {
-          final FocusScopeNode focus = FocusScope.of(context);
-          if (!focus.hasPrimaryFocus && focus.hasFocus) {
-            FocusManager.instance.primaryFocus!.unfocus();
-          }
-        },
-        child: Column(
-          children: [Cuerpo(context)],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => IntroPage()));
+        return false;
+      },
+      child: Scaffold(
+        //evitar el error de botoom overflow by n pixels
+        resizeToAvoidBottomInset: false,
+        //el teclado no sobreponga los componentes
+        body: GestureDetector(
+          onTap: () {
+            final FocusScopeNode focus = FocusScope.of(context);
+            if (!focus.hasPrimaryFocus && focus.hasFocus) {
+              FocusManager.instance.primaryFocus!.unfocus();
+            }
+          },
+          child: Column(
+            children: [Cuerpo(context)],
+          ),
         ),
       ),
     );
@@ -224,8 +219,22 @@ class _LoginPageState extends State<LoginPage> {
             print(id);
             // ir a la pantalla principal y mandar el id
             print(idSend);
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => HomePage(idSend)));
+            if (id==null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          duration: Duration(seconds: 2),
+                          content: Text(
+                            "Usuario o contraseña incorrectos",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+              print("No existe en la base de datos");
+            } else {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HomePage(idSend)));
+            }
             // print(auth);
           },
           child: const Text(

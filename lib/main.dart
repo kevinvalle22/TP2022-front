@@ -52,7 +52,6 @@ class MyApp extends StatelessWidget {
         //'/exercises': (context) => ExercisesPage(),
         //'/learn': (context) => LearnPage(),
         //'/record_exercises': (context) => RecordExercisesPage(),
-        '/assertion_settings': (context) => AssertionSettings(),
         //'/graph': (context) => GraphPage(),
         //'/profile': (context) => ProfilePage(),
         //'/record_dream': (context) => DreamRecordsPage(),

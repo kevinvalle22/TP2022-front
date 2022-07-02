@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tp2022_front/models/Exercise.dart';
+import 'package:tp2022_front/pages/exercises_components/Mod%20and%20Create%20Exercises/record_exercises_create.dart';
 import 'package:tp2022_front/pages/exercises_components/record_exercises.dart';
 import 'package:tp2022_front/security/user_secure_storage.dart';
 import 'package:tp2022_front/utils/endpoints.dart';
 
+import '../../pages/exercises_components/Mod and Create Exercises/record_exercises_mod.dart';
 import '../labels.dart';
 import '../screen_form.dart';
 
@@ -82,418 +84,22 @@ class _CalendarExercisesState extends State<CalendarExercises> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-            margin: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Color.fromRGBO(182, 220, 220, 10),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Expanded(
-              flex: 1,
-              child: TableCalendar(
-                locale: 'es_ES',
-                headerStyle: HeaderStyle(
-                    titleCentered: true,
-                    formatButtonVisible: false,
-                    titleTextStyle:
-                        TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                    headerPadding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 10)),
-                focusedDay: selectedDay,
-                firstDay: DateTime.now(),
-                lastDay: DateTime.now().add(Duration(days: 200)),
-                startingDayOfWeek: StartingDayOfWeek.sunday,
-                daysOfWeekVisible: true,
-                onDaySelected: (DateTime selectDay, DateTime focusDay) {
-                  setState(() {
-                    selectedDay = selectDay;
-                    focusedDay = focusDay;
-                    //get lima colombia time
-                    selectedDayString =
-                        DateFormat('yyyy-MM-dd').format(selectedDay);
-                  });
-                  print(selectedDayString);
-                },
-                selectedDayPredicate: (DateTime date) {
-                  // use this to go to screen_form.dart
 
-                  return isSameDay(selectedDay, date);
-                },
-                calendarStyle: CalendarStyle(
-                    isTodayHighlighted: true,
-                    selectedDecoration: BoxDecoration(
-                      color: Colors.blue,
-                      shape: BoxShape.circle,
-                    ),
-                    selectedTextStyle: TextStyle(color: Colors.white),
-                    todayDecoration: BoxDecoration(
-                        color: Colors.purpleAccent, shape: BoxShape.circle)),
-              ),
-            ),
-          ),
-        ),
         Row(
           children: [
             H1Label("Historial de ejercicios"),
-            Container(
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(182, 220, 220, 10),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return StatefulBuilder(builder:
-                              (BuildContext context, StateSetter setState) {
-                            return AnimatedPadding(
-                              padding: MediaQuery.of(context).viewInsets,
-                              duration: Duration(seconds: 1),
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height / 2.2,
-                                padding: EdgeInsets.all(10),
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(.1),
-                                        blurRadius: 3)
-                                  ],
-                                  color: Color.fromRGBO(128, 124, 183, 10),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        child: Center(
-                                          child: Text(
-                                            "Ejercicio realizado",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 25),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 15),
-                                      height: 50,
-                                      //color: Colors.white,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(245, 242, 250, 10),
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 2,
-                                              blurRadius: 5,
-                                            )
-                                          ]),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: TextField(
-                                              autofocus: true,
-                                              controller: message,
-                                              decoration: InputDecoration.collapsed(
-                                                  hintText:
-                                                      "Escribir ejercicio realizado ..."),
-                                              textCapitalization:
-                                                  TextCapitalization.sentences,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: <Widget>[
-                                        Container(
-                                            child: Row(
-                                          children: [
-                                            Container(
-                                              width: 50,
-                                              child: Text(
-                                                "Hora inicial",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Text(":",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white)),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            GestureDetector(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.5),
-                                                        spreadRadius: 2,
-                                                        blurRadius: 5,
-                                                      )
-                                                    ]),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(Icons
-                                                          .watch_later_outlined),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(resultIn!.hour
-                                                              .toString()
-                                                              .padLeft(2, '0') +
-                                                          ":" +
-                                                          resultIn!.minute
-                                                              .toString()
-                                                              .padLeft(2, '0')),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              //ontap setstate to get time
-                                              onTap: () => {
-                                                setState(() {
-                                                  _showIni();
-                                                })
-                                              },
-                                            ),
-                                          ],
-                                        )),
-                                        Container(
-                                            child: Row(
-                                          children: [
-                                            Container(
-                                              width: 50,
-                                              child: Text(
-                                                "Hora final",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Text(":",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white)),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            GestureDetector(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.5),
-                                                        spreadRadius: 2,
-                                                        blurRadius: 5,
-                                                      )
-                                                    ]),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(Icons
-                                                          .watch_later_outlined),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(resultFin!.hour
-                                                              .toString()
-                                                              .padLeft(2, '0') +
-                                                          ":" +
-                                                          resultFin!.minute
-                                                              .toString()
-                                                              .padLeft(2, '0')),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              onTap: () => _showFin(),
-                                            ),
-                                          ],
-                                        )),
-                                      ],
-                                    ),
-                                    SizedBox(height: 20),
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Center(
-                                        child: Container(
-                                          width: 300,
-                                          height: 50,
-                                          child: RaisedButton(
-                                            color: Colors.white,
-                                            onPressed: () async {
-                                              //validar que no haya campos vacios
-                                              if (message.text.isEmpty) {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return AlertDialog(
-                                                        title: Text(
-                                                            "Error al enviar"),
-                                                        content: Text(
-                                                            "No puedes enviar un ejercicio sin descripción"),
-                                                        actions: <Widget>[
-                                                          FlatButton(
-                                                            child:
-                                                                Text("Aceptar"),
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                          )
-                                                        ],
-                                                      );
-                                                    });
-                                              } else {
-                                                //validar que no haya campos vacios
-                                                if (resultIn == null ||
-                                                    resultFin == null) {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return AlertDialog(
-                                                          title: Text(
-                                                              "Error al enviar"),
-                                                          content: Text(
-                                                              "No puedes enviar un ejercicio sin hora de inicio o finalización"),
-                                                          actions: <Widget>[
-                                                            FlatButton(
-                                                              child: Text(
-                                                                  "Aceptar"),
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                            )
-                                                          ],
-                                                        );
-                                                      });
-                                                } else {
-                                                  Exercise exercise =
-                                                      Exercise();
-                                                  var userName =
-                                                      await UserSecureStorage
-                                                          .getUsername();
-                                                  var password =
-                                                      await UserSecureStorage
-                                                          .getPassword();
-                                                  exercise.startDate =
-                                                      selectedDayString +
-                                                          " " +
-                                                          resultIn!.hour
-                                                              .toString()
-                                                              .padLeft(2, '0') +
-                                                          ":" +
-                                                          resultIn!.minute
-                                                              .toString()
-                                                              .padLeft(2, '0');
-                                                  print("Fecha de inicio" +
-                                                      exercise.startDate);
-                                                  exercise.endDate =
-                                                      selectedDayString +
-                                                          " " +
-                                                          resultFin!.hour
-                                                              .toString()
-                                                              .padLeft(2, '0') +
-                                                          ":" +
-                                                          resultFin!.minute
-                                                              .toString()
-                                                              .padLeft(2, '0');
-                                                  print("Fecha de inicio" +
-                                                      exercise.endDate);
-                                                  exercise.message =
-                                                      message.text;
-                                                  exercise =
-                                                      await dataBaseHelper
-                                                          .createExercise(
-                                                    widget.idSend,
-                                                    userName.toString(),
-                                                    password.toString(),
-                                                    exercise,
-                                                  );
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RecordExercisesCreate(
+                              widget.idSend,
+                            )));
+              },
+              icon: Image.asset('assets/icons/add.png'),
+            )
 
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              RecordExercisesPage(
-                                                                  widget
-                                                                      .idSend)));
-                                                }
-                                              }
-                                            },
-                                            child: Text("REGISTRAR EJERCICIO",
-                                                style: TextStyle(
-                                                    fontSize: 15.5,
-                                                    color: Color.fromRGBO(
-                                                        107, 174, 174, 10),
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(50)),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          });
-                        });
-                  },
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                ))
           ],
         ),
         ExercisesChart(context)
@@ -503,6 +109,8 @@ class _CalendarExercisesState extends State<CalendarExercises> {
 
   Widget ExercisesChart(BuildContext context) {
     List<String> date = [];
+    List<String> fecha = [];
+    List<String> minutos = [];
     for (int i = 0; i < exercisesList.length; i++) {
       //cambiar a de ingles a español el dayOfTheWeek
       date.add(exercisesList[i]['dayOfTheWeek']);
@@ -513,22 +121,42 @@ class _CalendarExercisesState extends State<CalendarExercises> {
       date = date.map((e) => e.replaceAll('FRIDAY', 'Viernes')).toList();
       date = date.map((e) => e.replaceAll('SATURDAY', 'Sábado')).toList();
       date = date.map((e) => e.replaceAll('SUNDAY', 'Domingo')).toList();
-    }
+      //obtener los minutos
+      fecha.add(DateFormat("EEEE MMM dd yyyy").format(
+          DateTime.parse(exercisesList[i]['startDate'].substring(0, 10))));
+      fecha = fecha.map((e) => e.replaceAll("Jan", "enero")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Feb", "febrero")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Mar", "marzo")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Apr", "abril")).toList();
+      fecha = fecha.map((e) => e.replaceAll("May", "mayo")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Jun", "junio")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Jul", "julio")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Aug", "agosto")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Sep", "septiembre")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Oct", "octubre")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Nov", "noviembre")).toList();
+      fecha = fecha.map((e) => e.replaceAll("Dec", "diciembre")).toList();
 
+      fecha = fecha.map((e) => e.replaceAll('MONDAY', 'Lunes')).toList();
+      fecha = fecha.map((e) => e.replaceAll('TUESDAY', 'Martes')).toList();
+      fecha = fecha.map((e) => e.replaceAll('WEDNESDAY', 'Miércoles')).toList();
+      fecha = fecha.map((e) => e.replaceAll('THURSDAY', 'Jueves')).toList();
+      fecha = fecha.map((e) => e.replaceAll('FRIDAY', 'Viernes')).toList();
+      fecha = fecha.map((e) => e.replaceAll('SATURDAY', 'Sábado')).toList();
+      fecha = fecha.map((e) => e.replaceAll('SUNDAY', 'Domingo')).toList();
+    }
+    Color colorcito = Color.fromRGBO(200, 224, 220, 1);
     return SingleChildScrollView(
       child: Column(
         children: [
           if (exercisesList.isNotEmpty) ...[
-            for (int i = 0; i < exercisesList.length; i++)
+            for (int i = 0; i < exercisesList.length; i++) ...[
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
-                constraints:
-                    BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
                 padding: EdgeInsets.all(4),
-                margin: EdgeInsets.symmetric(vertical: 8),
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(246, 239, 227, 10),
-                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(35),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
@@ -546,10 +174,10 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                         children: [
                           Flexible(
                             child: Text(
-                              "Duración: " +
-                                  (exercisesList[i]["duration"].toString()) +
-                                  " horas",
-                              style: TextStyle(fontSize: 16),
+                              (exercisesList[i]["duration"].toString() +
+                                  " horas"),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ),
                           Container(
@@ -559,6 +187,9 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                       borderRadius: BorderRadius.circular(20)),
                                   tooltip: "Opciones",
                                   onSelected: (String value) async {
+
+                                    print("true");
+
                                     if (value == "Modificar") {
                                       Navigator.push(
                                           context,
@@ -568,6 +199,7 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                                       widget.idSend,
                                                       exercisesList[i]["id"])));
                                     }
+
                                     if (value == "Eliminar") {
                                       final name = await UserSecureStorage
                                               .getUsername() ??
@@ -591,6 +223,14 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                               builder: (context) =>
                                                   RecordExercisesPage(
                                                       widget.idSend)));
+                                    } else if (value == "Modificar") {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RecordExercisesMod(
+                                                    widget.idSend,
+                                                  )));
                                     }
                                   },
                                   icon: Icon(Icons.more_horiz),
@@ -599,15 +239,32 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                                         PopupMenuItem<String>(
                                           value: "Modificar",
                                           child: ListTile(
-                                            leading: Icon(Icons.edit),
-                                            title: Text("Modificar"),
+                                            leading: Icon(
+                                              Icons.edit,
+                                              color: Color.fromRGBO(
+                                                  139, 168, 194, 10),
+                                            ),
+                                            title: Text(
+                                              "Modificar",
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    139, 168, 194, 10),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                         PopupMenuItem<String>(
                                           value: "Eliminar",
                                           child: ListTile(
-                                            leading: Icon(Icons.delete),
-                                            title: Text("Eliminar"),
+                                            leading: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                            title: Text(
+                                              "Eliminar",
+                                              style:
+                                                  TextStyle(color: Colors.red),
+                                            ),
                                           ),
                                         )
                                       ]))
@@ -616,27 +273,33 @@ class _CalendarExercisesState extends State<CalendarExercises> {
                       Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Fecha: " +
-                                exercisesList[i]["startDate"].toString(),
+                            exercisesList[i]["message"].toString() + ".",
+                            style: TextStyle(fontSize: 16),
                           )),
-                      Container(alignment: Alignment.centerLeft, child: Text(
-                          // Mayuscula la primera letra  y despues todo minusculas
-                          "Día de la semana: " + date[i])),
                       Container(
-                          alignment: Alignment.centerLeft,
+                          alignment: Alignment.centerRight,
                           child: Text(
-                            "Ejercicio a realizar: " +
-                                exercisesList[i]["message"].toString(),
+                            date[i].split(" ")[0] +
+                                " " +
+                                //number of the day
+                                fecha[i].split(" ")[2] +
+                                " de " +
+                                fecha[i].split(" ")[1] +
+                                " del " +
+                                fecha[i].split(" ")[3],
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
                           )),
                     ],
                   ),
                 ),
-              )
+              ),
+              SizedBox(height: 10),
+            ]
           ] else ...[
             Center(
               child: Text(
                 "No hay elementos en la lista",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20, color: Colors.red),
               ),
             )
           ],

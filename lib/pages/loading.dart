@@ -37,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -57,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Container(
                     width: 180,
                     height: 180,
-                    child: Image.asset('assets/bot.png'),
+                    child: Image.asset('assets/botImage.png'),
                   ),
                   Container(
                       child: SpinKitCircle(

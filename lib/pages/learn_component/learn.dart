@@ -25,6 +25,30 @@ final tips2 = [
   '¿Cómo establecer objetivos smart?',
   '¿las afirmaciones realmente me ayudan?',
 ];
+List<Color> colores1 = [
+  Color.fromRGBO(55, 111, 142, 1),
+  Color.fromRGBO(94, 144, 99, 1),
+  Color.fromRGBO(128, 88, 29, 1),
+  Color.fromRGBO(55, 111, 142, 1),
+  Color.fromRGBO(94, 144, 99, 1),
+  Color.fromRGBO(128, 88, 29, 1),
+];
+List<Color> colores2 = [
+  Color.fromRGBO(202, 229, 249, 1),
+  Color.fromRGBO(217, 244, 198, 1),
+  Color.fromRGBO(254, 220, 169, 1),
+  Color.fromRGBO(202, 229, 249, 1),
+  Color.fromRGBO(217, 244, 198, 1),
+  Color.fromRGBO(254, 220, 169, 1),
+];
+List<Color> colores5 = [
+  Color.fromRGBO(254, 220, 169, 1),
+  Color.fromRGBO(202, 229, 249, 1),
+  Color.fromRGBO(178, 255, 237, 1),
+  Color.fromRGBO(179, 255, 167, 1),
+  Color.fromRGBO(198, 189, 255, 1),
+  Color.fromRGBO(255, 176, 176, 1),
+];
 int a = 0;
 String text =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex.";
@@ -54,6 +78,13 @@ class _LearnPageState extends State<LearnPage> {
                   child: Text("Si")),
             ],
           ));
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(colores2.length);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -99,8 +130,7 @@ class _LearnPageState extends State<LearnPage> {
                                                   MentalHealthPages(
                                                     widget.idSend,
                                                   )));
-                                    }
-                                    else if (tips[2] == tips[i]) {
+                                    } else if (tips[2] == tips[i]) {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -108,8 +138,7 @@ class _LearnPageState extends State<LearnPage> {
                                                   MentalHealthPages(
                                                     widget.idSend,
                                                   )));
-                                    }
-                                    else if (tips[3] == tips[i]) {
+                                    } else if (tips[3] == tips[i]) {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -117,8 +146,7 @@ class _LearnPageState extends State<LearnPage> {
                                                   MentalHealthPages(
                                                     widget.idSend,
                                                   )));
-                                    }
-                                    else if (tips[4] == tips[i]) {
+                                    } else if (tips[4] == tips[i]) {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -126,8 +154,7 @@ class _LearnPageState extends State<LearnPage> {
                                                   MentalHealthPages(
                                                     widget.idSend,
                                                   )));
-                                    }
-                                    else if (tips[5] == tips[i]) {
+                                    } else if (tips[5] == tips[i]) {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -139,8 +166,7 @@ class _LearnPageState extends State<LearnPage> {
                                   },
                                   child: Container(
                                       decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(232, 227, 238, 10),
+                                          color: colores2[i],
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           boxShadow: [
@@ -155,6 +181,9 @@ class _LearnPageState extends State<LearnPage> {
                                       child: Center(
                                           child: Text(
                                         tips[i],
+                                        style: TextStyle(
+                                            color: colores1[i],
+                                            fontWeight: FontWeight.bold),
                                         textAlign: TextAlign.center,
                                       ))),
                                 ),
@@ -177,8 +206,6 @@ class _LearnPageState extends State<LearnPage> {
                             height: 10,
                           ),
                           Psicologia("¿Qué es el CBT?"),
-                          Psicologia("¿Por qué es importante el test gad-7?"),
-                          Psicologia("¿Qué mide el test PHQ-9?"),
                           H1Label("Tips y consejos"),
                           Wrap(
                             alignment: WrapAlignment.spaceEvenly,
@@ -188,8 +215,7 @@ class _LearnPageState extends State<LearnPage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
                                       decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(232, 227, 238, 10),
+                                          color: colores5[i],
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           boxShadow: [
@@ -207,6 +233,9 @@ class _LearnPageState extends State<LearnPage> {
                                           child: Text(
                                         tips2[i].toString(),
                                         textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                115, 112, 108, 1)),
                                       ))),
                                 ),
                             ],
@@ -230,25 +259,47 @@ class _LearnPageState extends State<LearnPage> {
   }
 
   Widget Psicologia(String texto) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
-      padding: EdgeInsets.all(15),
-      margin: EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-          color: Color.fromRGBO(232, 227, 238, 10),
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-            )
-          ]),
-      child: Text(
-        texto,
-        style: TextStyle(
-            color: Colors.grey, fontSize: 18, fontWeight: FontWeight.bold),
-      ),
+    List<Color> colores3 = [
+      Color.fromRGBO(222, 199, 255, 1),
+      Color.fromRGBO(184, 232, 232, 1),
+      Color.fromRGBO(254, 201, 226, 1),
+    ];
+    List<Color> colores4 = [
+      Color.fromRGBO(84, 29, 160, 1),
+      Color.fromRGBO(31, 148, 148, 1),
+      Color.fromRGBO(174, 76, 122, 1),
+    ];
+    List<String> fraseP = [
+      "¿Qué es el CBT?",
+      "¿Por qué es importante el test gad-7?",
+      "¿Qué mide el test PHQ-9?",
+    ];
+    return Column(
+      children: [
+        for (int i = 0; i < 3; i++)
+          Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            padding: EdgeInsets.all(15),
+            margin: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+                color: colores3[i],
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                  )
+                ]),
+            child: Text(
+              fraseP[i],
+              style: TextStyle(
+                color: colores4[i],
+                fontSize: 18,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
