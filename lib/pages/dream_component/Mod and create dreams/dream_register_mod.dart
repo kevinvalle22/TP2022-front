@@ -11,7 +11,8 @@ import 'package:tp2022_front/utils/endpoints.dart';
 
 class DreamRegisterDreamMod extends StatefulWidget {
   final String idSend;
-  DreamRegisterDreamMod(this.idSend);
+  final String idDream;
+  DreamRegisterDreamMod(this.idSend, this.idDream);
 
   @override
   State<DreamRegisterDreamMod> createState() => _DreamRegisterDreamModState();
@@ -543,8 +544,10 @@ class _DreamRegisterDreamModState extends State<DreamRegisterDreamMod> {
                                                         .padLeft(2, '0');
                                             print(sleepRecord.endDate);
                                             sleepRecord.message = message.text;
+                                            sleepRecord.id =
+                                                int.parse(widget.idDream);
                                             sleepRecord = await dataBaseHelper
-                                                .createASleepRecord(
+                                                .editASleepRecord(
                                               widget.idSend,
                                               userName.toString(),
                                               password.toString(),

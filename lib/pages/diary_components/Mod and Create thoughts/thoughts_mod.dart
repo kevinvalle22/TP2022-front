@@ -10,8 +10,9 @@ import 'package:tp2022_front/utils/endpoints.dart';
 
 class ThoughtsMod extends StatefulWidget {
   final String idSend;
+  final String idThought;
 
-  ThoughtsMod(this.idSend);
+  ThoughtsMod(this.idSend, this.idThought);
 
   @override
   State<ThoughtsMod> createState() => _ThoughtsModState();
@@ -184,9 +185,11 @@ class _ThoughtsModState extends State<ThoughtsMod> {
                                       await UserSecureStorage.getUsername();
                                   var password =
                                       await UserSecureStorage.getPassword();
-                  
+
                                   thought.message = message.text;
-                                  thought = await dataBaseHelper.createThoughts(
+                                  thought.id = int.parse(widget.idThought);
+                                  thought =
+                                      await dataBaseHelper.updateAnThought(
                                     widget.idSend,
                                     userName.toString(),
                                     password.toString(),

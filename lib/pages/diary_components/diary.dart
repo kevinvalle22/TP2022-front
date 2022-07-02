@@ -121,7 +121,6 @@ class _DiaryPageState extends State<DiaryPage> {
     List<String> year = [];
     List<String> fecha = [];
     for (int i = 0; i < thoughtList.length; i++) {
-
       fecha.add(DateFormat("MMM dd yyyy").format(
           DateTime.parse(thoughtList[i]['createdAt'].substring(0, 10))));
 
@@ -219,8 +218,10 @@ class _DiaryPageState extends State<DiaryPage> {
                                   } else if (value == "Modificar") {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                ThoughtsMod(widget.idSend)));
+                                            builder: (context) => ThoughtsMod(
+                                                widget.idSend,
+                                                thoughtList[i]['id']
+                                                    .toString())));
                                   }
                                 },
                                 //padding: EdgeInsets.zero,
@@ -247,9 +248,13 @@ class _DiaryPageState extends State<DiaryPage> {
                     Container(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        //Jul 02 2022
-                          fecha[i].split(" ")[1]+" de "+fecha[i].split(" ")[0]+" del "+fecha[i].split(" ")[2],
-                          style: TextStyle(fontSize: 12,color: Colors.grey)),
+                          //Jul 02 2022
+                          fecha[i].split(" ")[1] +
+                              " de " +
+                              fecha[i].split(" ")[0] +
+                              " del " +
+                              fecha[i].split(" ")[2],
+                          style: TextStyle(fontSize: 12, color: Colors.grey)),
                     )
                   ],
                 ),

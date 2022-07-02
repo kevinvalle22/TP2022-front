@@ -10,7 +10,8 @@ import 'package:tp2022_front/utils/endpoints.dart';
 
 class RecordExercisesMod extends StatefulWidget {
   final String idSend;
-  RecordExercisesMod(this.idSend);
+  final String idExercise;
+  RecordExercisesMod(this.idSend, this.idExercise);
   @override
   State<RecordExercisesMod> createState() => _RecordExercisesModState();
 }
@@ -169,7 +170,7 @@ class _RecordExercisesModState extends State<RecordExercisesMod> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsets.all(5.0),
                                   child: Container(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
@@ -379,11 +380,14 @@ class _RecordExercisesModState extends State<RecordExercisesMod> {
                                           print("Fecha de inicio" +
                                               exercise.endDate);
                                           exercise.message = message.text;
+                                          exercise.id =
+                                              int.parse(widget.idExercise);
                                           exercise = await dataBaseHelper
-                                              .createExercise(
+                                              .editAnExercise(
                                             widget.idSend,
                                             userName.toString(),
                                             password.toString(),
+                                            exercise.id.toString(),
                                             exercise,
                                           );
 

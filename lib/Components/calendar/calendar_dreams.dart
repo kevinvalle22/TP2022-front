@@ -115,7 +115,6 @@ class _CalendarDreamsState extends State<CalendarDreams> {
         Row(
           children: [
             H1Label("Horas de Sueño"),
-
             IconButton(
               onPressed: () {
                 Navigator.push(
@@ -126,7 +125,6 @@ class _CalendarDreamsState extends State<CalendarDreams> {
               },
               icon: Image.asset("assets/icons/add.png"),
             )
-
           ],
         ),
         DreamsChart(context),
@@ -150,8 +148,7 @@ class _CalendarDreamsState extends State<CalendarDreams> {
       fechaInicial.add(sleepList[i]["startDate"].toString().substring(0, 10));
 
       horasFinal.add(sleepList[i]["endDate"].toString().substring(11, 13));
-      minutosFinal
-          .add(sleepList[i]["endDate"].toString().substring(14, 16));
+      minutosFinal.add(sleepList[i]["endDate"].toString().substring(14, 16));
       fechaFinal.add(sleepList[i]["endDate"].toString().substring(0, 10));
     }
     return SingleChildScrollView(
@@ -227,19 +224,9 @@ class _CalendarDreamsState extends State<CalendarDreams> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 DreamRegisterDreamMod(
-                                                    widget.idSend)));
-                                  }
-                                  if (value == "Modificar") {
-                                    SleepRecord sleepRecord = SleepRecord();
-                                    sleepRecord =
-                                        SleepRecord.fromJson(sleepList[i]);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                EditSleepRecordPage(
                                                     widget.idSend,
-                                                    sleepList[i]['id'])));
+                                                    sleepList[i]['id']
+                                                        .toString())));
                                   }
                                 },
                                 //padding: EdgeInsets.zero,
@@ -303,268 +290,5 @@ class _CalendarDreamsState extends State<CalendarDreams> {
         ]
       ],
     ));
-  }
-}
-
-class EditSleepRecordPage extends StatefulWidget {
-  final int sleepRecord;
-  final String idSend;
-  EditSleepRecordPage(this.idSend, this.sleepRecord);
-
-  @override
-  State<EditSleepRecordPage> createState() => _EditSleepRecordPageState();
-}
-
-class _EditSleepRecordPageState extends State<EditSleepRecordPage> {
-  // variables para el formulario de un ejercicio los cuales son  message, startDate, endDate
-  TextEditingController _messageController = TextEditingController();
-  String startDate = "";
-  String endDate = "";
-  String horadeInicio = ""; //HH:mm
-  String horadeFin = ""; //hh:mm
-  //fecha
-
-  // construir un calendario para la fecha de ejercicios y hora de inicio y fin
-  DateTime _dateTime = DateTime.now();
-  TimeOfDay _timeOfDay = TimeOfDay.now();
-  DateTime _dateTime2 = DateTime.now();
-  TimeOfDay _timeOfDay2 = TimeOfDay.now();
-
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: _dateTime,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != _dateTime) {
-      setState(() {
-        _dateTime = picked;
-        startDate = _dateTime.toString().substring(0, 10);
-      });
-    }
-  }
-
-  Future<Null> _selectDate2(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: _dateTime2,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != _dateTime2) {
-      setState(() {
-        _dateTime2 = picked;
-        endDate = _dateTime2.toString().substring(0, 10);
-      });
-    }
-  }
-
-  // Format hh:mm
-  Future<Null> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked =
-        await showTimePicker(context: context, initialTime: _timeOfDay);
-    if (picked != null && picked != _timeOfDay) {
-      setState(() {
-        _timeOfDay = picked;
-        horadeInicio =
-            _timeOfDay.hour.toString() + ":" + _timeOfDay.minute.toString();
-      });
-    }
-  }
-
-  Future<Null> _selectTime2(BuildContext context) async {
-    final TimeOfDay? picked =
-        await showTimePicker(context: context, initialTime: _timeOfDay2);
-    if (picked != null && picked != _timeOfDay2) {
-      setState(() {
-        _timeOfDay2 = picked;
-        horadeFin =
-            _timeOfDay2.hour.toString() + ":" + _timeOfDay2.minute.toString();
-      });
-    }
-  }
-
-  // vistas de los botones de la fecha, hora, mensaje y guardar
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Editar registro de sueño"),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              constraints:
-                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
-              margin: EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(246, 239, 227, 10),
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                    )
-                  ]),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                child: Column(
-                  // ajust el tamaño de la columna
-                  children: [
-                    // container para el mensaje
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: TextField(
-                        controller: _messageController,
-                        decoration: InputDecoration(
-                          labelText: "Mensaje",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    // container para la fecha de inicio
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Fecha de inicio: " + startDate,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: RaisedButton(
-                        onPressed: () {
-                          _selectDate(context);
-                        },
-                        child: Text(
-                          "Seleccionar fecha",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                    ),
-                    // container para la hora de inicio
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Hora de inicio" + horadeInicio,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: RaisedButton(
-                        onPressed: () {
-                          _selectTime(context);
-                        },
-                        child: Text(
-                          "Seleccionar hora",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                    ),
-                    // container para la fecha de fin
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Fecha de fin" + endDate,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: RaisedButton(
-                        onPressed: () {
-                          _selectDate2(context);
-                        },
-                        child: Text(
-                          "Seleccionar fecha",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                    ),
-                    // container para la hora de fin
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Hora de fin" + horadeFin,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: RaisedButton(
-                        onPressed: () {
-                          _selectTime2(context);
-                        },
-                        child: Text(
-                          "Seleccionar hora",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                    ),
-                    // container para el boton de guardar
-                    Container(
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          // guardar el ejercicio en la base de datos
-                          DataBaseHelper helper = DataBaseHelper();
-                          SleepRecord sleepRecord = SleepRecord();
-                          final name =
-                              await UserSecureStorage.getUsername() ?? "";
-                          final password =
-                              await UserSecureStorage.getPassword() ?? "";
-                          sleepRecord.message = _messageController.text;
-                          print(sleepRecord.message);
-                          sleepRecord.startDate = startDate +
-                              " " +
-                              _timeOfDay.hour.toString() +
-                              ":" +
-                              _timeOfDay.minute.toString();
-                          print(sleepRecord.startDate);
-                          sleepRecord.endDate = endDate +
-                              " " +
-                              _timeOfDay2.hour.toString() +
-                              ":" +
-                              _timeOfDay2.minute.toString();
-                          print(sleepRecord.endDate);
-                          print("valores" +
-                              widget.idSend +
-                              " " +
-                              name +
-                              " " +
-                              password);
-                          print(widget.sleepRecord);
-                          sleepRecord.id = widget.sleepRecord;
-
-                          await helper.editASleepRecord(
-                              widget.idSend, name, password, sleepRecord);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CalendarDreams(widget.idSend)),
-                          );
-                        },
-                        child: Text("Guardar",
-                            style: TextStyle(color: Colors.white)
-                                .copyWith(fontSize: 20),
-                            textAlign: TextAlign.center),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

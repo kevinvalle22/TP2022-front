@@ -109,13 +109,11 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                     Container(
                                       padding: const EdgeInsets.all(10.0),
                                       margin: EdgeInsets.all(10),
-                                      width:
-                                          MediaQuery.of(context).size.width,
+                                      width: MediaQuery.of(context).size.width,
                                       decoration: BoxDecoration(
                                         color:
                                             Color.fromRGBO(182, 220, 220, 10),
-                                        borderRadius:
-                                            BorderRadius.circular(15),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: TableCalendar(
                                         rowHeight: 30,
@@ -126,10 +124,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                             titleTextStyle: TextStyle(
                                                 fontSize: 25,
                                                 fontWeight: FontWeight.bold),
-                                            headerPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 0,
-                                                    vertical: 10)),
+                                            headerPadding: EdgeInsets.symmetric(
+                                                horizontal: 0, vertical: 10)),
                                         focusedDay: selectedDay,
                                         firstDay: DateTime.now(),
                                         lastDay: DateTime.now()
@@ -149,8 +145,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                           });
                                           print(selectedDayString);
                                         },
-                                        selectedDayPredicate:
-                                            (DateTime date) {
+                                        selectedDayPredicate: (DateTime date) {
                                           return isSameDay(selectedDay, date);
                                         },
                                         calendarStyle: CalendarStyle(
@@ -159,8 +154,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                               color: Colors.blue,
                                               shape: BoxShape.circle,
                                             ),
-                                            selectedTextStyle: TextStyle(
-                                                color: Colors.white),
+                                            selectedTextStyle:
+                                                TextStyle(color: Colors.white),
                                             todayDecoration: BoxDecoration(
                                                 color: Colors.purpleAccent,
                                                 shape: BoxShape.circle)),
@@ -171,9 +166,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                         padding: EdgeInsets.all(10.0),
                                         child: Container(
                                           padding: EdgeInsets.all(10),
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width,
+                                          width:
+                                              MediaQuery.of(context).size.width,
                                           decoration: BoxDecoration(
                                             boxShadow: [
                                               BoxShadow(
@@ -186,12 +180,10 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                           ),
                                           child: Column(
                                             mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
+                                                padding: EdgeInsets.all(10),
                                                 child: Container(
                                                   child: Center(
                                                     child: Text(
@@ -249,8 +241,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                     children: [
                                                       Container(
                                                         decoration: BoxDecoration(
-                                                            color:
-                                                                Colors.white,
+                                                            color: Colors.white,
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
@@ -261,8 +252,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                                     .grey
                                                                     .withOpacity(
                                                                         0.5),
-                                                                spreadRadius:
-                                                                    2,
+                                                                spreadRadius: 2,
                                                                 blurRadius: 5,
                                                               )
                                                             ]),
@@ -286,10 +276,9 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                       Column(
                                                         children: <Widget>[
                                                           IconButton(
-                                                              color: Colors
-                                                                  .white,
-                                                              onPressed: () =>
-                                                                  {
+                                                              color:
+                                                                  Colors.white,
+                                                              onPressed: () => {
                                                                     setState(
                                                                         () {
                                                                       aumentar_horas();
@@ -298,10 +287,9 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                               icon: Icon(Icons
                                                                   .arrow_drop_up)),
                                                           IconButton(
-                                                              color: Colors
-                                                                  .white,
-                                                              onPressed: () =>
-                                                                  {
+                                                              color:
+                                                                  Colors.white,
+                                                              onPressed: () => {
                                                                     setState(
                                                                         () {
                                                                       disminuir_horas();
@@ -318,8 +306,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                     children: [
                                                       Container(
                                                         decoration: BoxDecoration(
-                                                            color:
-                                                                Colors.white,
+                                                            color: Colors.white,
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
@@ -330,8 +317,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                                     .grey
                                                                     .withOpacity(
                                                                         0.5),
-                                                                spreadRadius:
-                                                                    2,
+                                                                spreadRadius: 2,
                                                                 blurRadius: 5,
                                                               )
                                                             ]),
@@ -355,10 +341,9 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                       Column(
                                                         children: <Widget>[
                                                           IconButton(
-                                                              color: Colors
-                                                                  .white,
-                                                              onPressed: () =>
-                                                                  {
+                                                              color:
+                                                                  Colors.white,
+                                                              onPressed: () => {
                                                                     setState(
                                                                         () {
                                                                       aumentar_minutos();
@@ -367,10 +352,9 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                               icon: Icon(Icons
                                                                   .arrow_drop_up)),
                                                           IconButton(
-                                                              color: Colors
-                                                                  .white,
-                                                              onPressed: () =>
-                                                                  {
+                                                              color:
+                                                                  Colors.white,
+                                                              onPressed: () => {
                                                                     setState(
                                                                         () {
                                                                       disminuir_minutos();
@@ -386,8 +370,8 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                               ),
                                               SizedBox(height: 10),
                                               Padding(
-                                                padding: const EdgeInsets.all(
-                                                    10.0),
+                                                padding:
+                                                    const EdgeInsets.all(10.0),
                                                 child: Center(
                                                   child: Container(
                                                     width: 300,
@@ -438,8 +422,7 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                             .reminderDate);
                                                         reminder.message =
                                                             message.text;
-                                                        print(
-                                                            reminder.message);
+                                                        print(reminder.message);
                                                         reminder = await dataBaseHelper
                                                             .createAReminder(
                                                                 widget.idSend,
@@ -469,11 +452,12 @@ class _CalendarRemainerState extends State<CalendarRemainer> {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold)),
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      50)),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          50)),
                                                     ),
                                                   ),
                                                 ),
