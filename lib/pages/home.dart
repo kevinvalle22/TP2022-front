@@ -59,9 +59,7 @@ class _HomePageState extends State<HomePage> {
 
     affirmationsList =
         await dataBaseHelper.getAffirmations(widget.idSend, name, password);
-    print("affirmationDate first: " +
-        affirmationsList[0]["affirmationDate"].toString());
-    print("size" + affirmationsList.length.toString());
+
     setState(() {});
   }
 

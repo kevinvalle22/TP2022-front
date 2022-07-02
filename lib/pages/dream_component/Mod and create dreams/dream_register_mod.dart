@@ -225,7 +225,7 @@ class _DreamRegisterDreamModState extends State<DreamRegisterDreamMod> {
                                             ]),
                                         child: CheckboxListTile(
                                           //poner texto en checkbox
-                                          checkboxShape: CircleBorder(),
+                                          //checkboxShape: CircleBorder(),
                                           dense: true,
                                           title: Text(
                                             "Sueño profundo",
@@ -265,7 +265,7 @@ class _DreamRegisterDreamModState extends State<DreamRegisterDreamMod> {
                                         child: CheckboxListTile(
                                           //poner texto en checkbox
                                           dense: true,
-                                          checkboxShape: CircleBorder(),
+                                          //checkboxShape: CircleBorder(),
                                           title: Text(
                                             "Sueño corto durante el mismo día",
                                             style: TextStyle(
